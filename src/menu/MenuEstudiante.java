@@ -7,6 +7,10 @@ public class MenuEstudiante {
     public static void menu(){
         String id;
         String action;
+        /*
+        Acciones:
+        Alumno puede ver abtodo lo que un alumno puede hacer en un sistema de gestion escolar
+         */
         do {
             System.out.println("\n1 - ACCION");
             System.out.println("2 - ACCION");

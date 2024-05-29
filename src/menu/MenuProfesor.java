@@ -7,6 +7,14 @@ public class MenuProfesor {
     public static void menu(){
         String id;
         String action;
+        /*
+        Acciones:
+        Ver su info
+        Actualizarla
+        Ver sus gupos
+        Asignar calificaciones
+        Modificar calificaciones
+         */
         do {
             System.out.println("\n1 - ACCION");
             System.out.println("2 - ACCION");

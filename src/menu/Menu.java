@@ -81,4 +81,10 @@ public class Menu {
         continuar();
     }
 
+    public static String obtenerNumeroDeControl(){
+        System.out.print("Numero de control: ");
+        String num = scanner.next();
+        return num;
+    }
+
 }
