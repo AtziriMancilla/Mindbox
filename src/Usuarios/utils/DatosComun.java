@@ -1,6 +1,7 @@
 package Usuarios.utils;
 
 import Usuarios.Usuario;
+import mindbox.Sistema;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -11,12 +12,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DatosComun {
-    public static ArrayList<String> registrarDatosComun(Rol rol, /*Mindbox mindbox*/) {
+    public static ArrayList<String> registrarDatosComun(Rol rol, Sistema sistema) {
         Scanner sc = new Scanner(System.in);
         ArrayList<String> datosComun = new ArrayList<>();
 
         String rolActual = rol == Rol.ALUMNO ? "Alumno" : rol == Rol.PROFESOR ? "Profesor" : "Coordinador";
         System.out.printf("\nRegistrar %s\n", rolActual);
+
         System.out.println("Ingrese Nombre ");
         String nombre = pedirDatoString();
 
@@ -25,6 +27,11 @@ public class DatosComun {
 
         System.out.println("Ingrese apellido Materno");
         String apellidoMaterno = pedirDatoString();
+
+        System.out.println("Ingrese fecha de Nacimiento");
+        LocalDate fechaNacimiento = obtenerFechaNacimiento();
+        //anioNacimiento
+        int anioNacimiento = obteneranioNacimiento(fechaNacimiento);
 
         System.out.println("Ingrese Ciudad");
         String ciudad = pedirDatoString();
@@ -35,26 +42,23 @@ public class DatosComun {
         System.out.println("Ingrese Dirección");
         String direccion = pedirDireccion();
 
-        System.out.println("Ingrese fecha de Nacimiento");
-        LocalDate fechaNacimiento = obtenerFechaNacimiento();
-        //anioNacimiento
-        int anioNacimiento = obteneranioNacimiento(fechaNacimiento);
+        LocalDate fechaDeRegistro = LocalDate.now();
         //obtener el sexo para la curp
         char sexo = obtenerSexo();
 
         //String curp = Generador.generarCURP(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, sexo, estado);
         //Aquí debería ir el RFC
-        //String RFC = Generador.generarRFC(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento);
-        String nombreUsuario=obtenerNombreUsuario(rol,/*mindbox*/);
+
+        String nombreUsuario=obtenerNombreUsuario(rol, sistema);
         System.out.println("Ingresa la contraseña");
         String contrasena = sc.nextLine(); //aqui no se si vamos a meter excepciones de algun tipo
 
-        datosComun.addAll(Arrays.asList(nombre, apellidoPaterno, apellidoMaterno, ciudad, estado, curp, direccion, String.valueOf(anioNacimiento), String.valueOf(fechaNacimiento), RFC, nombreUsuario, contrasena));//falta meter sucursal
+        //datosComun.addAll(Arrays.asList(nombre, apellidoPaterno, apellidoMaterno, String.valueOf(anioNacimiento), String.valueOf(fechaNacimiento), ciudad, estado, direccion, curp,   String.valueOf(fechaDeRegistro), nombreUsuario, contrasena));
 
         return datosComun;
 
     }
-    private static String obtenerNombreUsuario(Rol rol,/*Banco banco*/) {
+    private static String obtenerNombreUsuario(Rol rol, Sistema sistema) {
         Scanner scanner = new Scanner(System.in);
         boolean nombreUsuarioExistente = true;
         String nombreUsuario = "";
@@ -64,8 +68,8 @@ public class DatosComun {
             nombreUsuario = DatosComun.pedirDatoUsuario();
 
             nombreUsuarioExistente = false;
-            for (Usuario persona : /*mindbox*/.ususarios.get(rol)) {
-                if (usuario.getNombreUsuario().equals(nombreUsuario)) {
+            for (Usuario usuario : sistema.usuarios.get(rol)) {
+                if (usuario.getUsuario().equals(nombreUsuario)) {
                     nombreUsuarioExistente = true;
                 }
             }
