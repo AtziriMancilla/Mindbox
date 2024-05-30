@@ -11,7 +11,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DatosComun {
-    public static ArrayList<String> registrarDatosComun(Rol rol, Mindbox mindbox) {
+    public static ArrayList<String> registrarDatosComun(Rol rol, /*Mindbox mindbox*/) {
         Scanner sc = new Scanner(System.in);
         ArrayList<String> datosComun = new ArrayList<>();
 
@@ -42,10 +42,10 @@ public class DatosComun {
         //obtener el sexo para la curp
         char sexo = obtenerSexo();
 
-        String curp = Generador.generarCURP(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, sexo, estado);
+        //String curp = Generador.generarCURP(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, sexo, estado);
         //Aquí debería ir el RFC
-        String RFC = Generador.generarRFC(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento);
-        String nombreUsuario=obtenerNombreUsuario(rol,banco);
+        //String RFC = Generador.generarRFC(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento);
+        String nombreUsuario=obtenerNombreUsuario(rol,/*mindbox*/);
         System.out.println("Ingresa la contraseña");
         String contrasena = sc.nextLine(); //aqui no se si vamos a meter excepciones de algun tipo
 
@@ -54,7 +54,7 @@ public class DatosComun {
         return datosComun;
 
     }
-    private static String obtenerNombreUsuario(Rol rol,Banco banco) {
+    private static String obtenerNombreUsuario(Rol rol,/*Banco banco*/) {
         Scanner scanner = new Scanner(System.in);
         boolean nombreUsuarioExistente = true;
         String nombreUsuario = "";
@@ -64,8 +64,8 @@ public class DatosComun {
             nombreUsuario = DatosComun.pedirDatoUsuario();
 
             nombreUsuarioExistente = false;
-            for (Usuario persona : banco.personas.get(rol)) {
-                if (persona.getNombreUsuario().equals(nombreUsuario)) {
+            for (Usuario persona : /*mindbox*/.ususarios.get(rol)) {
+                if (usuario.getNombreUsuario().equals(nombreUsuario)) {
                     nombreUsuarioExistente = true;
                 }
             }
