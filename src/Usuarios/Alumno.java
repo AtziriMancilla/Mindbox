@@ -15,7 +15,7 @@ public class Alumno extends Usuario{
     private Carrera carrera;
     private int semestre;
    private Grupo grupo;
-   private Calificacion calificacion;
+   private Calificacion[] calificaciones;
     private double promedio;
     private String numControl;
 
