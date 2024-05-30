@@ -54,7 +54,7 @@ public class DatosComun {
         System.out.println("Ingresa la contraseña");
         String contrasena = sc.nextLine(); //aqui no se si vamos a meter excepciones de algun tipo
 
-        //datosComun.addAll(Arrays.asList(nombre, apellidoPaterno, apellidoMaterno, String.valueOf(anioNacimiento), String.valueOf(fechaNacimiento), ciudad, estado, direccion, curp,   String.valueOf(fechaDeRegistro), nombreUsuario, contrasena));
+        datosComun.addAll(Arrays.asList(nombre, apellidoPaterno, apellidoMaterno, String.valueOf(anioNacimiento), String.valueOf(fechaNacimiento), ciudad, estado, direccion, curp,   String.valueOf(fechaDeRegistro), nombreUsuario, contrasena));
 
         return datosComun;
 
