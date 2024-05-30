@@ -12,7 +12,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DatosComun {
-    public static ArrayList<String> registrarDatosComun(Rol rol, Sistema sistema) {
+    public static ArrayList<String> registrarDatosComun(Rol rol) {
         Scanner sc = new Scanner(System.in);
         ArrayList<String> datosComun = new ArrayList<>();
 
@@ -49,7 +49,7 @@ public class DatosComun {
         //String curp = Generador.generarCURP(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, sexo, estado);
         //Aquí debería ir el RFC
 
-        String nombreUsuario=obtenerNombreUsuario(rol, sistema);
+        String nombreUsuario=obtenerNombreUsuario(rol);
         System.out.println("Ingresa la contraseña");
         String contrasena = sc.nextLine(); //aqui no se si vamos a meter excepciones de algun tipo
 
@@ -58,7 +58,7 @@ public class DatosComun {
         return datosComun;
 
     }
-    private static String obtenerNombreUsuario(Rol rol, Sistema sistema) {
+    private static String obtenerNombreUsuario(Rol rol) {
         Scanner scanner = new Scanner(System.in);
         boolean nombreUsuarioExistente = true;
         String nombreUsuario = "";
@@ -68,7 +68,7 @@ public class DatosComun {
             nombreUsuario = DatosComun.pedirDatoUsuario();
 
             nombreUsuarioExistente = false;
-            for (Usuario usuario : sistema.usuarios.get(rol)) {
+            for (Usuario usuario : Sistema.usuarios.get(rol)) {
                 if (usuario.getUsuario().equals(nombreUsuario)) {
                     nombreUsuarioExistente = true;
                 }

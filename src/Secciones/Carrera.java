@@ -3,10 +3,13 @@ package Secciones;
 import Secciones.utils.NombreCarrera;
 import Usuarios.Coordinador;
 
+import java.time.LocalDate;
+
 public class Carrera {
     NombreCarrera carrera;
+
     int id, cantGrupo, cantAlum, cantMate = 9;
-    //LocalDate fechaCreacion = LocalDate.now();
+    LocalDate fechaCreacion = LocalDate.now();
     Coordinador cordinador;
 
     public Carrera (){
