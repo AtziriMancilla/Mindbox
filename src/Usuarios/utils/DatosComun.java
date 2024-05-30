@@ -2,6 +2,7 @@ package Usuarios.utils;
 
 import Usuarios.Usuario;
 import mindbox.Sistema;
+import mindbox.utils.Generador;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -46,7 +47,7 @@ public class DatosComun {
         //obtener el sexo para la curp
         char sexo = obtenerSexo();
 
-        //String curp = Generador.generarCURP(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, sexo, estado);
+        String curp = Generador.generarCURP(nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, sexo, estado);
         //Aquí debería ir el RFC
 
         String nombreUsuario=obtenerNombreUsuario(rol);
