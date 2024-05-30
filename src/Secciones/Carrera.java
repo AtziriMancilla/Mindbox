@@ -1,5 +1,6 @@
 package Secciones;
 
+import Secciones.utils.NombreCarrera;
 import Usuarios.Coordinador;
 
 public class Carrera {

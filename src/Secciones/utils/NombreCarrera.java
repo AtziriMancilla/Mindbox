@@ -1,4 +1,4 @@
-package Secciones;
+package Secciones.utils;
 
 public enum NombreCarrera {
     ISC,
