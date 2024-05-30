@@ -1,13 +1,11 @@
 package mindbox;
 
-//import usuarios.Usuario;
+import Usuarios.Usuario;
 
 public class UsuarioEnSesion {
-    // NECESARIO: Usuario
-
 
     private static UsuarioEnSesion instancia;
-    //private Usuario usuarioActual;
+    private Usuario usuarioActual;
 
     private UsuarioEnSesion(){}
 
@@ -18,7 +16,7 @@ public class UsuarioEnSesion {
         return instancia;
     }
 
-    /*
+
     public Usuario getUsuarioActual(){
         return usuarioActual;
     }
@@ -32,5 +30,5 @@ public class UsuarioEnSesion {
         instancia = null;
         usuarioActual = null;
     }
-    */
+
 }
