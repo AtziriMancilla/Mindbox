@@ -82,9 +82,9 @@ public class Alumno extends Usuario{
         int anioNacimientoint = Integer.parseInt(anioNacimiento);
         LocalDate fechaNacimiento = LocalDate.parse(fechaNacimientoCadena);
 
-        Alumno alumno = new Alumno(nombre, apellidoPaterno, apellidoMaterno, ciudad, estado, CURP, direccion, anioNacimientoint, fechaNacimiento, RFC, nombreUsuario, contrasena, salario);
-        Sistema.usuarios.get(Rol.ALUMNO).add(alumno);
-        System.out.println(">Capturista registrado<");
+//        Alumno alumno = new Alumno(nombre, apellidoPaterno, apellidoMaterno, ciudad, estado, CURP, direccion, anioNacimientoint, fechaNacimiento, RFC, nombreUsuario, contrasena, salario);
+//        Sistema.usuarios.get(Rol.ALUMNO).add(alumno);
+//        System.out.println(">Capturista registrado<");
 
     }
 }
