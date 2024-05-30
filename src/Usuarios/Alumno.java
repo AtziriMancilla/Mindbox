@@ -60,7 +60,7 @@ public class Alumno extends Usuario{
     private static void revisarCalificaciones(){
 
     }
-    public static void registrarCapturista(){
+    public static void registrarAlumno(){
         Scanner sc = new Scanner(System.in);
         ArrayList<String> datosComun = DatosComun.registrarDatosComun(Rol.ALUMNO);
         String nombre = datosComun.get(0);
