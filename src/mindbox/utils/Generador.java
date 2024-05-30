@@ -1,10 +1,16 @@
 package mindbox.utils;
 
+import Secciones.utils.NombreCarrera;
+import Usuarios.utils.Rol;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class Generador {
+    private static int ID_ALUMNO = 0;
+    private static int ID_PROFESOR = 0;
+    private static int ID_COORDINADOR = 0;
     //curp
     //rfc
     //numdecontrol(tipo,carrera)
@@ -38,4 +44,37 @@ public class Generador {
         String curp = cadena.toUpperCase();
         return curp;
     }
+
+    public static String generarNumControl(Rol rol, NombreCarrera carrera, String nombre, LocalDate fechaRegistro){
+        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yy");
+        String digitosAnio = pattern.format(fechaRegistro);
+        char letra = nombre.charAt(0);
+        String letra1 = Character.toString(letra);
+        String numControl = "";
+        String nombreCarrera = carrera.toString();
+        switch (rol) {
+            case ALUMNO -> {
+                ID_ALUMNO += 1;
+                String indiceAlumno = String.format(String.valueOf(ID_ALUMNO));
+                String idAlumno = "I";
+                numControl += idAlumno + letra1 + digitosAnio + nombreCarrera + indiceAlumno;
+            }
+            case PROFESOR -> {
+                ID_PROFESOR += 1;
+                String indiceProfesor = String.format(String.valueOf(ID_PROFESOR));
+                String idProfesor = "M";
+                numControl += idProfesor + letra1 + digitosAnio + nombreCarrera + indiceProfesor;
+            }
+            case COORDINADOR -> {
+                ID_COORDINADOR += 1;
+                String indiceCoord = String.format(String.valueOf(ID_COORDINADOR));
+                String idCoord = "C";
+                numControl += idCoord + letra1 + digitosAnio + nombreCarrera + indiceCoord;
+            }
+        }
+        return numControl;
+    }
+
+    public static void serializarJson(){}
+    public static void deserializarJson(){}
 }
