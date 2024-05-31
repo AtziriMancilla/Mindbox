@@ -67,6 +67,7 @@ public class Profesor extends Trabajador {
                     char sexo = curpAntigua.charAt(10);
                     String nuevacurp= Generador.generarCURP(profesor.getNombre(), profesor.getApellidoPaterno(), profesor.getApellidoMaterno(), profesor.getFechaNacimiento(), sexo, profesor.getEstado());
                     String nuevorfc = Generador.generarRFC(profesor.getNombre(), profesor.getApellidoPaterno(), profesor.getApellidoMaterno(), profesor.getFechaNacimiento());
+
                     profesor.setRfc(nuevorfc);
                     profesor.setCurp(nuevacurp);
                     System.out.println("Nombre modificado");
