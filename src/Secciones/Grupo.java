@@ -1,11 +1,12 @@
 package Secciones;
 
+import Secciones.utils.NombreCarrera;
 import Usuarios.Alumno;
 
 import java.util.ArrayList;
 
 public class Grupo {
-    private Carrera carrera;
+    private NombreCarrera carrera;
     private ArrayList<Alumno> alumnos;
     private int cantidadAlumnos;
     private ArrayList<Materia> materias;
@@ -13,7 +14,7 @@ public class Grupo {
     private Semestre semestre;
     private TipoGrupo tipoGrupo;
 
-    public Grupo(Carrera carrera, int cantidadAlumnos, int id, Semestre semestre, TipoGrupo tipoGrupo) {
+    public Grupo(NombreCarrera carrera, int cantidadAlumnos, int id, Semestre semestre, TipoGrupo tipoGrupo) {
         this.carrera = carrera;
         this.cantidadAlumnos = cantidadAlumnos;
         this.id = id;
@@ -21,11 +22,11 @@ public class Grupo {
         this.tipoGrupo = tipoGrupo;
     }
 
-    public Carrera getCarrera() {
+    public NombreCarrera getCarrera() {
         return carrera;
     }
 
-    public void setCarrera(Carrera carrera) {
+    public void setCarrera(NombreCarrera carrera) {
         this.carrera = carrera;
     }
 

@@ -1,9 +1,14 @@
 package Usuarios.utils;
+import Secciones.Materia;
+import Usuarios.Alumno;
+import Usuarios.Usuario;
+import mindbox.Sistema;
+import mindbox.UsuarioEnSesion;
 
 public class Calificacion {
     int calificacion;
     boolean aprobado=false;
-    // String, Materia materia;
+    Materia materia;
 
     //, materia
     public Calificacion(int calificacion) {
@@ -14,10 +19,14 @@ public class Calificacion {
     }
 
     public static void registrarCalificacion(){
-        System.out.println("Escoja al alumno: ");
-        //buscar alumno, verificando que el maestro en sesion tenga a ese alumno
-        //alumno.getCalificaciones.add(calificacion)?
-        System.out.println("");
+        for (Usuario usuario : Sistema.usuarios.get(Rol.PROFESOR)) {
+          //  if(UsuarioEnSesion.getInstancia().getUsuarioActual()==OBTENER A PROFESOR DE ALGUN GRUPO){
+
+            //  }
+
+
+
+        }
 
     }
 

@@ -49,7 +49,7 @@ public class Generador {
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yy");
         String digitosAnio = pattern.format(fechaRegistro);
         char letra = nombre.charAt(0);
-        String letra1 = Character.toString(letra);
+        String letra1 = Character.toString(letra).toUpperCase();
         String numControl = "";
         String nombreCarrera = carrera.toString();
         switch (rol) {
