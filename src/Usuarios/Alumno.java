@@ -1,6 +1,5 @@
 package Usuarios;
 
-import Secciones.Carrera;
 import Secciones.Grupo;
 import Secciones.utils.NombreCarrera;
 import Usuarios.utils.Calificacion;
@@ -239,6 +238,13 @@ public class Alumno extends Usuario{
     public static void mostrarAlmunosPorFiltro(){
 
 
+    }
+    public void mostrarHistorial(){
+        if(historial.isEmpty())
+            System.out.println("No nada para mostrar");
+        else for (Historial historial1 : historial) {
+            System.out.println(historial1.toString());
+        }
     }
 
 
