@@ -35,6 +35,13 @@ public class Alumno extends Usuario{
         return historial;
     }
 
+    public Calificacion[] getCalificaciones() {
+        return calificaciones;
+    }
+
+    public void setCalificaciones(Calificacion[] calificaciones) {
+        this.calificaciones = calificaciones;
+    }
 
     public NombreCarrera getCarrera() {
         return carrera;
