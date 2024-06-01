@@ -87,16 +87,19 @@ public class Grupo {
     }
 
     ///////////////////////////
-    public void avanzarGrupo(){
-
+    public void avanzarGrupo(NombreCarrera carrera){
+        System.out.println("Elegir grupo a avanzar de semestre");
+        Grupo grupo = obtenerGrupo();
+        if (grupo.getSemestre()<3){
+            grupo.setSemestre(grupo.getSemestre()+1);
+        } else {
+            // GRADUAR GRUPO
+        }
     }
     public void actualizarMaterias(){
-
     }
-    public void registrarGrupo(){
+    public void registrarGrupo(NombreCarrera carrera){
         Scanner scanner = new Scanner(System.in);
-        //NombreCarrera nombreCarrera = UsuarioEnSesion.getInstancia().getUsuarioActual().getCarrera();
-        // FALTA getNombreCarrera en Usuarios o coordinador
 
         // Pidiendo datos
         Grupo grupo;
@@ -110,13 +113,15 @@ public class Grupo {
              }
         } while (semestre > 3 || semestre < 1);
 
-        if (Semestre.semestres.get(0).getGrupos().isEmpty()){
-            grupo = new Grupo(NombreCarrera.IMAT, 1, TipoGrupo.A);
-            Semestre.semestres.get(0).getGrupos().add(grupo);
+        System.out.println("Si algo truena aqui fue en la condicion de agregar grupo de grupo.java xd");
+
+        if (Semestre.semestres.get(semestre-1).getGrupos().isEmpty()){
+            grupo = new Grupo(carrera, semestre, TipoGrupo.A);
+            Semestre.semestres.get(semestre-1).getGrupos().add(grupo);
             System.out.println("Grupo A agregado");
-        } else if (Semestre.semestres.get(0).getGrupos().size() == 1){
-            grupo = new Grupo(NombreCarrera.IMAT, 1, TipoGrupo.B);
-            Semestre.semestres.get(0).getGrupos().add(grupo);
+        } else if (Semestre.semestres.get(semestre-1).getGrupos().size() == 1){
+            grupo = new Grupo(carrera, semestre, TipoGrupo.B);
+            Semestre.semestres.get(semestre-1).getGrupos().add(grupo);
             System.out.println("Grupo B agregado");
         } else {
             System.out.println("Limite de grupos alcanzado");
@@ -138,17 +143,58 @@ public class Grupo {
     // Este array se debe pasar a Sistema
     public static  ArrayList<Materia> materiasTotales = new ArrayList<Materia>();
 
+    public static Grupo obtenerGrupo(){
+        Scanner scanner = new Scanner(System.in);
+        Grupo grupo=null;
+        mostrarGrupos();
+        System.out.println("Seleccionar grupo por ID");
+        int id = DatosComun.pedirNumero();
+        for (int i = 0; i < 3; i++) {
+            for (Grupo gr : Semestre.semestres.get(i).getGrupos()) {
+                gr.toString();
+            }
+        }
+        return grupo;
+    }
+
+    // De momento con 0 se muestran todos los grupos de all semestres
+    public static void mostrarGrupos(){
+        System.out.print("0 - Mostrar grupos de todos los semestres\n1 - Mostrar grupos de un semestre\n");
+        int semestre = DatosComun.pedirNumero();
+        if (semestre == 0){
+            for (int i = 0; i < 3; i++) {
+                for (Grupo grupo : Semestre.semestres.get(i).getGrupos()) {
+                    grupo.toString();
+                }
+            }
+        }
+        else {
+            semestre = Semestre.obtenerSemestre().getNumSemestre();
+            for (Grupo grupo : Semestre.semestres.get(semestre).getGrupos()) {
+                grupo.toString();
+            }
+        }
+    }
+    @Override
+    public String toString(){
+        return String.format("ID: ; Carrera: ; Semestre: ; Grupo: ", id, carrera, semestre, tipoGrupo);
+    }
+
 
     // Este metodo será llamado cuando se quiera añadir una materia al grupo
     // Esta pensado para facilitar saber cuando nos falta una materia para el grupo
     // Pendiente revisar si puedo usar el setter de esta forma, sino puedo buscar una forma
     // manual de busqueda o dejar el atributo publico
-    public static void addMaterias(NombreMaterias mateNomb, Grupo grupo, Profesor profesor){
+    public static void addMaterias(NombreMaterias mateNomb, Profesor profesor){
+        // Obteniendo grupo :>
+        Grupo grupo = obtenerGrupo();
+        NombreCarrera car = grupo.getCarrera();
+
         // Recopilando datos que ya estan guardados en grupo
         int semestre = grupo.getSemestre();
         NombreCarrera carrera = grupo.getCarrera();
 
-        Materia materia = new Materia(mateNomb, carrera, grupo, profesor);;
+        Materia materia = new Materia(mateNomb, carrera, grupo, profesor);
         Materia[][] mat = grupo.getMaterias();
         materiasTotales.add(materia);
         Semestre.semestres.get(semestre-1).getMaterias().add(materia);

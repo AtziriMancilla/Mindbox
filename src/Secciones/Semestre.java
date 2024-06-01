@@ -1,6 +1,9 @@
 package Secciones;
 
+import Usuarios.utils.DatosComun;
+
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Semestre {
     private int id;
@@ -59,4 +62,34 @@ public class Semestre {
 
     // PASAR ARRAY A SISTEMA
     public static  ArrayList<Semestre> semestres = new ArrayList<Semestre>();
+
+
+    // Otros metodos
+
+    @Override
+    public String toString(){
+        return String.format("ID: ; Carrera: ; Semestre: ", id, carrera, numSemestre);
+    }
+
+    public static Semestre obtenerSemestre(){
+        Scanner scanner = new Scanner(System.in);
+        Semestre se=null;
+        mostrarSemestres();
+        System.out.println("Seleccionar semestre por ID");
+        int id = DatosComun.pedirNumero();
+        for (Semestre semestre : Semestre.semestres) {
+            if (semestre.getId() == id){
+                se = semestre;
+            }
+        }
+        return se;
+    }
+
+    public static void mostrarSemestres(){
+        for (Semestre semestre : Semestre.semestres) {
+            semestre.toString();
+        }
+    }
+
+
 }
