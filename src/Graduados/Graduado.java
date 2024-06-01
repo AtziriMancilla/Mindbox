@@ -3,9 +3,12 @@ package Graduados;
 import Secciones.utils.NombreCarrera;
 import Usuarios.Alumno;
 import Usuarios.utils.DatosComun;
+import Usuarios.utils.Rol;
+import mindbox.Sistema;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class Graduado {
     //Registro de los alumnos que ya se graduaron
@@ -23,6 +26,18 @@ public class Graduado {
         this.alumnoPromedio = alumnoPromedio;
         this.alumnoCarrera = alumnoCarrera;
         this.fechaGraduacion = fechaGraduacion;
+        this.generacionDeGraduacion = generacionDeGraduacion;
+    }
+
+    public LocalDate getFechaGraduacion() {
+        return fechaGraduacion;
+    }
+
+    public void setFechaGraduacion(LocalDate fechaGraduacion) {
+        this.fechaGraduacion = fechaGraduacion;
+    }
+
+    public void setGeneracionDeGraduacion(String generacionDeGraduacion) {
         this.generacionDeGraduacion = generacionDeGraduacion;
     }
 
@@ -45,7 +60,17 @@ public class Graduado {
         System.out.println("Registro Fecha de Graduación");
         LocalDate fechaGraduacion = DatosComun.obtenerFechaNacimiento();
 
-        //generacion
+        String generacionDeGraduacion = obtenerGeneracion(fechaGraduacion);
+
+        Graduado graduado = new Graduado(alumnoNombre, alumnoPromedio, alumnoCarrera, fechaGraduacion, generacionDeGraduacion);
+        //agregar a una lista
+        Sistema.graduados.add(graduado);
+        System.out.println("Alumno graduado registrado");
+        //pero también tengo que quitarlo de la lista de alumnos
+        Sistema.usuarios.get(Rol.ALUMNO).remove(alumno);
+        System.out.println("Graduado eliminado de la lista de alumnos");
+    }
+     String obtenerGeneracion(LocalDate fechaGraduacion){
         int mes = fechaGraduacion.getMonthValue();
         String meses ="";
         if(mes<7){
@@ -54,9 +79,73 @@ public class Graduado {
         else {meses= "Ago - Dic";}
         String anio = String.valueOf(fechaGraduacion.getYear());
         String generacionDeGraduacion = meses+" "+anio;
+        return generacionDeGraduacion;
+    }
+    public static void modificarGraduado(){
+        Scanner sc = new Scanner(System.in);
+        mostrarGraduados();
+        System.out.println("Selecciona al alumno graduado que deseas modificar: ");
+        int numGraduado = pedirGraduado();
+        int opt = 10;
+        do{
+            System.out.println("¿Qué información deseas editar?");
+            System.out.println("1) Fecha de Graduación\n 0)Salir/Regresar");
+            opt = DatosComun.pedirNumero();
+            Graduado graduado = Sistema.graduados.get(numGraduado-1);
+            switch(opt){
+                case 1:
+                    System.out.println("Ingrese fecha de graduación");
+                    LocalDate nuevaFechaGraduacion =DatosComun.obtenerFechaNacimiento();
+                    graduado.setFechaGraduacion(nuevaFechaGraduacion);
+                    String nuevaGeneracion = graduado.obtenerGeneracion(nuevaFechaGraduacion);
+                    graduado.setGeneracionDeGraduacion(nuevaGeneracion);
+                    break;
 
-        Graduado graduado = new Graduado(alumnoNombre, alumnoPromedio, alumnoCarrera, fechaGraduacion, generacionDeGraduacion);
-        //agregar a una lista
+                case 0:
+                    System.out.println("Usted ha salido de modificar graduado");
+                    //UsuarioEnSesion.getInstancia().cerrarSesion();
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + opt);
+
+            }
+
+        }while (opt != 0);
+    }
+    public static void mostrarGraduados() {
+        System.out.println("\nGradudos: \n");
+        if (Sistema.graduados.isEmpty()) {
+            System.out.println("No hay graduados registrados");
+        } else {
+            for (int i = 0; i < Sistema.graduados.size(); i++) {
+                Graduado graduado = Sistema.graduados.get(i);
+                System.out.println((i + 1) + " " + graduado.toString());
+            }
+        }
+    }
+    private static int pedirGraduado() {
+        Scanner sc = new Scanner(System.in);
+        boolean confirmacion = false;
+        int numGraduado = 0;
+
+        do {
+            confirmacion = false;
+            try {
+                System.out.println("Selecciona al graduado: ");
+                numGraduado = DatosComun.pedirNumero();
+
+                if (numGraduado < 1 || numGraduado > Sistema.graduados.size()) {
+                    throw new IndexOutOfBoundsException("El dato ingresado está fuera del tamaño de la lista");
+                } else {
+                    return numGraduado;
+                }
+            } catch (IndexOutOfBoundsException error) {
+                System.out.println("Error: " + error.getMessage());
+
+            }
+        } while (confirmacion);
+        sc.nextLine();
+        return numGraduado;
     }
 
 }
