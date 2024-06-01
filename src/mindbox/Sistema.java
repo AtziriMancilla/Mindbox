@@ -1,5 +1,6 @@
 package mindbox;
 
+import Graduados.Graduado;
 import Secciones.Grupo;
 import Secciones.Semestre;
 import Usuarios.Coordinador;
@@ -16,6 +17,7 @@ public class Sistema {
 
     public static HashMap<Rol, ArrayList<Usuario>> usuarios = new HashMap<Rol, ArrayList<Usuario>>();
     public static HashMap<Integer, Grupo> grupos= new HashMap<>();
+    public static ArrayList<Graduado> graduados = new ArrayList<>();
 
     public static Usuario verificarInicioSesion(String nombreUsuario, String contrasena){
         for (Map.Entry<Rol, ArrayList<Usuario>> entry : usuarios.entrySet()){
@@ -44,5 +46,13 @@ public class Sistema {
     //Setter para poder asignar los nuevos datos obtenidos del json al atributo HashMap usuarios.
     public static void setUsuarios(HashMap<Rol, ArrayList<Usuario>> usuarios) {
         Sistema.usuarios = usuarios;
+    }
+    //Setter para asignar los nuevos datos obtenidos del json al atributo ArrayList graduados.
+    public static void setGraduados(ArrayList<Graduado> graduados) {
+        Sistema.graduados = graduados;
+    }
+    //Setter para asignar los datos obtenidos del json al atributo HashMap grupos.
+    public static void setGrupos(HashMap<Integer, Grupo> grupos) {
+        Sistema.grupos = grupos;
     }
 }

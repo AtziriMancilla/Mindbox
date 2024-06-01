@@ -37,6 +37,10 @@ public class Alumno extends Usuario{
     }
 
 
+    public NombreCarrera getCarrera() {
+        return carrera;
+    }
+
     public Grupo getGrupo() {
         return grupo;
     }
