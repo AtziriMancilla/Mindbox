@@ -1,10 +1,20 @@
 package mindbox.utils;
 
 import Secciones.utils.NombreCarrera;
+import Usuarios.Usuario;
 import Usuarios.utils.Rol;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import mindbox.Sistema;
 
+import java.io.*;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Generador {
@@ -74,7 +84,31 @@ public class Generador {
         }
         return numControl;
     }
-
-    public static void serializarJson(){}
-    public static void deserializarJson(){}
+    //Método para serializar datos de usuario en un archivo json.
+    public static void guardarUsuariosJson(HashMap<Rol, ArrayList<Usuario>> usuarios){
+        Gson json = new GsonBuilder().setPrettyPrinting()//Recordar que setPrettyPrinting es para que el json no quede escrito en una sola línea y esté estéticamente mejor organizado con sus datos.
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())//Se inserta un nuevo TypeAdapter que viene desde la clase LocalDateAdapter, para que sepa manejar los objetos de clase LocalDate al serializar.
+                .create();//Creará el archivo json.
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("usuarios.json"))) {//Con el BufferedWriter, se crea un nuevo archivo con extensión .json, con el nombre de usuarios
+            json.toJson(usuarios, writer);//el objeto json escribirá los datos de usuarios en el nuevo archivo, usando el objeto writer.
+        } catch (IOException error) {//El try catch es obligatorio para el FileWriter. Arrojará el mensaje de error en caso de que algo salga mal en la serialización.
+            System.out.println(error.getMessage());
+        }
+    }
+    //Método para deserializar (sacar) datos del archivo json.
+    public static void deserializarUsuariosJson(){
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+        try (BufferedReader reader = new BufferedReader(new FileReader("usuarios.json"))) {
+            //Se crea un objeto Type que tendrá el esquema/modelo de cómo se estructuran los datos deserializados del json, es decir, convertirlos a su objeto original, HashMap
+            Type usuarioMapType = new TypeToken<HashMap<Rol, ArrayList<Usuario>>>() {}.getType();
+            //Se crea el HashMap cuyos datos serán los obtenidos del archivo json.
+            HashMap<Rol, ArrayList<Usuario>> usuarios = gson.fromJson(reader, usuarioMapType);
+            //Se asigna el nuevo valor al atributo usuarios (el HashMap) de Sistema, es decir, se le guardan los datos obtenidos del json.
+            Sistema.setUsuarios(usuarios);
+        } catch (IOException error) {//El try catch es obligatorio para manejar los objetos de BufferedReader.
+            System.out.println(error.getMessage());//Si sale algún error durante la deserialización, se imprime el mensaje.
+        }
+    }
 }

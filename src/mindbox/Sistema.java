@@ -5,6 +5,8 @@ import Secciones.Semestre;
 import Usuarios.Coordinador;
 import Usuarios.utils.Rol;
 import Usuarios.Usuario;
+import mindbox.utils.Generador;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +14,8 @@ import java.util.Map;
 public class Sistema {
     // NECESARIO: GETTERS EN USUARIO + Hacer que coordinador sea clase hija de usuario
 
-    public static final Map<Rol, ArrayList<Usuario>> usuarios = new HashMap<Rol, ArrayList<Usuario>>();
-    public static Map<Integer, Grupo> grupos= new HashMap<>();
+    public static HashMap<Rol, ArrayList<Usuario>> usuarios = new HashMap<Rol, ArrayList<Usuario>>();
+    public static HashMap<Integer, Grupo> grupos= new HashMap<>();
 
     public static Usuario verificarInicioSesion(String nombreUsuario, String contrasena){
         for (Map.Entry<Rol, ArrayList<Usuario>> entry : usuarios.entrySet()){
@@ -39,7 +41,8 @@ public class Sistema {
 
          */
     }
-
-
-
+    //Setter para poder asignar los nuevos datos obtenidos del json al atributo HashMap usuarios.
+    public static void setUsuarios(HashMap<Rol, ArrayList<Usuario>> usuarios) {
+        Sistema.usuarios = usuarios;
+    }
 }
