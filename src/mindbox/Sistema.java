@@ -47,4 +47,12 @@ public class Sistema {
     public static void setUsuarios(HashMap<Rol, ArrayList<Usuario>> usuarios) {
         Sistema.usuarios = usuarios;
     }
+    //Setter para asignar los nuevos datos obtenidos del json al atributo ArrayList graduados.
+    public static void setGraduados(ArrayList<Graduado> graduados) {
+        Sistema.graduados = graduados;
+    }
+    //Setter para asignar los datos obtenidos del json al atributo HashMap grupos.
+    public static void setGrupos(HashMap<Integer, Grupo> grupos) {
+        Sistema.grupos = grupos;
+    }
 }
