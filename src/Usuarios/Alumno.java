@@ -31,6 +31,10 @@ public class Alumno extends Usuario{
         return String.format("%s, Semestre: %d, Promedio: %f, Numero de Control: %s", super.toString(), semestre, promedio, numControl);
     }
 
+    public NombreCarrera getCarrera() {
+        return carrera;
+    }
+
     public Grupo getGrupo() {
         return grupo;
     }
