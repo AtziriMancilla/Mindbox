@@ -10,14 +10,16 @@ import java.time.format.DateTimeFormatter;
 public class Materia {
     private int id;
     private String nombre;
+    private NombreMaterias materia;
     private NombreCarrera carrera;
     private Grupo grupo;
     private Profesor profesor;
     private static int NUM_MATERIA = 1;
 
-    public Materia(NombreMaterias nombre, NombreCarrera carrera, Grupo grupo, Profesor profesor) {
+    public Materia(NombreMaterias materia, NombreCarrera carrera, Grupo grupo, Profesor profesor) {
         this.id = NUM_MATERIA;
-        this.nombre = (nombre.toString().toLowerCase() + " " + grupo.getSemestre());
+        this.materia = materia;
+        this.nombre = (materia.toString().toLowerCase() + " " + grupo.getSemestre());
         this.carrera = carrera;
         this.grupo = grupo;
         this.profesor = profesor;
@@ -67,6 +69,14 @@ public class Materia {
 
     public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
+    }
+
+    public NombreMaterias getMateria() {
+        return materia;
+    }
+
+    public void setMateria(NombreMaterias materia) {
+        this.materia = materia;
     }
 
     ///////////////////////////////

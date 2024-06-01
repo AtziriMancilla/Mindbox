@@ -4,17 +4,20 @@ import Secciones.utils.NombreCarrera;
 import Secciones.utils.NombreMaterias;
 import Usuarios.Alumno;
 import Usuarios.Profesor;
+import Usuarios.Usuario;
 import Usuarios.utils.DatosComun;
+import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Grupo {
     private NombreCarrera carrera;
     private ArrayList<Alumno> alumnos;
     private int cantidadAlumnos=0;
-    private Materia[][] materias = {{null, null, null}, {null, null, null}, {null, null, null}};
+    private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();
     private int id;
     private int semestre;
     private TipoGrupo tipoGrupo;
@@ -70,12 +73,12 @@ public class Grupo {
         this.tipoGrupo = tipoGrupo;
     }
 
-    public Materia[][] getMaterias() {
-        return materias;
+    public HashMap<Integer, ArrayList<Materia>> getMateria() {
+        return materia;
     }
 
-    public void setMaterias(Materia[][] materias) {
-        this.materias = materias;
+    public void setMateria(HashMap<Integer, ArrayList<Materia>> materia) {
+        this.materia = materia;
     }
 
     public ArrayList<Alumno> getAlumnos() {
@@ -86,21 +89,27 @@ public class Grupo {
         this.alumnos = alumnos;
     }
 
+    @Override
+    public String toString(){
+        return String.format("ID: ; Carrera: ; Semestre: ; Grupo: ", id, carrera, semestre, tipoGrupo);
+    }
+
     ///////////////////////////
-    public void avanzarGrupo(NombreCarrera carrera){
-        System.out.println("Elegir grupo a avanzar de semestre");
-        Grupo grupo = obtenerGrupo();
+    public static void avanzarGrupo(NombreCarrera carrera, Grupo grupo){
+        System.out.println("Avanzar grupo de semestre");
         if (grupo.getSemestre()<3){
             grupo.setSemestre(grupo.getSemestre()+1);
+
+            // Me falta resetear sus materias :> o bueno, quizas ni se ocupa porque uso el semestre
+            // para esas cosas, falta checar entonces xd
+
+
         } else {
             // GRADUAR GRUPO
         }
     }
-    public void actualizarMaterias(){
-    }
-    public void registrarGrupo(NombreCarrera carrera){
-        Scanner scanner = new Scanner(System.in);
 
+    public static void crearGrupo(NombreCarrera carrera){
         // Pidiendo datos
         Grupo grupo;
         int semestre;
@@ -130,30 +139,30 @@ public class Grupo {
     }
 
 
-    public static void addAlumno(Alumno alumno, Grupo grupo){
-        if (grupo.getCantidadAlumnos() >= 20){
-            System.out.println("Limite de alumnos alcanzado");
-        } else {
-            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()+1));
-            grupo.getAlumnos().add(alumno);
-        }
-    }
+
 
     ////// ACTUALIZACION
     // Este array se debe pasar a Sistema
-    public static  ArrayList<Materia> materiasTotales = new ArrayList<Materia>();
+    public static ArrayList<Materia> materiasTotales = new ArrayList<Materia>();
 
     public static Grupo obtenerGrupo(){
-        Scanner scanner = new Scanner(System.in);
         Grupo grupo=null;
+        int id;
         mostrarGrupos();
         System.out.println("Seleccionar grupo por ID");
-        int id = DatosComun.pedirNumero();
-        for (int i = 0; i < 3; i++) {
-            for (Grupo gr : Semestre.semestres.get(i).getGrupos()) {
-                gr.toString();
+        do {
+            id = DatosComun.pedirNumero();
+            for (int i = 0; i < 3; i++) {
+                for (Grupo gru : Semestre.semestres.get(i).getGrupos()) {
+                    if (gru.getId() == id){
+                        grupo = gru;
+                    }
+                }
             }
-        }
+            if (grupo == null){
+                System.out.println("Grupo no encontrado, intente de nuevo");
+            }
+        } while (grupo == null);
         return grupo;
     }
 
@@ -168,82 +177,99 @@ public class Grupo {
                 }
             }
         }
-        else {
+        else if (semestre == 1){
             semestre = Semestre.obtenerSemestre().getNumSemestre();
             for (Grupo grupo : Semestre.semestres.get(semestre).getGrupos()) {
                 grupo.toString();
             }
         }
-    }
-    @Override
-    public String toString(){
-        return String.format("ID: ; Carrera: ; Semestre: ; Grupo: ", id, carrera, semestre, tipoGrupo);
+        else {
+            System.out.println("Opción inexistente");
+        }
     }
 
+
+
+    //// Metodos de materias pero relacionados con grupo?
+    public static void mostrarMaterias(Grupo grupo){
+        System.out.println("Mostrar Materias");
+        int semestre = grupo.getSemestre();
+        for (int x = 0; x < semestre; x++) {
+            System.out.println("\nMaterias semestre "+(x+1));
+            for (Materia mat : grupo.materia.get(semestre)) {
+                System.out.println(mat.toString());
+            }
+        }
+    }
+
+    // este metodo se usa antes de addMaterias
+    public static boolean materiaExistente(Grupo grupo, NombreMaterias materia){
+        boolean yaEsta = false;
+        String nombreProv = (materia.toString().toLowerCase() + " " + grupo.getSemestre());
+        for (Materia mat : grupo.getMateria().get(grupo.getSemestre())) {
+            if (mat.getNombre().equals(nombreProv)){
+                yaEsta = true;
+            }
+        }
+        return yaEsta;
+    }
 
     // Este metodo será llamado cuando se quiera añadir una materia al grupo
-    // Esta pensado para facilitar saber cuando nos falta una materia para el grupo
-    // Pendiente revisar si puedo usar el setter de esta forma, sino puedo buscar una forma
-    // manual de busqueda o dejar el atributo publico
-    public static void addMaterias(NombreMaterias mateNomb, Profesor profesor){
-        // Obteniendo grupo :>
-        Grupo grupo = obtenerGrupo();
-        NombreCarrera car = grupo.getCarrera();
-
+    // Pendiente revisar si puedo usar el setter de esta forma, sino lo modificaré
+    public static void addMaterias(Grupo grupo, Profesor profesor){
         // Recopilando datos que ya estan guardados en grupo
         int semestre = grupo.getSemestre();
         NombreCarrera carrera = grupo.getCarrera();
 
+        NombreMaterias mateNomb = Materia.seleccionarMateria(carrera);
+
+        // Creando
         Materia materia = new Materia(mateNomb, carrera, grupo, profesor);
-        Materia[][] mat = grupo.getMaterias();
+
+        // Añadiendo materia a donde la piden, para borrar o modificar buscaremos por su ID
         materiasTotales.add(materia);
+        grupo.getMateria().get(grupo.getSemestre()).add(materia);
         Semestre.semestres.get(semestre-1).getMaterias().add(materia);
 
-        if (mateNomb == NombreMaterias.CALCULO){
-            if (mat[semestre-1][2] != null){
-                mat[semestre-1][2] = materia;
-            } else {
-                System.out.println("Adición cancelada, materia ya existente");
-            }
-        }
-        else {
-            switch (carrera){
-                case ISC:
-                    if (mateNomb == NombreMaterias.PROGRAMACION && mat[semestre-1][0] != null){
-                        mat[semestre-1][0] = materia;
-                    } else if (mateNomb == NombreMaterias.PROBABILIDAD && mat[semestre-1][1] != null) {
-                        mat[semestre-1][1] = materia;
-                    } else if (mateNomb == NombreMaterias.PROGRAMACION || mateNomb == NombreMaterias.PROBABILIDAD){
-                        System.out.println("Adición cancelada, materia ya existente");
-                    } else {
-                        System.out.println("Adición cancelada, materia no correspondiente a la carrera");
-                    }
-                    break;
-                case IMAT:
-                    if (mateNomb == NombreMaterias.ESTADISTICA && mat[semestre-1][0] != null){
-                        mat[semestre-1][0] = materia;
-                    } else if (mateNomb == NombreMaterias.CONTABILIDAD && mat[semestre-1][1] != null) {
-                        mat[semestre-1][1] = materia;
-                    } else if (mateNomb == NombreMaterias.ESTADISTICA || mateNomb == NombreMaterias.CONTABILIDAD){
-                        System.out.println("Adición cancelada, materia ya existente");
-                    } else {
-                        System.out.println("Adición cancelada, materia no correspondiente a la carrera");
-                    }
-                    break;
-                case ELC:
-                    if (mateNomb == NombreMaterias.REDES && mat[semestre-1][0] != null){
-                        mat[semestre-1][0] = materia;
-                    } else if (mateNomb == NombreMaterias.CIRCUITOS && mat[semestre-1][1] != null) {
-                        mat[semestre-1][1] = materia;
-                    } else if (mateNomb == NombreMaterias.REDES || mateNomb == NombreMaterias.CIRCUITOS){
-                        System.out.println("Adición cancelada, materia ya existente");
-                    } else {
-                        System.out.println("Adición cancelada, materia no correspondiente a la carrera");
-                    }
-                    break;
-                default:
-            }
-        }
-        grupo.setMaterias(mat);
     }
+
+    // Este metodo se usará antes de modificar materia
+    public static Materia obtenerMateria(Grupo grupo){
+        Materia materia=null;
+        int id;
+        mostrarMaterias(grupo);
+        System.out.println("Seleccionar materia por ID");
+        do {
+            id = DatosComun.pedirNumero();
+            for (int i = 0; i < 3; i++) {
+                for (Materia mat : grupo.getMateria().get(grupo.getSemestre())) {
+                    if (mat.getId() == id){
+                        materia = mat;
+                    }
+                }
+            }
+            if (materia == null){
+                System.out.println("Materia no encontrada, intente de nuevo");
+            }
+        } while (materia == null);
+
+        return materia;
+    }
+    public static void modificarMateria(Grupo grupo, NombreMaterias materia){
+        System.out.println("Modificar Materia\n");
+        // Faltante aun sorry, lo haré pronto :c
+
+    }
+
+    public static void addAlumno(Alumno alumno, Grupo grupo){
+        if (grupo.getCantidadAlumnos() >= 20){
+            System.out.println("Limite de alumnos alcanzado");
+        } else {
+            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()+1));
+            grupo.getAlumnos().add(alumno);
+            System.out.println("Alumno agregado");
+        }
+    }
+
+
 }

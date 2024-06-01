@@ -61,7 +61,7 @@ public class Menu {
     // Seleccion de menu por rol
     public static void menu() {
         Usuario usuario = UsuarioEnSesion.getInstancia().getUsuarioActual();
-        /*
+
         String rolLetras = String.valueOf(usuario.getRol());
         System.out.println(String.format("- - - Menu %s - - -", rolLetras.toLowerCase()));
         Rol rol = usuario.getRol();
@@ -77,7 +77,6 @@ public class Menu {
                 break;
             default:
         }
-         */
 
         continuar();
     }
