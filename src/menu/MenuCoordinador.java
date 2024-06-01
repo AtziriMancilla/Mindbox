@@ -20,9 +20,9 @@ public class MenuCoordinador {
         do {
             System.out.println("\n1 - Alumnos...");
             System.out.println("2 - Profesores...");
-            System.out.println("3 - Impartir materia");
-            System.out.println("4 - Ver materias impartidas");
-            System.out.println("5 - Avanzar grupo de semestre");
+            System.out.println("3 - Impartir materia"); // vamos a cancelar esto
+            System.out.println("4 - Ver materias impartidas"); // tambien esto otro, coordinador modo maestro tendra su usuario
+            System.out.println("5 - Avanzar grupo de semestre"); // vamos a añadir un menu sobre asuntos de grupos
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();

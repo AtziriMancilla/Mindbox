@@ -1,5 +1,7 @@
 package Secciones;
 
+import Secciones.utils.NombreCarrera;
+import Secciones.utils.NombreMaterias;
 import Usuarios.Profesor;
 
 import java.time.format.DateTimeFormatter;
@@ -7,16 +9,18 @@ import java.time.format.DateTimeFormatter;
 public class Materia {
     private int id;
     private String nombre;
-    private Carrera carrera;
+    private NombreCarrera carrera;
     private Grupo grupo;
     private Profesor profesor;
+    private static int NUM_MATERIA = 1;
 
-    public Materia(int id, String nombre, Carrera carrera, Grupo grupo, Profesor profesor) {
-        this.id = id;
-        this.nombre = nombre;
+    public Materia(NombreMaterias nombre, NombreCarrera carrera, Grupo grupo, Profesor profesor) {
+        this.id = NUM_MATERIA;
+        this.nombre = (nombre.toString().toLowerCase() + " " + grupo.getSemestre());
         this.carrera = carrera;
         this.grupo = grupo;
         this.profesor = profesor;
+        NUM_MATERIA++;
     }
     @Override
     public String toString(){
@@ -40,11 +44,11 @@ public class Materia {
         this.nombre = nombre;
     }
 
-    public Carrera getCarrera() {
+    public NombreCarrera getCarrera() {
         return carrera;
     }
 
-    public void setCarrera(Carrera carrera) {
+    public void setCarrera(NombreCarrera carrera) {
         this.carrera = carrera;
     }
 

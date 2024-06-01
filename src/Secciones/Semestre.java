@@ -8,11 +8,13 @@ public class Semestre {
     private Carrera carrera;
     private ArrayList<Grupo> grupos;
     private ArrayList<Materia> materias;
+    private static int NUM_SEMESTRES = 1;
 
-    public Semestre(int id, int numSemestre, Carrera carrera) {
-        this.id = id;
+    public Semestre(int numSemestre, Carrera carrera) {
+        this.id = NUM_SEMESTRES;
         this.numSemestre = numSemestre;
         this.carrera = carrera;
+        NUM_SEMESTRES++;
     }
 
     public int getId() {
@@ -38,4 +40,23 @@ public class Semestre {
     public void setCarrera(Carrera carrera) {
         this.carrera = carrera;
     }
+
+    public ArrayList<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    public void setGrupos(ArrayList<Grupo> grupos) {
+        this.grupos = grupos;
+    }
+
+    public ArrayList<Materia> getMaterias() {
+        return materias;
+    }
+
+    public void setMaterias(ArrayList<Materia> materias) {
+        this.materias = materias;
+    }
+
+    // PASAR ARRAY A SISTEMA
+    public static  ArrayList<Semestre> semestres = new ArrayList<Semestre>();
 }
