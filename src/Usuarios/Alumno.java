@@ -5,6 +5,7 @@ import Secciones.Grupo;
 import Secciones.utils.NombreCarrera;
 import Usuarios.utils.Calificacion;
 import Usuarios.utils.DatosComun;
+import Usuarios.utils.Historial;
 import Usuarios.utils.Rol;
 import mindbox.Sistema;
 import mindbox.utils.Generador;
@@ -20,6 +21,7 @@ public class Alumno extends Usuario{
    private Calificacion[] calificaciones;
     private double promedio;
     private String numControl;
+    private ArrayList<Historial> historial=new ArrayList<>();
 
     public Alumno(String nombre, String apellidoPaterno, String apellidoMaterno, int anioNacimiento, LocalDate fechaNacimiento, String ciudad, String estado, String direccion, String curp, LocalDate fechaRegistro, String usuario, String contrasena, Rol rol, NombreCarrera nombreCarrera, String numControl) {
         super(nombre, apellidoPaterno, apellidoMaterno, anioNacimiento, fechaNacimiento, ciudad, estado, direccion, curp, fechaRegistro, usuario, contrasena, rol);
@@ -30,6 +32,10 @@ public class Alumno extends Usuario{
     public String toString(){
         return String.format("%s, Semestre: %d, Promedio: %f, Numero de Control: %s", super.toString(), semestre, promedio, numControl);
     }
+    public ArrayList<Historial> getHistorial() {
+        return historial;
+    }
+
 
     public Grupo getGrupo() {
         return grupo;

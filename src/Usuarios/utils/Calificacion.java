@@ -7,12 +7,14 @@ import Usuarios.Usuario;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 
+import java.time.LocalDate;
 
 
 public class Calificacion {
     double calificacion;
     boolean aprobado = false;
     Materia materia;
+    LocalDate fecha;//fecha en la que se registró la calificacion
 
     //, materia
     public Calificacion(double calificacion, Materia materia) {
@@ -21,7 +23,7 @@ public class Calificacion {
             aprobado = true;
         }
         this.materia = materia;
-
+        fecha=LocalDate.now();
     }
 
     public static void registrarCalificacion() {
