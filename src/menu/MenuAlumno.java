@@ -1,6 +1,8 @@
 package menu;
 
+import Secciones.Materia;
 import Usuarios.Alumno;
+import Usuarios.Profesor;
 import mindbox.UsuarioEnSesion;
 
 import java.util.Scanner;
@@ -29,9 +31,9 @@ public class MenuAlumno {
                 case "2":
                     verGrupo(alumno);
                     break;
-                case "3":
+                case "3": verMaterias(alumno);
                     break;
-                case "4":
+                case "4": verProfesores(alumno);
                     break;
                 case "5":
                     alumno.mostrarHistorial();
@@ -51,5 +53,15 @@ public class MenuAlumno {
     }
     public static void verGrupo(Alumno alumno){
         String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getCantidadAlumnos());
+        System.out.println(datos);
+    }
+    //todavia no esta listo
+    public static void verProfesores(Alumno alumno){
+        //Materia materia1= alumno.getGrupo().getMaterias()[0][0];
+        //String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getCantidadAlumnos());
+    }
+    public static void verMaterias(Alumno alumno){
+        //Materia materia1= alumno.getGrupo().getMaterias()[0][0];
+        //String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getCantidadAlumnos());
     }
 }
