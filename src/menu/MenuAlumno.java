@@ -1,5 +1,8 @@
 package menu;
 
+import Usuarios.Alumno;
+import mindbox.UsuarioEnSesion;
+
 import java.util.Scanner;
 
 public class MenuAlumno {
@@ -7,32 +10,46 @@ public class MenuAlumno {
     public static void menu(){
         String id;
         String action;
-        /*
-        Acciones:
-        Alumno puede ver abtodo lo que un alumno puede hacer en un sistema de gestion escolar
-         */
+        Alumno alumno = (Alumno) UsuarioEnSesion.getInstancia().getUsuarioActual();
+        // Acciones:
+        // Alumno puede ver todo lo que un alumno puede hacer en un sistema de gestion escolar
         do {
             System.out.println("\n1 - Ver mi perfil");
-            System.out.println("2 - Ver mi grupo");
-            System.out.println("3 - Ver mis materias");
-            System.out.println("4 - Ver mis profesores");
+            System.out.println("2 - Ver grupo en curso");
+            System.out.println("3 - Ver mis materias en curso");
+            System.out.println("4 - Ver mis profesores en curso");
+            System.out.println("5 - Ver mi historial");
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
             switch (action){
                 case "1":
+                    mostrarPerfil(alumno);
                     break;
                 case "2":
+                    verGrupo(alumno);
                     break;
                 case "3":
                     break;
                 case "4":
                     break;
+                case "5":
+                    alumno.mostrarHistorial();
+                    break;
                 case "0":
+                    UsuarioEnSesion.getInstancia().cerrarSesion();
+                    Menu.iniciarSesion();
                     break;
                 default:
                     System.out.println("Opcion inexistente");
             }
         } while (!action.equals("0"));
+    }
+    public static void mostrarPerfil(Alumno alumno){
+        String datos=String.format("Numero de control: %s, Promedio: %f,Carrera: %s",alumno.getNumControl(),alumno.getPromedio(),alumno.getCarrera());
+        System.out.println(datos);
+    }
+    public static void verGrupo(Alumno alumno){
+        String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getCantidadAlumnos());
     }
 }
