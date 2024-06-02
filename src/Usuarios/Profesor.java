@@ -47,11 +47,6 @@ public class Profesor extends Trabajador {
         this.materias = materias;
     }
 
-    ////////////
-    public void darDeAlta() {
-
-    }
-
     public static void verInformacion() {
         System.out.println((UsuarioEnSesion.getInstancia().getUsuarioActual()).toString());
         System.out.println("Materias asignadas: ");
@@ -357,13 +352,6 @@ public class Profesor extends Trabajador {
         }
     }
 
-    private void asignarCalificacion() {
-
-    }
-
-    private void modificarCalificacion() {
-
-    }
 
     //CRUD DE PROFESOR
     public static void registrarProfesor(NombreCarrera carrera) {
