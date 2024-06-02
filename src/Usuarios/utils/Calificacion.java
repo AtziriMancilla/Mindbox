@@ -1,5 +1,6 @@
 package Usuarios.utils;
 
+import Secciones.Grupo;
 import Secciones.Materia;
 import Usuarios.Alumno;
 import Usuarios.Profesor;
@@ -46,12 +47,12 @@ public class Calificacion {
                     cali = DatosComun.pedirValorDouble();
                 }
                 Calificacion calificacion = new Calificacion(cali, ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat));
-                for (Usuario usuario : Sistema.usuarios.get(Rol.ALUMNO)) {
-                    if (((Alumno) usuario).getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().get(alum).getNumControl())) {
+                for (Alumno alumno: Sistema.grupos.get(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getSemestre()).getAlumnos()) {
+                    if ((alumno).getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().get(alum).getNumControl())) {
                         int caliRegistradas = 0;
                         boolean hayCalificaion = false;
-                        if (((Alumno) usuario).getCalificaciones().length != 0) {
-                            for (Calificacion nota : ((Alumno) usuario).getCalificaciones()) {
+                        if (alumno.getCalificaciones().length != 0) {
+                            for (Calificacion nota : (alumno.getCalificaciones())) {
                                 if (nota.getMateria().getMateria().equals(calificacion.getMateria().getMateria())) {
                                     nota.setCalificacion(calificacion.getCalificacion());
                                     hayCalificaion = true;
@@ -61,7 +62,7 @@ public class Calificacion {
                             }
                         }
                         if (!hayCalificaion) {
-                            ((Alumno) usuario).getCalificaciones()[caliRegistradas] = calificacion;
+                            alumno.getCalificaciones()[caliRegistradas] = calificacion;
                         }
                         break;
                     }

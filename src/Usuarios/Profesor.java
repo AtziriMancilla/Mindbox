@@ -101,6 +101,7 @@ public class Profesor extends Trabajador {
         }
     }
 
+
     //Aplicar después de cambiar Semestre y asignar Profesores, para que al Profesor se le registren las materias que tiene
     public void asignarMaterias() {
         materias.clear();
