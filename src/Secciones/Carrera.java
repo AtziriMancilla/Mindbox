@@ -30,12 +30,14 @@ public class Carrera {
         cantGrupo = 0;
         if (Sistema.usuarios.get(Rol.ALUMNO) != null) {
             for (Usuario usuario : Sistema.usuarios.get(Rol.ALUMNO)) {
-                if(((Alumno)usuario).getGrupo().getCarrera()==carrera){
+                if (((Alumno) usuario).getGrupo().getCarrera() == carrera) {
                     cantAlum++;
                 }
- }
-            for(Map.Entry<Integer, Grupo> entry:Sistema.grupos.entrySet()){
-                if(entry.getValue().getCarrera()==carrera){
+            }
+        }
+        if (!Sistema.grupos.isEmpty()) {
+            for (Map.Entry<Integer, Grupo> entry : Sistema.grupos.entrySet()) {
+                if (entry.getValue().getCarrera() == carrera) {
                     cantGrupo++;
                 }
             }
@@ -44,8 +46,8 @@ public class Carrera {
 
     @Override
     public String toString() {
-        return "Carrera: "  + carrera + ", id: " + id + ", cantGrupo:" + cantGrupo + ", cantAlum:" + cantAlum + "\n, cantMate:" +
-                cantMate + "FechaCreacion: " + fechaCreacion + ", Coordinador: " + cordinador +
+        return "Carrera: " + carrera + ", id: " + id + ", Grupos :" + cantGrupo + ", Alumnos:" + cantAlum + "\nMaterias:" +
+                cantMate + ", FechaCreacion: " + fechaCreacion + ", Coordinador: " + cordinador +
                 '}';
     }
 }

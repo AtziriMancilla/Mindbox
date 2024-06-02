@@ -16,70 +16,83 @@ public class Calificacion {
     Materia materia;
     LocalDate fecha;//fecha en la que se registró la calificacion
 
-    //, materia
+
     public Calificacion(double calificacion, Materia materia) {
         this.calificacion = calificacion;
         if (calificacion >= 70) {
             aprobado = true;
         }
         this.materia = materia;
-        fecha=LocalDate.now();
+        fecha = LocalDate.now();
     }
 
+    //También sirve para modificar
     public static void registrarCalificacion() {
-       int mat=Profesor.numDeMateria();
-       int alum=0;
-       System.out.println("Alumnos: ");
-       Profesor.mostrarAlumnosMateria(mat);
-
-        while (alum < 1 || alum >= ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().size()) {
-            System.out.println("Ingrese al alumno: ");
-            alum = DatosComun.pedirNumero();
-        }
-        alum--;
-        double cali=-4;
-        while (cali<0||cali>100) {
-            System.out.println("Ingresar Calificación: ");
-             cali= DatosComun.pedirValorDouble();
-        }
-        Calificacion calificacion= new Calificacion (cali,((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat));
-        for(Usuario usuario: Sistema.usuarios.get(Rol.ALUMNO)){
-            if(((Alumno) usuario).getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().get(alum).getNumControl())){
-               /* ((Alumno)usuario).getCalificaciones().add(calificacion);*/
+        int mat = Profesor.numDeMateria();
+        int alum = 0;
+        System.out.println("Alumnos: ");
+        Profesor.mostrarAlumnosMateria(mat, 1);
+        while (alum != -1) {
+            while (alum < 0 || alum >= ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().size()) {
+                System.out.println("Ingrese el no. de alumno: ");
+                System.out.println("Ingrese 0 para dejar de Calificar");
+                alum = DatosComun.pedirNumero();
+            }
+            alum--;
+            if (alum != -1) {
+                double cali = -4;
+                while (cali < 0 || cali > 100) {
+                    System.out.println("Ingresar Calificación: ");
+                    cali = DatosComun.pedirValorDouble();
+                }
+                Calificacion calificacion = new Calificacion(cali, ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat));
+                for (Usuario usuario : Sistema.usuarios.get(Rol.ALUMNO)) {
+                    if (((Alumno) usuario).getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().get(alum).getNumControl())) {
+                        int caliRegistradas = 0;
+                        boolean hayCalificaion = false;
+                        if (((Alumno) usuario).getCalificaciones().length != 0) {
+                            for (Calificacion nota : ((Alumno) usuario).getCalificaciones()) {
+                                if (nota.getMateria().getMateria().equals(calificacion.getMateria().getMateria())) {
+                                    nota.setCalificacion(calificacion.getCalificacion());
+                                    hayCalificaion = true;
+                                    System.out.println("La calificación fue modificada");
+                                }
+                                caliRegistradas++;
+                            }
+                        }
+                        if (!hayCalificaion) {
+                            ((Alumno) usuario).getCalificaciones()[caliRegistradas] = calificacion;
+                        }
+                        break;
+                    }
+                }
+                ((Profesor)UsuarioEnSesion.getInstancia().getUsuarioActual()).asignarMaterias();
             }
         }
-
     }
 
-    public static void modificarCalificacion() {
-
-        //buscar alumno, verificando que el maestro en sesion tenga a ese alumno
-
-    }
-
+    //GETTERS Y SETTERS
     public double getCalificacion() {
         return calificacion;
     }
 
-    public void setCalificacion(int calificacion) {
+    public void setCalificacion(double calificacion) {
         this.calificacion = calificacion;
+        if (calificacion >= 70) {
+            aprobado = true;
+        } else {
+            aprobado = false;
+        }
+        fecha = LocalDate.now();
+
     }
 
     public boolean isAprobado() {
         return aprobado;
     }
 
-    public void setAprobado(boolean aprobado) {
-        this.aprobado = aprobado;
-    }
-
     public Materia getMateria() {
         return materia;
     }
-
-    public void setMateria(Materia materia) {
-        this.materia = materia;
-    }
-
 
 }
