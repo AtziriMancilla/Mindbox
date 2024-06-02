@@ -4,6 +4,7 @@ import Secciones.Grupo;
 import Secciones.Materia;
 import Secciones.utils.NombreCarrera;
 import Secciones.utils.NombreMaterias;
+import Usuarios.Alumno;
 import Usuarios.Coordinador;
 import Usuarios.Profesor;
 import Usuarios.utils.Rol;
@@ -60,15 +61,15 @@ public class MenuCoordinador {
             action = scanner.next();
             switch (action){
                 case "1":
-                    //Alumno.crear();
+                 //obtener de que carrera es el coordinador
+                    Coordinador coordinador = (Coordinador) UsuarioEnSesion.getInstancia().getUsuarioActual();
+                    Alumno.registrarAlumno(coordinador.getCarrera());
                     break;
                 case "2":
-                    numControl = Menu.obtenerNumeroDeControl();
-                    //Alumno.modificar(numControl);
+                    Alumno.modificarAlumno();
                     break;
                 case "3":
-                    numControl = Menu.obtenerNumeroDeControl();
-                    //Alumno.eliminar(numControl);
+                    Alumno.eliminarAlumno();
                     break;
                 case "4":
                     Menu.buscar(Rol.ALUMNO);
