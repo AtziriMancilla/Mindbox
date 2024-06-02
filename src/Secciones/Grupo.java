@@ -124,13 +124,13 @@ public class Grupo {
 
         System.out.println("Si algo truena aqui fue en la condicion de agregar grupo de grupo.java xd");
 
-        if (Semestre.semestres.get(semestre-1).getGrupos().isEmpty()){
+        if (Sistema.semestres.get(semestre-1).getGrupos().isEmpty()){
             grupo = new Grupo(carrera, semestre, TipoGrupo.A);
-            Semestre.semestres.get(semestre-1).getGrupos().add(grupo);
+            Sistema.semestres.get(semestre-1).getGrupos().add(grupo);
             System.out.println("Grupo A agregado");
-        } else if (Semestre.semestres.get(semestre-1).getGrupos().size() == 1){
+        } else if (Sistema.semestres.get(semestre-1).getGrupos().size() == 1){
             grupo = new Grupo(carrera, semestre, TipoGrupo.B);
-            Semestre.semestres.get(semestre-1).getGrupos().add(grupo);
+            Sistema.semestres.get(semestre-1).getGrupos().add(grupo);
             System.out.println("Grupo B agregado");
         } else {
             System.out.println("Limite de grupos alcanzado");
@@ -153,7 +153,7 @@ public class Grupo {
         do {
             id = DatosComun.pedirNumero();
             for (int i = 0; i < 3; i++) {
-                for (Grupo gru : Semestre.semestres.get(i).getGrupos()) {
+                for (Grupo gru : Sistema.semestres.get(i).getGrupos()) {
                     if (gru.getId() == id){
                         grupo = gru;
                     }
@@ -172,14 +172,14 @@ public class Grupo {
         int semestre = DatosComun.pedirNumero();
         if (semestre == 0){
             for (int i = 0; i < 3; i++) {
-                for (Grupo grupo : Semestre.semestres.get(i).getGrupos()) {
+                for (Grupo grupo : Sistema.semestres.get(i).getGrupos()) {
                     grupo.toString();
                 }
             }
         }
         else if (semestre == 1){
             semestre = Semestre.obtenerSemestre().getNumSemestre();
-            for (Grupo grupo : Semestre.semestres.get(semestre).getGrupos()) {
+            for (Grupo grupo : Sistema.semestres.get(semestre).getGrupos()) {
                 grupo.toString();
             }
         }
@@ -229,7 +229,7 @@ public class Grupo {
         // Añadiendo materia a donde la piden, para borrar o modificar buscaremos por su ID
         materiasTotales.add(materia);
         grupo.getMateria().get(grupo.getSemestre()).add(materia);
-        Semestre.semestres.get(semestre-1).getMaterias().add(materia);
+        Sistema.semestres.get(semestre-1).getMaterias().add(materia);
 
     }
 
