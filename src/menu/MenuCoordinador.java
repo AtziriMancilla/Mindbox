@@ -149,7 +149,7 @@ public class MenuCoordinador {
         NombreCarrera carrera = ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera();
         do {
             System.out.println("\n1 - Avanzar grupo de semestre");
-            System.out.println("2 - Añadir materia");
+            System.out.println("2 - Añadir materia"); // Asignar profesor
             System.out.println("3 - Modificar materia");
             System.out.println("4 - Mostrar materias");
             System.out.println("5 - Añadir alumno");

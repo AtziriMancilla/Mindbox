@@ -18,13 +18,14 @@ public class Sistema {
     public static HashMap<Rol, ArrayList<Usuario>> usuarios = new HashMap<Rol, ArrayList<Usuario>>();
     public static HashMap<Integer, Grupo> grupos= new HashMap<>();
     public static ArrayList<Graduado> graduados = new ArrayList<>();
+    public static  ArrayList<Semestre> semestres = new ArrayList<Semestre>();
 
     public static Usuario verificarInicioSesion(String nombreUsuario, String contrasena){
         for (Map.Entry<Rol, ArrayList<Usuario>> entry : usuarios.entrySet()){
             for (Usuario usuarioActual : entry.getValue()){
-                /*if (usuarioActual.getUsuario().equals(nombreUsuario) && usuarioActual.getContrasena().equals(contrasena)){
+                if (usuarioActual.getUsuario().equals(nombreUsuario) && usuarioActual.getContrasena().equals(contrasena)){
                     return usuarioActual;
-                }*/
+                }
             }
         }
         return null;
