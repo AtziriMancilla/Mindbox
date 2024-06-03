@@ -3,6 +3,7 @@ package Secciones;
 import Secciones.utils.NombreCarrera;
 import Secciones.utils.NombreMaterias;
 import Usuarios.Alumno;
+import Usuarios.Coordinador;
 import Usuarios.Profesor;
 import Usuarios.Usuario;
 import Usuarios.utils.DatosComun;
@@ -182,7 +183,9 @@ public class Grupo {
         if (semestre == 0){
             for (int i = 0; i < 3; i++) {
                 for (Grupo grupo : Sistema.semestres.get(i).getGrupos()) {
-                    grupo.toString();
+                    if (grupo.getCarrera() == ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera()){
+                        grupo.toString();
+                    }
                 }
             }
         }
@@ -207,7 +210,7 @@ public class Grupo {
             id = DatosComun.pedirNumero();
             for (int i = 0; i < 3; i++) {
                 for (Grupo gru : Sistema.semestres.get(i).getGrupos()) {
-                    if (gru.getId() == id){
+                    if (gru.getId() == id && gru.getCarrera() == ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera()){
                         grupo = gru;
                     }
                 }
