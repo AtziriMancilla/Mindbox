@@ -11,6 +11,7 @@ import mindbox.utils.Generador;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Alumno extends Usuario{
@@ -254,5 +255,51 @@ public class Alumno extends Usuario{
         }
     }
 
+    /*public static Alumno devolverAlumnoporNumControl(String numControl) {
+        System.out.println("\nAlumnos: \n");
+        if (Sistema.usuarios.get(Rol.ALUMNO).isEmpty()) {
+            System.out.println("No hay alumnos registrados");
+        } else {
+            for (int i = 0; i < Sistema.usuarios.get(Rol.ALUMNO).size(); i++) {
+
+                Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(i);
+                if( alumno.getNumControl().equals(numControl)){
+                    return alumno;
+                }
+
+            }
+        }
+    }*/
+    public static void eliminarAlumno(){
+        Scanner sc=new Scanner(System.in);
+        mostrarAlumnos();
+        int numAlumno=0;
+        boolean band;
+        do {
+            try {
+                band=false;
+                System.out.println("Selecciona el Alumno que deseas eliminar");
+                numAlumno = DatosComun.pedirNumero();
+                Sistema.usuarios.get(Rol.ALUMNO).get(numAlumno - 1);
+            } catch (IndexOutOfBoundsException | InputMismatchException error) {
+                System.out.println("Opcion no valida");
+                band=true;
+            }
+            finally {
+                sc.nextLine();
+            }
+        }while(band);
+        System.out.println("Seleccionaste a: ");
+        System.out.println(Sistema.usuarios.get(Rol.ALUMNO).get(numAlumno - 1).toString());
+        System.out.println("¿Deseas eliminarlo? 1) Sí, Otro número) Cancelar");
+        int opcion = DatosComun.pedirNumero();
+        if (opcion == 1) {
+            Sistema.usuarios.get(Rol.ALUMNO).remove(numAlumno - 1);
+            System.out.println("Alumno eliminado");
+        }
+        if (opcion != 1) {
+            System.out.println("Se cancelo la eliminación");
+        }
+    }
 
 }

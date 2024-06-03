@@ -59,7 +59,7 @@ public class DatosComun {
         return datosComun;
 
     }
-    private static String obtenerNombreUsuario(Rol rol) {
+    public static String obtenerNombreUsuario(Rol rol) {
         Scanner scanner = new Scanner(System.in);
         boolean nombreUsuarioExistente = true;
         String nombreUsuario = "";

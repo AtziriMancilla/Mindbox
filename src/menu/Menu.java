@@ -7,6 +7,7 @@ import Usuarios.Usuario;
 import Usuarios.utils.Rol;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
+import mindbox.utils.Generador;
 
 public class Menu {
     //NECESARIO: GETTERS DE USUARIO
@@ -53,7 +54,11 @@ public class Menu {
             iniciarSesion();
         } else if (!next.equals("2")) {
             continuar();
-        } else {
+        } else {//Guardado de los datos de Sistema en archivos json antes de finalizar el programa.
+            Generador.guardarUsuariosJson(Sistema.usuarios);
+            Generador.guardarGruposJson(Sistema.grupos);
+            Generador.guardarGraduadosJson(Sistema.graduados);
+            Generador.guardarSemestresJson(Sistema.semestres);
             System.out.println("Saliendo del programa...");
         }
     }

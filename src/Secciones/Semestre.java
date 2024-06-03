@@ -1,6 +1,7 @@
 package Secciones;
 
 import Usuarios.utils.DatosComun;
+import mindbox.Sistema;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -60,9 +61,6 @@ public class Semestre {
         this.materias = materias;
     }
 
-    // PASAR ARRAY A SISTEMA
-    public static  ArrayList<Semestre> semestres = new ArrayList<Semestre>();
-
 
     // Otros metodos
 
@@ -77,7 +75,7 @@ public class Semestre {
         mostrarSemestres();
         System.out.println("Seleccionar semestre por ID");
         int id = DatosComun.pedirNumero();
-        for (Semestre semestre : Semestre.semestres) {
+        for (Semestre semestre : Sistema.semestres) {
             if (semestre.getId() == id){
                 se = semestre;
             }
@@ -86,7 +84,7 @@ public class Semestre {
     }
 
     public static void mostrarSemestres(){
-        for (Semestre semestre : Semestre.semestres) {
+        for (Semestre semestre : Sistema.semestres) {
             semestre.toString();
         }
     }

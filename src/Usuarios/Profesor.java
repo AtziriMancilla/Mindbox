@@ -4,12 +4,14 @@ import Secciones.Grupo;
 import Secciones.Materia;
 
 import Secciones.utils.NombreCarrera;
+import Usuarios.utils.Calificacion;
 import Usuarios.utils.DatosComun;
 import Usuarios.utils.Rol;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 import mindbox.utils.Generador;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
@@ -53,30 +55,64 @@ public class Profesor extends Trabajador {
     public static void verInformacion() {
         System.out.println((UsuarioEnSesion.getInstancia().getUsuarioActual()).toString());
         System.out.println("Materias asignadas: ");
-        ((Profesor)UsuarioEnSesion.getInstancia().getUsuarioActual()).mostrarMaterias();
+        ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).mostrarMaterias();
     }
-    public void actualizarInformacion() {
-        System.out.println("Cambiar Nombre de Usuario");
-        System.out.println("Cambiar contraseña");
+
+    public static void actualizarInformacion() {
+        int opc = 0;
+        System.out.println("Ingrese Contraseña Actual");
+        String contrasena = DatosComun.pedirDatoString();
+        if (contrasena.equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getContrasena())) {
+            while (opc != 3) {
+                System.out.println("1. Cambiar Usuario");
+                System.out.println("2. Cambiar Contraseña");
+                System.out.println("3. Salir");
+                System.out.println("Ingrese opción: ");
+                opc = DatosComun.pedirNumero();
+                switch (opc) {
+                    case 1:
+                        System.out.println("Ingrese nuevo Usuario");
+                        String usuario=DatosComun.obtenerNombreUsuario(Rol.PROFESOR);
+                        ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).setUsuario(usuario);
+                        break;
+                    case 2:
+                        System.out.println("Ingrese nueva contraseña");
+                        contrasena = DatosComun.pedirDatoUsuario();
+                        ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).setContrasena(contrasena);
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        System.out.println("Esa opción no se encuentra");
+                        break;
+                }
+            }
+        } else {
+            System.out.println("No se pueden actualizar datos sin contraseña");
+        }
 
     }
+
     public void mostrarMaterias() {
         int i = 0;
         for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
             i++;
-            System.out.println(i + " " + materia.getNombre()+" "+materia.getGrupo());
+            System.out.println(i + " " + materia.getNombre() + "  " + materia.getGrupo().getSemestre() + " " + materia.getGrupo().getTipoGrupo());
         }
     }
+
 
     //Aplicar después de cambiar Semestre y asignar Profesores, para que al Profesor se le registren las materias que tiene
     public void asignarMaterias() {
         materias.clear();
         if (!Sistema.grupos.isEmpty()) {
             for (Map.Entry<Integer, Grupo> grupo : Sistema.grupos.entrySet()) {
-                for (Materia[] materias_ : grupo.getValue().getMaterias()) {
-                    for (Materia materia : materias_) {
-                        if (materia.getProfesor().getNumControl().equals(numControl)) {
-                            materias.add(materia);
+                for (Map.Entry<Integer, ArrayList<Materia>> matEntry : grupo.getValue().getMateria().entrySet()) {
+                    if (grupo.getKey().equals(matEntry.getKey())) {
+                        for (Materia materia : matEntry.getValue()) {
+                            if (materia.getProfesor().getNumControl().equals(numControl)) {
+                                materias.add(materia);
+                            }
                         }
                     }
                 }
@@ -85,32 +121,67 @@ public class Profesor extends Trabajador {
     }
 
     public static void verGrupos() {
-        int opc = 0;
+        int opc = 0, mostrar = 0;
         System.out.println("Grupos: ");
         for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
             System.out.println("Grupo " + materia.getGrupo().getSemestre() + materia.getGrupo().getTipoGrupo());
+            System.out.println("Id del grupo: " + materia.getGrupo().getId());
+        }
+        while (opc < 1 || opc > 4) {
+            System.out.println("1. Mostrar todos los alumnos");
+            System.out.println("2. Mostrar Aprobados");
+            System.out.println("3. Mostrar Reprobados");
+            System.out.println("4. Salir");
+            opc = DatosComun.pedirNumero();
+            switch (opc) {
+                case 1:
+                    mostrar = opc;
+                    break;
+                case 2:
+                    mostrar = opc;
+                    break;
+                case 3:
+                    mostrar = opc;
+                    break;
+                case 4:
+                    System.out.println("Usted ha salido de ver Grupos");
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+            }
+        }
+        if (opc == 4) {
+            opc = 6;
         }
 
-
-
-        while (opc != 4) {
-            System.out.println("1. Mostrar Alumnos de un Grupo ");
-            System.out.println("2. Mostrar Alumnos de una Materia");
-            System.out.println("3 Mostrar Alumnos de un semestre");
-            System.out.println("4. Salir");
+        while (opc != 6) {
+            System.out.println("1. Mostrar alumnos de un Grupo ");
+            System.out.println("2. Mostrar alumnos de una Materia y Grupo");
+            System.out.println("3. Mostrar alumnos de un Semestre ");
+            System.out.println("4. Mostrar a todos los alumnos");
+            System.out.println("5. Salir");
             opc = DatosComun.pedirNumero();
             switch (opc) {
                 case 1:
                     System.out.println("Ingrese ID del grupo: ");
                     int id = DatosComun.pedirNumero();
-                    mostrarAlumnosGrupo(id);
+                    mostrarAlumnosGrupo(id, mostrar);
                     break;
                 case 2:
-                    mostrarAlumnosMateria(numDeMateria());
+                    mostrarAlumnosMateria(numDeMateria(), mostrar);
                     break;
                 case 3:
+                    System.out.println("Ingrese Semestre: ");
+                    int semestre = 0;
+                    while (semestre < 1 || semestre > 3) {
+                        semestre = DatosComun.pedirNumero();
+                    }
+                    mostrarAlumnosSemestre(semestre, mostrar);
                     break;
                 case 4:
+                    mostrarTodosAlumnos(mostrar);
+
+                case 5:
                     System.out.println("Usted ha salido de ver Grupos");
                     break;
 
@@ -120,25 +191,46 @@ public class Profesor extends Trabajador {
         }
     }
 
-    public static void mostrarAlumnosGrupo(int id) {
-        int opc = 0;
+    public static void mostrarAlumnosGrupo(int id, int mostrar) {
+        boolean todoBien = false;
         for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
             if (materia.getGrupo().getId() == id) {
+                todoBien = true;
                 for (Alumno alumno : materia.getGrupo().getAlumnos()) {
-                    System.out.print(alumno.getNombre() + " ");
-                               /* for (Calificacion calificacion : alumno.getCalificaciones()) {
-                                    if (calificacion.getMateria().getProfesor() == ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual())) {
-                                        System.out.print(calificacion.getMateria().getNombre() + " " + calificacion.getCalificacion() + " ");
+                    if (mostrar == 1) {
+                        System.out.print("\n" + alumno.getNombre() + " ");
+                    }
+                    if (alumno.getCalificaciones().length != 0) {
+                        for (Calificacion calificacion : alumno.getCalificaciones()) {
+                            if (calificacion.getMateria().getMateria().equals(materia.getMateria())) {
+                                if (mostrar == 1) {
+                                    System.out.print(calificacion.getMateria().getMateria() + " " +
+                                            calificacion.getMateria().getGrupo().getSemestre() + " " + calificacion.getCalificacion() + "\n");
+                                }
+                                if (mostrar == 2) {
+                                    if (calificacion.isAprobado()) {
+                                        System.out.print("\n" + alumno.getNombre() + " ");
+                                        System.out.print(calificacion.getMateria().getMateria() + " " +
+                                                calificacion.getMateria().getGrupo().getSemestre() + " " + calificacion.getCalificacion() + "\n");
                                     }
-                                }*/
-                    System.out.println();
-
+                                }
+                                if (mostrar == 3) {
+                                    if (!calificacion.isAprobado()) {
+                                        System.out.print("\n" + alumno.getNombre() + " ");
+                                        System.out.print(calificacion.getMateria().getMateria() + " " +
+                                                calificacion.getMateria().getGrupo().getSemestre() + " " + calificacion.getCalificacion() + "\n");
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
+            break;
         }
-    }
-
-    public static void mostrarAlumnosSemestre() {
+        if (!todoBien) {
+            System.out.println("No se ha encontrado al Grupo");
+        }
     }
 
     public static int numDeMateria() {
@@ -155,19 +247,113 @@ public class Profesor extends Trabajador {
         return mat;
     }
 
-    public static void mostrarAlumnosMateria(int mat) {
-        int i=1;
+    public static void mostrarAlumnosMateria(int mat, int mostrar) {
+        int i = 1;
+        System.out.println(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getMateria() + " " +
+                ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getSemestre() + ": ");
+
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
             for (Alumno alumno : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos()) {
-                System.out.println(i+" "+alumno.getNombre());
-               /* for(Calificacion calificacion: alumno.getCalificaciones()){
+                if (mostrar == 1) {
+                    System.out.println(i + " " + alumno.getNombre() + " ");
+                }
+                if (alumno.getCalificaciones().length != 0) {
+                    for (Calificacion calificacion : alumno.getCalificaciones()) {
+                        if (mostrar == 1) {
+                            System.out.println(calificacion.getCalificacion());
+                        }
+                        if (mostrar == 2) {
+                            if (calificacion.isAprobado()) {
+                                System.out.print(i + " " + alumno.getNombre() + " ");
+                                System.out.println(calificacion.getCalificacion());
+                            }
+                        }
+                        if (mostrar == 3) {
+                            if (!calificacion.isAprobado()) {
+                                System.out.print(i + " " + alumno.getNombre() + " ");
+                                System.out.println(calificacion.getCalificacion());
+                            }
+                        }
+                        System.out.println();
 
-                }*/
+                    }
+                }
                 i++;
             }
 
         } else {
             System.out.println("No tiene materias registradas");
+        }
+    }
+
+    public static void mostrarAlumnosSemestre(int semestre, int mostrar) {
+        System.out.println("Alumnos de Semestre: " + semestre);
+        for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
+            if (materia.getGrupo().getSemestre() == semestre) {
+                System.out.println("Materia: " + materia.getMateria());
+                for (Alumno alumno : materia.getGrupo().getAlumnos()) {
+                    if (mostrar == 1) {
+                        System.out.println(alumno.getNombre() + " ");
+                    }
+                    if (alumno.getCalificaciones().length != 0) {
+                        for (Calificacion calificacion : alumno.getCalificaciones()) {
+                            if (calificacion.getMateria().getMateria().equals(materia.getMateria())) {
+                                if (mostrar == 1) {
+                                    System.out.println(calificacion.getCalificacion());
+                                }
+                                if (mostrar == 2) {
+                                    if (calificacion.isAprobado()) {
+                                        System.out.print(alumno.getNombre() + " ");
+                                        System.out.println(calificacion.getCalificacion());
+                                    }
+                                }
+                                if (mostrar == 3) {
+                                    if (!calificacion.isAprobado()) {
+                                        System.out.print(alumno.getNombre() + " ");
+                                        System.out.println(calificacion.getCalificacion());
+                                    }
+                                }
+                                System.out.println();
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    public static void mostrarTodosAlumnos(int mostrar) {
+        for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
+            System.out.println("Materia: " + materia.getMateria() + " Grupo: " + materia.getGrupo().getSemestre() + materia.getGrupo().getTipoGrupo());
+            for (Alumno alumno : materia.getGrupo().getAlumnos()) {
+                if (mostrar == 1) {
+                    System.out.println(alumno.getNombre() + " ");
+                }
+                if (alumno.getCalificaciones().length != 0) {
+                    for (Calificacion calificacion : alumno.getCalificaciones()) {
+                        if (calificacion.getMateria().getMateria().equals(materia.getMateria())) {
+                            if (mostrar == 1) {
+                                System.out.println(calificacion.getCalificacion());
+                            }
+                            if (mostrar == 2) {
+                                if (calificacion.isAprobado()) {
+                                    System.out.print(alumno.getNombre() + " ");
+                                    System.out.println(calificacion.getCalificacion());
+                                }
+                            }
+                            if (mostrar == 3) {
+                                if (!calificacion.isAprobado()) {
+                                    System.out.print(alumno.getNombre() + " ");
+                                    System.out.println(calificacion.getCalificacion());
+                                }
+                            }
+                            System.out.println();
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -313,7 +499,7 @@ public class Profesor extends Trabajador {
 
         do {
             try {
-                confirmacion=true;
+                confirmacion = true;
                 System.out.println("Selecciona al profesor: ");
                 numProfesor = DatosComun.pedirNumero();
 
@@ -324,7 +510,7 @@ public class Profesor extends Trabajador {
                     return numProfesor;
                 }
             } catch (IndexOutOfBoundsException error) {
-                confirmacion=false;
+                confirmacion = false;
                 System.out.println("Error: " + error.getMessage());
 
             }
