@@ -47,7 +47,7 @@ public class Calificacion {
         int alum =4;
         System.out.println("Alumnos: ");
         Profesor.mostrarAlumnosMateria(mat, 1);
-        while (alum != -1) {
+        while (alum != -1&&mat!=-1) {
            do{
                 System.out.println("Ingrese el no. de alumno: ");
                 System.out.println("Ingrese 0 para dejar de Calificar");
