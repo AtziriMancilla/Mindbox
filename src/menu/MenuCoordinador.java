@@ -84,28 +84,27 @@ public class MenuCoordinador {
     }
     private static void menuProfesores(){
         String action, numControl;
+        Coordinador coordinador = (Coordinador) UsuarioEnSesion.getInstancia().getUsuarioActual();
         do {
             System.out.println("\n1 - Crear profesor");
             System.out.println("2 - Modificar profesor");
             System.out.println("3 - Eliminar profesor");
-            System.out.println("4 - Buscar profesor");
+            System.out.println("4 - Buscar profesor por numero de control");
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
             switch (action){
                 case "1":
-                    //Profesor.crear();
+                    Profesor.registrarProfesor(coordinador.getCarrera());
                     break;
                 case "2":
-                    numControl = Menu.obtenerNumeroDeControl();
-                    //Profesor.modificar(numControl);
+                    Profesor.modificarProfesor();
                     break;
                 case "3":
-                    numControl = Menu.obtenerNumeroDeControl();
-                    //Profesor.eliminar(numControl);
+                    Profesor.borrarProfesor();
                     break;
                 case "4":
-                    Menu.buscar(Rol.PROFESOR);
+                    Profesor.buscarProfesor();
                     break;
                 case "0":
                     System.out.println("Regresando");
