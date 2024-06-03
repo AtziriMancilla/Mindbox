@@ -57,4 +57,8 @@ public class Sistema {
     public static void setGrupos(HashMap<Integer, Grupo> grupos) {
         Sistema.grupos = grupos;
     }
+    //Setter para asignar los datos obtenidos del json al atributo ArrayList semestres.
+    public static void setSemestres(ArrayList<Semestre> semestres) {
+        Sistema.semestres = semestres;
+    }
 }

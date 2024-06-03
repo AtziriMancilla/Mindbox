@@ -2,6 +2,7 @@ package mindbox.utils;
 
 import Graduados.Graduado;
 import Secciones.Grupo;
+import Secciones.Semestre;
 import Secciones.utils.NombreCarrera;
 import Usuarios.Usuario;
 import Usuarios.utils.Rol;
@@ -92,10 +93,12 @@ public class Generador {
         Gson json = new GsonBuilder().setPrettyPrinting()//Recordar que setPrettyPrinting es para que el json no quede escrito en una sola línea y esté estéticamente mejor organizado con sus datos.
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())//Se inserta un nuevo TypeAdapter que viene desde la clase LocalDateAdapter, para que sepa manejar los objetos de clase LocalDate al serializar.
                 .create();//Creará el archivo json.
+        System.out.println("Guardando usuarios en archivo json...");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("usuarios.json"))) {//Con el BufferedWriter, se crea un nuevo archivo con extensión .json, con el nombre de usuarios
             json.toJson(usuarios, writer);//el objeto json escribirá los datos de usuarios en el nuevo archivo, usando el objeto writer.
+            System.out.println("Usuarios guardados con éxito.\n");
         } catch (IOException error) {//El try catch es obligatorio para el FileWriter. Arrojará el mensaje de error en caso de que algo salga mal en la serialización.
-            System.out.println(error.getMessage());
+            System.out.println("No se pudieron guardar los datos: "+ error.getMessage());
         }
     }
     //Método para deserializar (sacar) datos del archivo json.
@@ -103,6 +106,7 @@ public class Generador {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
+        System.out.println("Accediendo a datos de usuarios...");
         try (BufferedReader reader = new BufferedReader(new FileReader("usuarios.json"))) {
             //Se crea un objeto Type que tendrá el esquema/modelo de cómo se estructuran los datos deserializados del json, es decir, convertirlos a su objeto original, HashMap
             Type usuarioMapType = new TypeToken<HashMap<Rol, ArrayList<Usuario>>>() {}.getType();
@@ -110,8 +114,9 @@ public class Generador {
             HashMap<Rol, ArrayList<Usuario>> usuarios = gson.fromJson(reader, usuarioMapType);
             //Se asigna el nuevo valor al atributo usuarios (el HashMap) de Sistema, es decir, se le guardan los datos obtenidos del json.
             Sistema.setUsuarios(usuarios);
+            System.out.println("Datos de usuarios recuperados con éxito.\n");
         } catch (IOException error) {//El try catch es obligatorio para manejar los objetos de BufferedReader.
-            System.out.println(error.getMessage());//Si sale algún error durante la deserialización, se imprime el mensaje.
+            System.out.println("No se pudieron recuperar los datos: "+ error.getMessage());//Si sale algún error durante la deserialización, se imprime el mensaje.
         }
     } //Nota: Las funciones de los siguientes métodos son las mismas que expliqué anteriormente.
     //Método para serializar datos de los grupos en un archivo json.
@@ -119,10 +124,12 @@ public class Generador {
         Gson json = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
+        System.out.println("Guardando grupos en archivo json...");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("grupos.json"))) {
             json.toJson(grupos, writer);
+            System.out.println("Grupos guardados con éxito.\n");
         } catch (IOException error) {
-            System.out.println(error.getMessage());
+            System.out.println("No se pudieron guardar los datos: "+ error.getMessage());
         }
     }
     //Método para deserializar (sacar) datos de los grupos del archivo json.
@@ -130,12 +137,14 @@ public class Generador {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
+        System.out.println("Accediendo a datos de grupos...");
         try (BufferedReader reader = new BufferedReader(new FileReader("grupos.json"))) {
             Type grupoMapType = new TypeToken<HashMap<Integer, Grupo>>() {}.getType();
             HashMap<Integer, Grupo> grupos = gson.fromJson(reader, grupoMapType);
             Sistema.setGrupos(grupos);
+            System.out.println("Datos de grupos recuperados con éxito.\n");
         } catch (IOException error) {
-            System.out.println(error.getMessage());
+            System.out.println("No se pudieron recuperar los datos: "+ error.getMessage());
         }
     }
     //Método para serializar datos de los graduados en un archivo json.
@@ -143,10 +152,12 @@ public class Generador {
         Gson json = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
+        System.out.println("Guardando graduados en archivo json...");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("graduados.json"))) {
-            json.toJson(graduados,writer);
+            json.toJson(graduados, writer);
+            System.out.println("Graduados guardados con éxito.\n");
         } catch (IOException error) {
-            System.out.println(error.getMessage());
+            System.out.println("No se pudieron guardar los datos: "+ error.getMessage());
         }
     }
     //Método para deserializar (sacar) datos de los graduados del archivo json.
@@ -154,12 +165,42 @@ public class Generador {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
+        System.out.println("Accediendo a datos de graduados...");
         try (BufferedReader reader = new BufferedReader(new FileReader("graduados.json"))) {
             Type graduadoListType = new TypeToken<ArrayList<Graduado>>() {}.getType();
             ArrayList<Graduado> graduados = gson.fromJson(reader, graduadoListType);
             Sistema.setGraduados(graduados);
+            System.out.println("Datos de graduados recuperados con éxito.\n");
         } catch (IOException error) {
-            System.out.println(error.getMessage());
+            System.out.println("No se pudieron recuperar los datos: "+ error.getMessage());
+        }
+    }
+    //Método para serializar datos de los semestres en un archivos json.
+    public static void guardarSemestresJson(ArrayList<Semestre> semestres) {
+        Gson json = new GsonBuilder().setPrettyPrinting()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+        System.out.println("Guardando semestres en archivo json...");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("semestres.json"))) {
+            json.toJson(semestres, writer);
+            System.out.println("Semestres guardados con éxito.\n");
+        } catch (IOException error) {
+            System.out.println("No se pudieron guardar los datos: "+ error.getMessage());
+        }
+    }
+    //Método para deserializar (sacar) datos de los graduados del archivo json.
+    public static void deserializarSemestresJson() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+        System.out.println("Accediendo a datos de semestres...");
+        try (BufferedReader reader = new BufferedReader(new FileReader("semestres.json"))) {
+            Type semestreListType = new TypeToken<ArrayList<Semestre>>() {}.getType();
+            ArrayList<Semestre> semestres = gson.fromJson(reader, semestreListType);
+            Sistema.setSemestres(semestres);
+            System.out.println("Datos de semestres recuperados con éxito.\n");
+        } catch (IOException error) {
+            System.out.println("No se pudieron recuperar los datos: "+ error.getMessage());
         }
     }
 }
