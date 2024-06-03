@@ -55,13 +55,19 @@ public class MenuAlumno {
         String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getCantidadAlumnos());
         System.out.println(datos);
     }
-    //todavia no esta listo
     public static void verProfesores(Alumno alumno){
-        //Materia materia1= alumno.getGrupo().getMaterias()[0][0];
-        //String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getCantidadAlumnos());
+        Profesor profesor1= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0).getProfesor();
+        Materia materia1= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0);
+        Profesor profesor2= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1).getProfesor();
+        Materia materia2= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1);
+        Profesor profesor3= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2).getProfesor();
+        Materia materia3= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2);
+        String profesores=String.format("Profesor: %s Materia: %s\nProfesor: %s, Materia: %s\nProfesor: %s, Materia: %s",profesor1,materia1,profesor2,materia2,profesor3,materia3);
+        System.out.println(profesores);
     }
+    //ver como hacer si no hay calificaciuones
     public static void verMaterias(Alumno alumno){
-        //Materia materia1= alumno.getGrupo().getMaterias()[0][0];
+        System.out.println(alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0).toString());
         //String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getCantidadAlumnos());
     }
 }
