@@ -66,16 +66,17 @@ public class Profesor extends Trabajador {
                 opc = DatosComun.pedirNumero();
                 switch (opc) {
                     case 1:
-                        System.out.println("Ingrese nuevo Usuario");
-                        String usuario=DatosComun.obtenerNombreUsuario(Rol.PROFESOR);
+                        System.out.println("Ingrese nuevo Usuario:  ");
+                        String usuario = DatosComun.obtenerNombreUsuario(Rol.PROFESOR);
                         ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).setUsuario(usuario);
                         break;
                     case 2:
-                        System.out.println("Ingrese nueva contraseña");
+                        System.out.println("Ingrese nueva contraseña: ");
                         contrasena = DatosComun.pedirDatoUsuario();
                         ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).setContrasena(contrasena);
                         break;
                     case 3:
+                        System.out.println("Usted ha salido de modeificar. ");
                         break;
                     default:
                         System.out.println("Esa opción no se encuentra");
@@ -120,6 +121,7 @@ public class Profesor extends Trabajador {
         System.out.println("Grupos: ");
         for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
             System.out.println("Grupo " + materia.getGrupo().getSemestre() + materia.getGrupo().getTipoGrupo());
+            System.out.println("Materia: " + materia.getMateria());
             System.out.println("Id del grupo: " + materia.getGrupo().getId());
         }
         while (opc < 1 || opc > 4) {
@@ -188,6 +190,7 @@ public class Profesor extends Trabajador {
 
     public static void mostrarAlumnosGrupo(int id, int mostrar) {
         boolean todoBien = false;
+        if(!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()){
         for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
             if (materia.getGrupo().getId() == id) {
                 todoBien = true;
@@ -197,7 +200,8 @@ public class Profesor extends Trabajador {
                     }
                     if (alumno.getCalificaciones().length != 0) {
                         for (Calificacion calificacion : alumno.getCalificaciones()) {
-                            if (calificacion.getMateria().getMateria().equals(materia.getMateria())) {
+                            if (calificacion.getMateria().getProfesor().getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getNumControl())) {
+
                                 if (mostrar == 1) {
                                     System.out.print(calificacion.getMateria().getMateria() + " " +
                                             calificacion.getMateria().getGrupo().getSemestre() + " " + calificacion.getCalificacion() + "\n");
@@ -225,18 +229,21 @@ public class Profesor extends Trabajador {
         }
         if (!todoBien) {
             System.out.println("No se ha encontrado al Grupo");
+        }}
+        else {
+            System.out.println("No tiene materias asignadas. ");
         }
     }
 
     public static int numDeMateria() {
         System.out.println("Materias: ");
-        int mat = 0;
+        int mat;
         {
             ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).mostrarMaterias();
-            while (mat < 1 || mat >= ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().size()) {
+            do {
                 System.out.println("Ingrese la materia: ");
                 mat = DatosComun.pedirNumero();
-            }
+            } while (mat < 1 || mat > ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().size());
             mat--;
         }
         return mat;
@@ -244,16 +251,17 @@ public class Profesor extends Trabajador {
 
     public static void mostrarAlumnosMateria(int mat, int mostrar) {
         int i = 1;
-        System.out.println(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getMateria() + " " +
-                ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getSemestre() + ": ");
-
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
+            System.out.println(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getMateria() + " " +
+                    ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getSemestre() +" "+
+                    ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getTipoGrupo()+ ": ");
             for (Alumno alumno : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos()) {
                 if (mostrar == 1) {
                     System.out.println(i + " " + alumno.getNombre() + " ");
                 }
                 if (alumno.getCalificaciones().length != 0) {
                     for (Calificacion calificacion : alumno.getCalificaciones()) {
+                        if(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getMateria().equals(calificacion.getMateria().getMateria())){
                         if (mostrar == 1) {
                             System.out.println(calificacion.getCalificacion());
                         }
@@ -271,7 +279,7 @@ public class Profesor extends Trabajador {
                         }
                         System.out.println();
 
-                    }
+                    }}
                 }
                 i++;
             }
@@ -282,6 +290,7 @@ public class Profesor extends Trabajador {
     }
 
     public static void mostrarAlumnosSemestre(int semestre, int mostrar) {
+        if(!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()){
         System.out.println("Alumnos de Semestre: " + semestre);
         for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
             if (materia.getGrupo().getSemestre() == semestre) {
@@ -315,6 +324,9 @@ public class Profesor extends Trabajador {
                     }
                 }
             }
+        }}
+        else {
+            System.out.println("No tiene materias registradas");
         }
 
     }

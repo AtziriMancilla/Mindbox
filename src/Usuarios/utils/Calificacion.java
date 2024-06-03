@@ -9,6 +9,7 @@ import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 
 public class Calificacion {
@@ -27,18 +28,32 @@ public class Calificacion {
         fecha = LocalDate.now();
     }
 
+    //Asigna las calificaciones de grupos a usuarios en Sistema
+    public static void grupoUsuarios(){
+        for(Map.Entry<Integer, Grupo> grupoEntry: Sistema.grupos.entrySet()){
+            for(Alumno alumno: grupoEntry.getValue().getAlumnos()){
+                for(Usuario alumno1: Sistema.usuarios.get(Rol.ALUMNO)){
+                    if(alumno.getNumControl().equals(((Alumno)alumno1).getNumControl())){
+                        ((Alumno) alumno1).setCalificaciones(alumno.getCalificaciones());
+                    }
+                }
+            }
+        }
+    }
+
     //También sirve para modificar
     public static void registrarCalificacion() {
         int mat = Profesor.numDeMateria();
-        int alum = 0;
+        int alum =4;
         System.out.println("Alumnos: ");
         Profesor.mostrarAlumnosMateria(mat, 1);
         while (alum != -1) {
-            while (alum < 0 || alum >= ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().size()) {
+           do{
                 System.out.println("Ingrese el no. de alumno: ");
                 System.out.println("Ingrese 0 para dejar de Calificar");
                 alum = DatosComun.pedirNumero();
             }
+           while (alum < 0 || alum >((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().size());
             alum--;
             if (alum != -1) {
                 double cali = -4;
@@ -67,9 +82,11 @@ public class Calificacion {
                         break;
                     }
                 }
-                ((Profesor)UsuarioEnSesion.getInstancia().getUsuarioActual()).asignarMaterias();
+
             }
         }
+        ((Profesor)UsuarioEnSesion.getInstancia().getUsuarioActual()).asignarMaterias();
+        grupoUsuarios();
     }
 
     //GETTERS Y SETTERS
