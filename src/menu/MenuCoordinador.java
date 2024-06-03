@@ -130,9 +130,12 @@ public class MenuCoordinador {
                 case "1":
                     Grupo.crearGrupo(carrera);
                     break;
-                case "2":
+                case "2": // Muchos atributos no son modificables, de hecho solo es modificar o materia o alumnos
+                    // Conclusion: esta cosa usa los mismos metodos que 3 y 6 en el menuGrupo (abajo)
+                    Grupo.modificarGrupo();
                     break;
-                case "3": // No se si se debe crear la opcino ELIMINAR GRUPO
+                case "3":
+                    Grupo.eliminarGrupo();
                     break;
                 case "4":
                     Grupo.mostrarGrupos();
@@ -150,8 +153,8 @@ public class MenuCoordinador {
         NombreCarrera carrera = ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera();
         do {
             System.out.println("\n1 - Avanzar grupo de semestre");
-            System.out.println("2 - Añadir materia"); // Asignar profesor
-            System.out.println("3 - Modificar materia");
+            System.out.println("2 - Asignar profesor a materia");
+            System.out.println("3 - Modificar profesor de materia");
             System.out.println("4 - Mostrar materias");
             System.out.println("5 - Añadir alumno");
             System.out.println("6 - Modificar alumno");
@@ -165,25 +168,15 @@ public class MenuCoordinador {
                     Grupo.avanzarGrupo(carrera, grupo);
                     break;
                 case "2":
-                    // añadir materia a grupo
-                    NombreMaterias materia = Materia.seleccionarMateria(carrera);
-                    if (!Grupo.materiaExistente(grupo, materia)){
-                        // Falta obtener profesor
-                        // Profesor profesor = Profesor.obtenerProfesor();
-                        // Grupo.addMaterias(grupo, materia, profesor);
-                    } else {
-                        System.out.print("La materia ya existe en el grupo, ¿Desea modificarla?\n1 - Modificar\n0 - Continuar en el menu\nAcción: ");
-                        actAux = scanner.next();
-                        if (actAux.equals("1")){
-                            Grupo.modificarMateria(grupo, materia);
-                        }
-                    }
+                    // Falta obtener profesor
+                    Profesor profesor = null;
+                    Grupo.addProfeMateria(grupo, profesor);
                     break;
                 case "3":
-                    Materia mat = Grupo.obtenerMateria(grupo);
-                    Grupo.modificarMateria(grupo, mat.getMateria());
+                    Grupo.modificarMateria(grupo);
                     break;
                 case "4":
+                    Grupo.mostrarMaterias(grupo);
                     break;
                 case "5":
                     break;
