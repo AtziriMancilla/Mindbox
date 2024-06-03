@@ -114,9 +114,9 @@ public class Alumno extends Usuario{
         System.out.println(">Alumno registrado<");
 
     }
-    public static void modificarAlumno() {
+    public static void modificarAlumno(NombreCarrera carrera) {
         Scanner sc = new Scanner(System.in);
-        mostrarAlumnos();
+        mostrarAlumnos(carrera);
         System.out.println("Selecciona al alumno: ");
         int numAlumno = pedirAlumno();
         int opt = 10;
@@ -231,14 +231,17 @@ public class Alumno extends Usuario{
         return numAlumno;
     }
 
-    public static void mostrarAlumnos() {
+    public static void mostrarAlumnos(NombreCarrera carrera) {
         System.out.println("\nAlumnos: \n");
         if (Sistema.usuarios.get(Rol.ALUMNO).isEmpty()) {
             System.out.println("No hay alumnos registrados");
         } else {
             for (int i = 0; i < Sistema.usuarios.get(Rol.ALUMNO).size(); i++) {
                 Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(i);
-                System.out.println((i + 1) + " " + alumno.toString());
+                if(carrera.equals(alumno.getCarrera())){
+                    System.out.println((i + 1) + " " + alumno.toString());
+                }
+
             }
         }
     }
@@ -270,9 +273,9 @@ public class Alumno extends Usuario{
             }
         }
     }*/
-    public static void eliminarAlumno(){
+    public static void eliminarAlumno(NombreCarrera carrera){
         Scanner sc=new Scanner(System.in);
-        mostrarAlumnos();
+        mostrarAlumnos(carrera);
         int numAlumno=0;
         boolean band;
         do {

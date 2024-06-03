@@ -66,10 +66,12 @@ public class MenuCoordinador {
                     Alumno.registrarAlumno(coordinador.getCarrera());
                     break;
                 case "2":
-                    Alumno.modificarAlumno();
+                    Coordinador coordinador2 = (Coordinador) UsuarioEnSesion.getInstancia().getUsuarioActual();
+                    Alumno.modificarAlumno(coordinador2.getCarrera());
                     break;
                 case "3":
-                    Alumno.eliminarAlumno();
+                    Coordinador coordinador3 = (Coordinador) UsuarioEnSesion.getInstancia().getUsuarioActual();
+                    Alumno.eliminarAlumno(coordinador3.getCarrera());
                     break;
                 case "4":
                     Menu.buscar(Rol.ALUMNO);
