@@ -153,7 +153,7 @@ public class MenuCoordinador {
         } while (!action.equals("0"));
     }
     private static void menuGrupo(Grupo grupo){
-        String action, actAux;
+        String action;
         Alumno alumno;
         NombreCarrera carrera = ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera();
         do {
