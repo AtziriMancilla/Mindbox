@@ -8,6 +8,7 @@ import Usuarios.Alumno;
 import Usuarios.Coordinador;
 import Usuarios.Profesor;
 import Usuarios.utils.Rol;
+import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 
 import java.util.Scanner;
@@ -55,7 +56,7 @@ public class MenuCoordinador {
             System.out.println("\n1 - Crear alumno");
             System.out.println("2 - Modificar alumno");
             System.out.println("3 - Eliminar alumno");
-            System.out.println("4 - Buscar alumno");
+            System.out.println("4 - Ver alumnos");
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
@@ -74,8 +75,10 @@ public class MenuCoordinador {
                     Alumno.eliminarAlumno(coordinador3.getCarrera());
                     break;
                 case "4":
-                    Menu.buscar(Rol.ALUMNO);
+                    Coordinador coordinador4 = (Coordinador) UsuarioEnSesion.getInstancia().getUsuarioActual();
+                    Alumno.mostrarAlumnos(coordinador4.getCarrera());
                     break;
+
                 case "0":
                     System.out.println("Regresando");
                     break;
@@ -150,7 +153,8 @@ public class MenuCoordinador {
         } while (!action.equals("0"));
     }
     private static void menuGrupo(Grupo grupo){
-        String action, actAux;
+        String action;
+        Alumno alumno;
         NombreCarrera carrera = ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera();
         do {
             System.out.println("\n1 - Avanzar grupo de semestre");
@@ -169,8 +173,8 @@ public class MenuCoordinador {
                     Grupo.avanzarGrupo(carrera, grupo);
                     break;
                 case "2":
-                    // Falta obtener profesor
-                    Profesor profesor = null;
+                    Profesor.mostrarProfesores();
+                    Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
                     Grupo.addProfeMateria(grupo, profesor);
                     break;
                 case "3":
@@ -180,12 +184,19 @@ public class MenuCoordinador {
                     Grupo.mostrarMaterias(grupo);
                     break;
                 case "5":
+                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                    Grupo.addAlumno(alumno, grupo);
                     break;
                 case "6":
+                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                    Grupo.modificarAlumno(alumno);
                     break;
                 case "7":
+                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                    Grupo.eliminarAlumno(alumno, grupo);
                     break;
                 case "8":
+                    Grupo.mostrarAlumnos(grupo);
                     break;
                 case "0":
                     System.out.println("Regresando");

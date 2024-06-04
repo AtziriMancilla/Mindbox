@@ -1,20 +1,17 @@
 package menu;
 
+import Usuarios.Profesor;
+import Usuarios.utils.Calificacion;
+import mindbox.UsuarioEnSesion;
+
 import java.util.Scanner;
 
 public class MenuProfesor {
     private static Scanner scanner = new Scanner(System.in);
-    public static void menu(){
-        String id;
+
+    public static void menu() {
         String action;
-        /*
-        Acciones:
-        Ver su info
-        Actualizarla
-        Ver sus gupos
-        Asignar calificaciones
-        Modificar calificaciones
-         */
+
         do {
             System.out.println("\n1 - Ver mi perfil");
             System.out.println("2 - Actualizar mi perfil");
@@ -24,16 +21,22 @@ public class MenuProfesor {
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
-            switch (action){
+            switch (action) {
                 case "1":
+                    Profesor.verInformacion();
                     break;
                 case "2":
+                    Profesor.actualizarInformacion();
                     break;
                 case "3":
+                    Profesor.verGrupos();
                     break;
                 case "4":
+                    Calificacion.registrarCalificacion();
                     break;
                 case "0":
+                    UsuarioEnSesion.getInstancia().cerrarSesion();
+                    Menu.iniciarSesion();
                     break;
                 default:
                     System.out.println("Opcion inexistente");

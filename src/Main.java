@@ -19,7 +19,7 @@ public class Main {
             Generador.deserializarGraduadosJson();//Leerá los datos de graduados del archivo json y los asignará a Sistema.
             Generador.deserializarSemestresJson();//Leerá los datos de semestre del archivo json y los asignará a Sistema.
             Menu.iniciarSesion();//Una vez obtenidos los datos, se inicia el menú.
-        } else if (!usuarios.exists()) {//Si los archivos NO existen, se inicializan los objetos como es habitual y se inicia el menú.
+        } else {//Si los archivos NO existen, se inicializan los objetos como es habitual y se inicia el menú.
             Sistema.inicializar();
             Menu.iniciarSesion();
         }
