@@ -151,17 +151,18 @@ public class Grupo {
     }
 
     //metodo que reprueba a un alumno(lo deja en su semestre y lo agrega a un grupo donde haya espacio)
-    public static void reprobarAlumno(Grupo grupo, Alumno alumno){
-        for (int i=0;i<Sistema.grupos.size();i++) {//ciclo que recorre los grupos buscando uno del mismo semestre
-            Grupo grupoNuevo=Sistema.grupos.get(i);
-            if(grupoNuevo.getSemestre() == (grupo.semestre) && grupoNuevo.getCantidadAlumnos()<20){
-                ArrayList<Calificacion> calificaciones=alumno.getCalificaciones();
+    public static void reprobarAlumno(Grupo grupo, Alumno alumno) {
+        for (int i = 0; i < Sistema.grupos.size(); i++) {//ciclo que recorre los grupos buscando uno del mismo semestre
+            Grupo grupoNuevo = Sistema.grupos.get(i);
+            if (grupoNuevo.getSemestre() == (grupo.semestre) && grupoNuevo.getCantidadAlumnos() < 20) {
+                ArrayList<Calificacion> calificaciones = alumno.getCalificaciones();
                 for (Calificacion calificacion : calificaciones) {
                     calificacion.setCalificacion(0);
                 }
                 grupoNuevo.getAlumnos().add(alumno);
                 grupo.getAlumnos().remove(alumno);
             }
+        }
     }
 
     // CRUD grupo ----------------------------------------------------------------------------------------------------
