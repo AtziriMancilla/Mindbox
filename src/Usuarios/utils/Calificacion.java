@@ -85,8 +85,10 @@ public class Calificacion {
 
             }
         }
+
+        if(mat!=-1){
         ((Profesor)UsuarioEnSesion.getInstancia().getUsuarioActual()).asignarMaterias();
-        grupoUsuarios();
+        grupoUsuarios();}
     }
 
     //GETTERS Y SETTERS
