@@ -55,7 +55,7 @@ public class MenuCoordinador {
             System.out.println("\n1 - Crear alumno");
             System.out.println("2 - Modificar alumno");
             System.out.println("3 - Eliminar alumno");
-            System.out.println("4 - Buscar alumno");
+            System.out.println("4 - Ver alumnos");
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
@@ -74,8 +74,10 @@ public class MenuCoordinador {
                     Alumno.eliminarAlumno(coordinador3.getCarrera());
                     break;
                 case "4":
-                    Menu.buscar(Rol.ALUMNO);
+                    Coordinador coordinador4 = (Coordinador) UsuarioEnSesion.getInstancia().getUsuarioActual();
+                    Alumno.mostrarAlumnos(coordinador4.getCarrera());
                     break;
+
                 case "0":
                     System.out.println("Regresando");
                     break;
