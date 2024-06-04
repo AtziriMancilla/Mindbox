@@ -2,7 +2,6 @@ package Usuarios;
 
 import Secciones.Grupo;
 import Secciones.Materia;
-
 import Secciones.utils.NombreCarrera;
 import Usuarios.utils.Calificacion;
 import Usuarios.utils.DatosComun;
@@ -11,7 +10,6 @@ import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 import mindbox.utils.Generador;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -415,12 +413,11 @@ public class Profesor extends Trabajador {
     public static void modificarProfesor() {
         Scanner sc = new Scanner(System.in);
         mostrarProfesores();
-        System.out.println("Selecciona al profesor: ");
         int numProfesor = pedirProfesor();
         int opt = 10;
         do {
             System.out.println("¿Qué información deseas editar?");
-            System.out.println("1) Nombre\n2) Apellidos \n3) Ciudad\n4) Estado\n5) Dirección\n6) Fecha de nacimiento\n 7)Contraseña\n 0)Salir/Regresar");
+            System.out.println("1) Nombre\n2) Apellidos \n3) Ciudad\n4) Estado\n5) Dirección\n6) Fecha de nacimiento\n7)Contraseña\n0)Salir/Regresar");
             opt = DatosComun.pedirNumero();
             Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(numProfesor - 1);
             switch (opt) {
@@ -500,8 +497,13 @@ public class Profesor extends Trabajador {
                     //UsuarioEnSesion.getInstancia().cerrarSesion();
                     break;
                 default:
-                    throw new IllegalStateException("Unexpected value: " + opt);
-
+                    System.out.println("Opción no válida.\n");
+                    break;
+                    /*try {
+                        throw new IllegalStateException();
+                    } catch (IllegalStateException e) {
+                        System.out.println("Opción no válida.\n");
+                    }*/
             }
 
         } while (opt != 0);

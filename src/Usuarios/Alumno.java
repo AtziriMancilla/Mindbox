@@ -25,7 +25,7 @@ public class Alumno extends Usuario{
 
     public Alumno(String nombre, String apellidoPaterno, String apellidoMaterno, int anioNacimiento, LocalDate fechaNacimiento, String ciudad, String estado, String direccion, String curp, LocalDate fechaRegistro, String usuario, String contrasena, Rol rol, NombreCarrera nombreCarrera, String numControl) {
         super(nombre, apellidoPaterno, apellidoMaterno, anioNacimiento, fechaNacimiento, ciudad, estado, direccion, curp, fechaRegistro, usuario, contrasena, rol);
-
+       this.carrera=nombreCarrera;
        this.numControl= numControl;
     }
     @Override
@@ -117,7 +117,6 @@ public class Alumno extends Usuario{
     public static void modificarAlumno(NombreCarrera carrera) {
         Scanner sc = new Scanner(System.in);
         mostrarAlumnos(carrera);
-        System.out.println("Selecciona al alumno: ");
         int numAlumno = pedirAlumno();
         int opt = 10;
         do {
