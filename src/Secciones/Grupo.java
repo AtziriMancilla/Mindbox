@@ -148,11 +148,14 @@ public class Grupo {
         System.out.println("\nCrear grupo");
         if (Sistema.semestres.get(0).getGrupos().isEmpty()){
             grupo = new Grupo(carrera, 1, TipoGrupo.A);
+            Sistema.grupos.add(grupo);
             Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
             System.out.println("Grupo A agregado");
+
         } else if (Sistema.semestres.get(0).getGrupos().size() == 1 && Sistema.semestres.get(0).getGrupos().get(0).getCantidadAlumnos() >= 3){
             grupo = new Grupo(carrera, 1, TipoGrupo.B);
+            Sistema.grupos.add(grupo);
             Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
             System.out.println("Grupo B agregado");
