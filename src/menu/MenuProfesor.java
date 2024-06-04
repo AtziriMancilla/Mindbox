@@ -2,6 +2,7 @@ package menu;
 
 import Usuarios.Profesor;
 import Usuarios.utils.Calificacion;
+import mindbox.UsuarioEnSesion;
 
 import java.util.Scanner;
 
@@ -10,14 +11,7 @@ public class MenuProfesor {
 
     public static void menu() {
         String action;
-        /*
-        Acciones:
-        Ver su info
-        Actualizarla
-        Ver sus gupos
-        Asignar calificaciones
-        Modificar calificaciones
-         */
+
         do {
             System.out.println("\n1 - Ver mi perfil");
             System.out.println("2 - Actualizar mi perfil");
@@ -41,7 +35,8 @@ public class MenuProfesor {
                     Calificacion.registrarCalificacion();
                     break;
                 case "0":
-
+                    UsuarioEnSesion.getInstancia().cerrarSesion();
+                    Menu.iniciarSesion();
                     break;
                 default:
                     System.out.println("Opcion inexistente");
