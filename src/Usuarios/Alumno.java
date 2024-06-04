@@ -85,16 +85,28 @@ public class Alumno extends Usuario{
     }
     //####método que dice si un alumno tiene todas las calificaciones del semestre###
     public boolean tieneTodasLasCalificaciones(){
-        return calificaciones.size() == 3;
+        boolean band=false;
+        if(semestre==1 && calificaciones.size() == 3)
+            band=true;
+        if(semestre==2 && calificaciones.size() == 6)
+            band=true;
+        if(semestre==3&& calificaciones.size() == 9)
+            band=true;
+        return band;
     }
-    //este metodo solo funciona si se guardan las 3 calificaciones del semestre
+    //e## metodo que aun no esta listo, debe revisar que las 3 calificaciones del semeestre que tiene sean aprobatorias
+    //tiene una condicional antes de llamarlo
     public boolean aproboSemestre(){
         boolean band=true;
-        for (Calificacion calificacion : calificaciones) {
-            if (!calificacion.isAprobado()) {
-                band = false;
+        switch (carrera){
+            case ISC -> {
+                if(semestre==1){
+                    for(int i=0;i<calificaciones.size();i++) {
+                    }
+                }
             }
         }
+
         return band;
     }
     public static void registrarAlumno(NombreCarrera carrera){

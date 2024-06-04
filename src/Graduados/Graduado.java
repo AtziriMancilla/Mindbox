@@ -51,7 +51,7 @@ public class Graduado {
 
         return String.format("Nombre:%s Promedio:%s Carrera:%s  Fecha de Graduacion: %s, Generacion: %s", alumnoNombre, promedio, carrera, fechaGraduacionFormateada, generacionDeGraduacion);
     }
-    public void registrarGraduado(Alumno alumno){
+    public static void registrarGraduado(Alumno alumno){
 
         String alumnoNombre = alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+ alumno.getApellidoMaterno();
         double alumnoPromedio = alumno.getPromedio();
@@ -69,7 +69,7 @@ public class Graduado {
         Sistema.usuarios.get(Rol.ALUMNO).remove(alumno);
         System.out.println("Graduado eliminado de la lista de alumnos");
     }
-     String obtenerGeneracion(LocalDate fechaGraduacion){
+     public static String obtenerGeneracion(LocalDate fechaGraduacion){
         int mes = fechaGraduacion.getMonthValue();
         String meses ="";
         if(mes<7){
