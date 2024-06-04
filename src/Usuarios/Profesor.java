@@ -14,6 +14,7 @@ import mindbox.utils.Generador;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -542,5 +543,62 @@ public class Profesor extends Trabajador {
             }
         }
     }
-
+    public static void buscarProfesor(){
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Ingrese el numero de control");
+        String opcion=DatosComun.pedirDatoUsuario();
+        for(int i=0; i<Sistema.usuarios.get(Rol.PROFESOR).size();i++) {
+            Profesor profesor=(Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(i);
+            if (profesor.getNumControl().equals(opcion)){
+                System.out.println("El profesor buscado es: "+profesor.toString());
+            }
+            else {
+                System.out.println("No se encontró un profesor con ese número de control");
+            }
+        }
+    }
+//    public static void eliminar(){ metodo sin terminar que tal vez se use
+//        System.out.println("**Eliminar**");
+//        int opcion= pedirProfesor();
+//        Profesor profesor=(Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(-1);
+//        if (profesor.getMaterias().isEmpty()){
+//          Sistema.usuarios.get(Rol.PROFESOR).remove(opcion-1) ;
+//            System.out.println("Profesor eliminado");
+//        }
+//    }
+    public static void borrarProfesor () {
+        Scanner sc=new Scanner(System.in);
+        mostrarProfesores();
+        int numProfesor=0;
+        boolean band;
+        do {
+            try {
+                band=false;
+                System.out.println("Selecciona el profesor que deseas eliminar");
+                numProfesor = sc.nextInt();
+                Sistema.usuarios.get(Rol.PROFESOR).get(numProfesor - 1);
+            } catch (IndexOutOfBoundsException | InputMismatchException error) {
+                System.out.println("Opcion no valida");
+                band=true;
+                //revisar sc.nextLine
+            }
+        }while(band);
+        Profesor profesor=(Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(numProfesor - 1);
+        if(profesor.getMaterias().isEmpty()) {
+            System.out.println("Seleccionaste a: ");
+            System.out.println(Sistema.usuarios.get(Rol.PROFESOR).get(numProfesor - 1).toString());
+            System.out.println("¿Deseas eliminarlo? 1) Sí, Otro número) Cancelar");
+            int opcion = DatosComun.pedirNumero();
+            if (opcion == 1) {
+                Sistema.usuarios.get(Rol.PROFESOR).remove(numProfesor - 1);
+                System.out.println("Profesor eliminado");
+            }
+            if (opcion != 1) {
+                System.out.println("Se cancelo la eliminación");
+            }
+        }
+        else{
+            System.out.println("No se puede eliminar a este profesor");
+        }
+    }
 }

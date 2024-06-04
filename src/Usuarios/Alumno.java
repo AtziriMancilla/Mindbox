@@ -114,92 +114,100 @@ public class Alumno extends Usuario{
         System.out.println(">Alumno registrado<");
 
     }
-    public static void modificarAlumno() {
+    public static void modificarAlumno(NombreCarrera carrera) {
         Scanner sc = new Scanner(System.in);
-        mostrarAlumnos();
+        mostrarAlumnos(carrera);
         System.out.println("Selecciona al alumno: ");
         int numAlumno = pedirAlumno();
         int opt = 10;
         do {
-            System.out.println("¿Qué información deseas editar?");
-            System.out.println("1) Nombre\n2) Apellidos \n3) Ciudad\n4) Estado\n5) Dirección\n6) Fecha de nacimiento\n 7)Contraseña\n 0)Salir/Regresar");
-            opt = DatosComun.pedirNumero();
             Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(numAlumno - 1);
-            switch (opt) {
-                case 1:
-                    System.out.println("Ingrese el nuevo nombre: ");
-                    alumno.setNombre(DatosComun.pedirDatoString());
-                    Sistema.usuarios.get(Rol.ALUMNO).set(numAlumno - 1, alumno);
-                    String curpAntigua = alumno.getCurp();
-                    char sexo = curpAntigua.charAt(10);
-                    String nuevacurp = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo, alumno.getEstado());
+            if (alumno.carrera.equals(carrera)){
+                System.out.println("¿Qué información deseas editar?");
+                System.out.println("1) Nombre\n2) Apellidos \n3) Ciudad\n4) Estado\n5) Dirección\n6) Fecha de nacimiento\n 7)Contraseña\n 0)Salir/Regresar");
+                opt = DatosComun.pedirNumero();
 
-                    alumno.setCurp(nuevacurp);
-                    System.out.println("Nombre modificado");
-                    break;
+                switch (opt) {
+                    case 1:
+                        System.out.println("Ingrese el nuevo nombre: ");
+                        alumno.setNombre(DatosComun.pedirDatoString());
+                        Sistema.usuarios.get(Rol.ALUMNO).set(numAlumno - 1, alumno);
+                        String curpAntigua = alumno.getCurp();
+                        char sexo = curpAntigua.charAt(10);
+                        String nuevacurp = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo, alumno.getEstado());
 
-                case 2:
-                    System.out.println("Ingrese el nuevo apellido Paterno: ");
-                    alumno.setApellidoPaterno(DatosComun.pedirDatoString());
-                    System.out.println("Ingrese el nuevo apellido Materno: ");
-                    alumno.setApellidoMaterno(DatosComun.pedirDatoString());
-                    String curpAntigua1 = alumno.getCurp();
-                    char sexo1 = curpAntigua1.charAt(10);
-                    String nuevaCurp = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo1, alumno.getEstado());
+                        alumno.setCurp(nuevacurp);
+                        System.out.println("Nombre modificado");
+                        break;
 
-                    alumno.setCurp(nuevaCurp);
-                    Sistema.usuarios.get(Rol.ALUMNO).set(numAlumno - 1, alumno);
-                    System.out.println("Apellido modificado");
-                    break;
+                    case 2:
+                        System.out.println("Ingrese el nuevo apellido Paterno: ");
+                        alumno.setApellidoPaterno(DatosComun.pedirDatoString());
+                        System.out.println("Ingrese el nuevo apellido Materno: ");
+                        alumno.setApellidoMaterno(DatosComun.pedirDatoString());
+                        String curpAntigua1 = alumno.getCurp();
+                        char sexo1 = curpAntigua1.charAt(10);
+                        String nuevaCurp = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo1, alumno.getEstado());
 
-                case 3:
-                    System.out.println("Ingrese nueva ciudad: ");
-                    alumno.setCiudad(DatosComun.pedirDatoString());
-                    Sistema.usuarios.get(Rol.ALUMNO).set(numAlumno - 1, alumno);
-                    System.out.println("Ciudad actualizada");
-                    break;
+                        alumno.setCurp(nuevaCurp);
+                        Sistema.usuarios.get(Rol.ALUMNO).set(numAlumno - 1, alumno);
+                        System.out.println("Apellido modificado");
+                        break;
 
-                case 4:
-                    System.out.println("Ingrese nuevo estado: ");
-                    alumno.setEstado(DatosComun.pedirDatoString());
-                    Sistema.usuarios.get(Rol.ALUMNO).set(numAlumno - 1, alumno);
-                    System.out.println("Estado actualizado");
-                    break;
+                    case 3:
+                        System.out.println("Ingrese nueva ciudad: ");
+                        alumno.setCiudad(DatosComun.pedirDatoString());
+                        Sistema.usuarios.get(Rol.ALUMNO).set(numAlumno - 1, alumno);
+                        System.out.println("Ciudad actualizada");
+                        break;
 
-                case 5:
-                    System.out.println("Ingrese nueva direccion: ");
-                    alumno.setDireccion(DatosComun.pedirDireccion());
-                    Sistema.usuarios.get(Rol.ALUMNO).set(numAlumno - 1, alumno);
-                    System.out.println("Dirección actualizada");
-                    break;
+                    case 4:
+                        System.out.println("Ingrese nuevo estado: ");
+                        alumno.setEstado(DatosComun.pedirDatoString());
+                        Sistema.usuarios.get(Rol.ALUMNO).set(numAlumno - 1, alumno);
+                        System.out.println("Estado actualizado");
+                        break;
 
-                case 6:
-                    System.out.println("Fecha de nacimiento");
-                    LocalDate nuevaFechaNacimiento = DatosComun.obtenerFechaNacimiento();
-                    alumno.setFechaNacimiento(nuevaFechaNacimiento);
-                    int anioNacimiento = nuevaFechaNacimiento.getYear();
-                    alumno.setAnioNacimiento(anioNacimiento);
-                    String curpAntigua2 = alumno.getCurp();
-                    char sexo2 = curpAntigua2.charAt(10);
-                    String curpNueva2 = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo2, alumno.getEstado());
+                    case 5:
+                        System.out.println("Ingrese nueva direccion: ");
+                        alumno.setDireccion(DatosComun.pedirDireccion());
+                        Sistema.usuarios.get(Rol.ALUMNO).set(numAlumno - 1, alumno);
+                        System.out.println("Dirección actualizada");
+                        break;
 
-                    alumno.setCurp(curpNueva2);
-                    System.out.println("Fecha Nacimiento Actualizada");
-                    break;
+                    case 6:
+                        System.out.println("Fecha de nacimiento");
+                        LocalDate nuevaFechaNacimiento = DatosComun.obtenerFechaNacimiento();
+                        alumno.setFechaNacimiento(nuevaFechaNacimiento);
+                        int anioNacimiento = nuevaFechaNacimiento.getYear();
+                        alumno.setAnioNacimiento(anioNacimiento);
+                        String curpAntigua2 = alumno.getCurp();
+                        char sexo2 = curpAntigua2.charAt(10);
+                        String curpNueva2 = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo2, alumno.getEstado());
 
-                case 7:
-                    System.out.println("Ingrese nueva contraseña");
-                    String nuevaContrasena = sc.nextLine();
-                    alumno.setContrasena(nuevaContrasena);
-                    System.out.println("Contrasena Actualizada");
-                    break;
-                case 0:
-                    System.out.println("Usted ha salido de modificar alumno. ");
-                    //UsuarioEnSesion.getInstancia().cerrarSesion();
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + opt);
+                        alumno.setCurp(curpNueva2);
+                        System.out.println("Fecha Nacimiento Actualizada");
+                        break;
 
+                    case 7:
+                        System.out.println("Ingrese nueva contraseña");
+                        String nuevaContrasena = sc.nextLine();
+                        alumno.setContrasena(nuevaContrasena);
+                        System.out.println("Contrasena Actualizada");
+                        break;
+                    case 0:
+                        System.out.println("Usted ha salido de modificar alumno. ");
+                        //UsuarioEnSesion.getInstancia().cerrarSesion();
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + opt);
+
+                }
+
+            }
+            else {
+                System.out.println("El alumno que eligió no era parte de sus opciones dentro de la carrera que coordina");
+                opt=0;
             }
 
         } while (opt != 0);
@@ -231,14 +239,17 @@ public class Alumno extends Usuario{
         return numAlumno;
     }
 
-    public static void mostrarAlumnos() {
+    public static void mostrarAlumnos(NombreCarrera carrera) {
         System.out.println("\nAlumnos: \n");
         if (Sistema.usuarios.get(Rol.ALUMNO).isEmpty()) {
             System.out.println("No hay alumnos registrados");
         } else {
             for (int i = 0; i < Sistema.usuarios.get(Rol.ALUMNO).size(); i++) {
                 Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(i);
-                System.out.println((i + 1) + " " + alumno.toString());
+                if(carrera.equals(alumno.getCarrera())){
+                    System.out.println((i + 1) + " " + alumno.toString());
+                }
+
             }
         }
     }
@@ -270,9 +281,9 @@ public class Alumno extends Usuario{
             }
         }
     }*/
-    public static void eliminarAlumno(){
+    public static void eliminarAlumno(NombreCarrera carrera){
         Scanner sc=new Scanner(System.in);
-        mostrarAlumnos();
+        mostrarAlumnos(carrera);
         int numAlumno=0;
         boolean band;
         do {

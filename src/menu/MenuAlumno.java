@@ -1,6 +1,8 @@
 package menu;
 
+import Secciones.Materia;
 import Usuarios.Alumno;
+import Usuarios.Profesor;
 import mindbox.UsuarioEnSesion;
 
 import java.util.Scanner;
@@ -29,9 +31,9 @@ public class MenuAlumno {
                 case "2":
                     verGrupo(alumno);
                     break;
-                case "3":
+                case "3": verMaterias(alumno);
                     break;
-                case "4":
+                case "4": verProfesores(alumno);
                     break;
                 case "5":
                     alumno.mostrarHistorial();
@@ -51,5 +53,21 @@ public class MenuAlumno {
     }
     public static void verGrupo(Alumno alumno){
         String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getCantidadAlumnos());
+        System.out.println(datos);
+    }
+    public static void verProfesores(Alumno alumno){
+        Profesor profesor1= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0).getProfesor();
+        Materia materia1= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0);
+        Profesor profesor2= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1).getProfesor();
+        Materia materia2= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1);
+        Profesor profesor3= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2).getProfesor();
+        Materia materia3= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2);
+        String profesores=String.format("Profesor: %s Materia: %s\nProfesor: %s, Materia: %s\nProfesor: %s, Materia: %s",profesor1,materia1,profesor2,materia2,profesor3,materia3);
+        System.out.println(profesores);
+    }
+    //ver como hacer si no hay calificaciuones
+    public static void verMaterias(Alumno alumno){
+        System.out.println(alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0).toString());
+        //String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getCantidadAlumnos());
     }
 }
