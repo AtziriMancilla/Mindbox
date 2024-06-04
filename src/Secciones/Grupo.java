@@ -114,32 +114,20 @@ public class Grupo {
     public static void crearGrupo(NombreCarrera carrera){
         // Pidiendo datos
         Grupo grupo;
-        int semestre;
 
-        System.out.println("Semestre del grupo: ");
-        do {
-            semestre = DatosComun.pedirNumero();
-            if (semestre > 3 || semestre < 1){
-                 System.out.println("El dato debe corresponder a un numero de semestre");
-             }
-        } while (semestre > 3 || semestre < 1);
-
-
-        if (Sistema.semestres.get(semestre-1).getGrupos().isEmpty()){
-            grupo = new Grupo(carrera, semestre, TipoGrupo.A);
-            Sistema.semestres.get(semestre-1).getGrupos().add(grupo);
+        if (Sistema.semestres.get(0).getGrupos().isEmpty()){
+            grupo = new Grupo(carrera, 1, TipoGrupo.A);
+            Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
             System.out.println("Grupo A agregado");
-        } else if (Sistema.semestres.get(semestre-1).getGrupos().size() == 1 && Sistema.semestres.get(semestre-1).getGrupos().get(0).getCantidadAlumnos() >= 3){
-            grupo = new Grupo(carrera, semestre, TipoGrupo.B);
-            Sistema.semestres.get(semestre-1).getGrupos().add(grupo);
+        } else if (Sistema.semestres.get(0).getGrupos().size() == 1 && Sistema.semestres.get(0).getGrupos().get(0).getCantidadAlumnos() >= 3){
+            grupo = new Grupo(carrera, 1, TipoGrupo.B);
+            Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
             System.out.println("Grupo B agregado");
         } else {
             System.out.println("Limite de grupos alcanzado");
         }
-
-
 
     }
 

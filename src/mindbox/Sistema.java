@@ -100,6 +100,8 @@ public class Sistema {
         usuarios.get(Rol.ALUMNO).add(al14);
         usuarios.get(Rol.ALUMNO).add(al15);
 
+        Semestre.inicializarSemestres();
+
     }
     //Setter para poder asignar los nuevos datos obtenidos del json al atributo HashMap usuarios.
     public static void setUsuarios(HashMap<Rol, ArrayList<Usuario>> usuarios) {
