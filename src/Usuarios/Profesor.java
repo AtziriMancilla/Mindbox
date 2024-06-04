@@ -108,14 +108,15 @@ public class Profesor extends Trabajador {
     public void asignarMaterias() {
         materias.clear();
         if (!Sistema.grupos.isEmpty()) {
-            for (Map.Entry<Integer, Grupo> grupo : Sistema.grupos.entrySet()) {
-                for (Map.Entry<Integer, ArrayList<Materia>> matEntry : grupo.getValue().getMateria().entrySet()) {
-                 { if(grupo.getValue().getSemestre()==matEntry.getKey()){
-                        for (Materia materia : matEntry.getValue()) {
-
-                            if (materia.getProfesor().getNumControl().equals(numControl)) {
-                                materias.add(materia);
-                            }}
+            for (Grupo grupo : Sistema.grupos) {
+                for (Map.Entry<Integer, ArrayList<Materia>> matEntry : grupo.getMateria().entrySet()) {
+                    {
+                        if (grupo.getSemestre() == matEntry.getKey()) {
+                            for (Materia materia : matEntry.getValue()) {
+                                if (materia.getProfesor().getNumControl().equals(numControl)) {
+                                    materias.add(materia);
+                                }
+                            }
                         }
                     }
                 }

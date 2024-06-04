@@ -36,8 +36,8 @@ public class Carrera {
             }
         }
         if (!Sistema.grupos.isEmpty()) {
-            for (Map.Entry<Integer, Grupo> entry : Sistema.grupos.entrySet()) {
-                if (entry.getValue().getCarrera() == carrera) {
+            for (Grupo grupo:Sistema.grupos) {
+                if (grupo.getCarrera() == carrera) {
                     cantGrupo++;
                 }
             }

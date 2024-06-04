@@ -30,8 +30,8 @@ public class Calificacion {
 
     //Asigna las calificaciones de grupos a usuarios en Sistema
     public static void grupoUsuarios(){
-        for(Map.Entry<Integer, Grupo> grupoEntry: Sistema.grupos.entrySet()){
-            for(Alumno alumno: grupoEntry.getValue().getAlumnos()){
+        for(Grupo grupo: Sistema.grupos){
+            for(Alumno alumno: grupo.getAlumnos()){
                 for(Usuario alumno1: Sistema.usuarios.get(Rol.ALUMNO)){
                     if(alumno.getNumControl().equals(((Alumno)alumno1).getNumControl())){
                         ((Alumno) alumno1).setCalificaciones(alumno.getCalificaciones());
