@@ -1,6 +1,7 @@
 package Usuarios;
 
 import Secciones.Grupo;
+import Secciones.Materia;
 import Secciones.utils.NombreCarrera;
 import Usuarios.utils.Calificacion;
 import Usuarios.utils.DatosComun;
@@ -94,19 +95,21 @@ public class Alumno extends Usuario{
             band=true;
         return band;
     }
-    //e## metodo que aun no esta listo, debe revisar que las 3 calificaciones del semeestre que tiene sean aprobatorias
-    //tiene una condicional antes de llamarlo
     public boolean aproboSemestre(){
-        boolean band=true;
-        switch (carrera){
-            case ISC -> {
-                if(semestre==1){
-                    for(int i=0;i<calificaciones.size();i++) {
-                    }
-                }
+        boolean band=false;
+        int cont=0;
+        for(Calificacion calificacion:calificaciones){
+            String nombreMateria=calificacion.getMateria().getNombre();//obtiene el nombre de la materia
+            char ultimoDigito= nombreMateria.charAt(nombreMateria.length()-1);//obtiene el ultimo digito(que es el numero de materia)
+            String numero=String.valueOf(ultimoDigito);//lo convierte a string
+            int s=Integer.parseInt(numero);//lo convierte a numero
+            if(s==semestre && calificacion.isAprobado()){//lo compara con el semestre y ve si la calificacion es aprobatoria
+                cont++;//incrementa si es aprobatoria la calificacion
             }
         }
+        if(cont==3)//si es igual a 3 significa que aprobo las 3 materias del semestre
 
+            band=true;
         return band;
     }
     public static void registrarAlumno(NombreCarrera carrera){
