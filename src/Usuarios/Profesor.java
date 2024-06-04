@@ -309,7 +309,7 @@ public class Profesor extends Trabajador {
                 if (mostrar == 1) {
                     System.out.println(i + " " + alumno.getNombre() + " ");
                 }
-                if (alumno.getCalificaciones().length != 0) {
+                if (alumno.getCalificaciones().size() != 0) {
                     for (Calificacion calificacion : alumno.getCalificaciones()) {
                         if (((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getMateria().equals(calificacion.getMateria().getMateria())) {
                             if (mostrar == 1) {

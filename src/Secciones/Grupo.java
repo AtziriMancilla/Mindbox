@@ -1,5 +1,6 @@
 package Secciones;
 
+import Graduados.Graduado;
 import Secciones.utils.NombreCarrera;
 import Secciones.utils.NombreMaterias;
 import Usuarios.Alumno;
@@ -105,13 +106,13 @@ public class Grupo {
         boolean band=true;
         //verifica si cada alumno tiene todas sus calificaciones del semestre
         for(Alumno alumno:grupo.alumnos){
-            if(!alumno.tieneTodasLasCalificaciones()){//aqui falta arreglarlo
-                band=false;
+            if(!alumno.tieneTodasLasCalificaciones()){
+                band=false;//si hay alguno que no tiene todas sus calificaciones lanza un booleano false
             }
         }
         //si sí empieza a cambiar a los alumnos de semestre y al grupo
-        //solo a los que aprobaron
-        if(band&& grupo.getSemestre()!=3){
+        //solo a los que aprobaron y su semestre es menor a 3
+        if(band && grupo.getSemestre()!=3){
             for(Alumno alumno:grupo.alumnos){
                 Historial.generarHistorial(alumno);
                 if(alumno.aproboSemestre()){
@@ -120,25 +121,47 @@ public class Grupo {
                 }
                 //a los que reprobaron los cambia de grupo y deja su semestre en el mismo año
                 else{
-                    for (int i=0;i<Sistema.grupos.size();i++) {
-                        Grupo grupoNuevo=Sistema.grupos.get(i);
-                        if(grupoNuevo.getSemestre() == (grupo.semestre) && grupoNuevo.getCantidadAlumnos()<20){
-                            ArrayList<Calificacion> calificaciones=alumno.getCalificaciones();
-                            for (Calificacion calificacion : calificaciones) {
-                                calificacion.setCalificacion(0);
-                            }
-                            grupoNuevo.getAlumnos().add(alumno);
-                            grupo.getAlumnos().remove(alumno);
-
-                        }
+                    reprobarAlumno(grupo,alumno);
                     }
-                }
             }
             //avanza el grupo de semestres
             grupo.setSemestre(grupo.semestre+1);
             //###falta cambiar las materias del grupo###
             grupo.setCantidadAlumnos(grupo.getAlumnos().size());
         }
+        //si todos tienen sus calificaciones y el semestre es igual a 3 se gradua un grupo
+        if(band && grupo.getSemestre()==3){
+            for(Alumno alumno:grupo.alumnos){
+                Historial.generarHistorial(alumno);
+                //si el alumno aprobo lo gradua
+                if(alumno.aproboSemestre()){
+                    Graduado.registrarGraduado(alumno);//este metodo crea un graduado y lo agrega a la lista de graduados del sistema
+                }
+                //reprueba al alumno
+                else {
+                    reprobarAlumno(grupo,alumno);
+                }
+            }
+            //##elimina al grupo de la lista de grupos porque ya se graduaron## no se si se pueda eliminar asi comom asi
+            Sistema.grupos.remove(grupo);
+        }
+        if(!band){
+            System.out.println("No se puede avanzar este grupo");
+        }
+    }
+
+    //metodo que reprueba a un alumno(lo deja en su semestre y lo agrega a un grupo donde haya espacio)
+    public static void reprobarAlumno(Grupo grupo, Alumno alumno){
+        for (int i=0;i<Sistema.grupos.size();i++) {//ciclo que recorre los grupos buscando uno del mismo semestre
+            Grupo grupoNuevo=Sistema.grupos.get(i);
+            if(grupoNuevo.getSemestre() == (grupo.semestre) && grupoNuevo.getCantidadAlumnos()<20){
+                ArrayList<Calificacion> calificaciones=alumno.getCalificaciones();
+                for (Calificacion calificacion : calificaciones) {
+                    calificacion.setCalificacion(0);
+                }
+                grupoNuevo.getAlumnos().add(alumno);
+                grupo.getAlumnos().remove(alumno);
+            }
     }
 
     // CRUD grupo ----------------------------------------------------------------------------------------------------

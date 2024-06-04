@@ -20,7 +20,7 @@ public class Sistema {
     // NECESARIO: GETTERS EN USUARIO + Hacer que coordinador sea clase hija de usuario
 
     public static HashMap<Rol, ArrayList<Usuario>> usuarios = new HashMap<Rol, ArrayList<Usuario>>();
-    public static HashMap<Integer, Grupo> grupos= new HashMap<>();
+    public static ArrayList<Grupo> grupos= new ArrayList<>();
     public static ArrayList<Graduado> graduados = new ArrayList<>();
     public static  ArrayList<Semestre> semestres = new ArrayList<Semestre>();
 
