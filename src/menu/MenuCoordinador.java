@@ -8,6 +8,7 @@ import Usuarios.Alumno;
 import Usuarios.Coordinador;
 import Usuarios.Profesor;
 import Usuarios.utils.Rol;
+import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 
 import java.util.Scanner;
@@ -169,8 +170,8 @@ public class MenuCoordinador {
                     Grupo.avanzarGrupo(carrera, grupo);
                     break;
                 case "2":
-                    // Falta obtener profesor
-                    Profesor profesor = null;
+                    Profesor.mostrarProfesores();
+                    Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
                     Grupo.addProfeMateria(grupo, profesor);
                     break;
                 case "3":

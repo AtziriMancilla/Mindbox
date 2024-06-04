@@ -7,6 +7,7 @@ import Usuarios.Coordinador;
 import Usuarios.Profesor;
 import Usuarios.Usuario;
 import Usuarios.utils.DatosComun;
+import Usuarios.utils.Rol;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 
@@ -251,10 +252,10 @@ public class Grupo {
 
     public static void modificarMateria(Grupo grupo){
         Materia materia = obtenerMateria(grupo);
-        System.out.println("Modificar Materia\n");
+        System.out.println("Modificar Materia (Profesor en materia)\n");
         // El unico atributo modificable es profesor
-        // Falta pedir profe
-        Profesor profesor = null;
+        Profesor.mostrarProfesores();
+        Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
         asignarProfe(materia, profesor);
     }
 

@@ -510,7 +510,7 @@ public class Profesor extends Trabajador {
 
     }
 
-    private static int pedirProfesor() {
+    public static int pedirProfesor() {
         Scanner sc = new Scanner(System.in);
         boolean confirmacion = false;
         int numProfesor = 0;
