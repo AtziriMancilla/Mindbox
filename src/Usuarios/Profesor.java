@@ -2,6 +2,7 @@ package Usuarios;
 
 import Secciones.Grupo;
 import Secciones.Materia;
+import Secciones.Semestre;
 import Secciones.utils.NombreCarrera;
 import Usuarios.utils.Calificacion;
 import Usuarios.utils.DatosComun;
@@ -108,15 +109,19 @@ public class Profesor extends Trabajador {
     public void asignarMaterias() {
         materias.clear();
         if (!Sistema.grupos.isEmpty()) {
-            for (Grupo grupo : Sistema.grupos) { //entra a grupos
-                if (!grupo.getAlumnos().isEmpty()) { //revisa que el grupo tenga alumnos (?), no sé sí esto sea necesario
-                    if (!grupo.getMateria().isEmpty()) {  //revisa que grupos tenga materias
-                        for (Map.Entry<Integer, ArrayList<Materia>> matEntry : grupo.getMateria().entrySet()) {//entra a listas de materias
-                            if (grupo.getSemestre() == matEntry.getKey()) { //revisa que el grupo tenga el mismo semestre que la lista de materias
-                                if (!matEntry.getValue().isEmpty()) { //revisa que la lista de materias no este vacía
-                                    for (Materia materia : matEntry.getValue()) {  //entra a las materias de la lista
-                                        if (materia.getProfesor().getNumControl().equals(numControl)) { //revisa que el Profesor en la materia sea igual al profesor
-                                            materias.add(materia); //añade la materia al profesor
+            for (Semestre semestre : Sistema.semestres) {//entra a semestres
+                if (!semestre.getGrupos().isEmpty()) {
+                    for (Grupo grupo : semestre.getGrupos()) { //entra a los grupos de semestre
+                        if (!grupo.getAlumnos().isEmpty()) { //revisa que el grupo tenga alumnos (?), no sé sí esto sea necesario
+                            if (!grupo.getMateria().isEmpty()) {  //revisa que grupos tenga materias
+                                for (Map.Entry<Integer, ArrayList<Materia>> matEntry : grupo.getMateria().entrySet()) {//entra a listas de materias
+                                    if (grupo.getSemestre() == matEntry.getKey()) { //revisa que el grupo tenga el mismo semestre que la lista de materias
+                                        if (!matEntry.getValue().isEmpty()) { //revisa que la lista de materias no este vacía
+                                            for (Materia materia : matEntry.getValue()) {  //entra a las materias de la lista
+                                                if (materia.getProfesor().getNumControl().equals(numControl)) { //revisa que el Profesor en la materia sea igual al profesor
+                                                    materias.add(materia); //añade la materia al profesor
+                                                }
+                                            }
                                         }
                                     }
                                 }
