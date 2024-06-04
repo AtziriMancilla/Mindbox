@@ -1,4 +1,4 @@
-package mindbox.utils;
+package mindbox.utils.Adapters;
 
 import com.google.gson.*;
 
