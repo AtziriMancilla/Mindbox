@@ -112,7 +112,7 @@ public class Sistema {
         Sistema.graduados = graduados;
     }
     //Setter para asignar los datos obtenidos del json al atributo HashMap grupos.
-    public static void setGrupos(HashMap<Integer, Grupo> grupos) {
+    public static void setGrupos(ArrayList <Grupo> grupos) {
         Sistema.grupos = grupos;
     }
     //Setter para asignar los datos obtenidos del json al atributo ArrayList semestres.
