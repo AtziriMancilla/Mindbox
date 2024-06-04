@@ -152,15 +152,22 @@ public class Grupo {
 
     //metodo que reprueba a un alumno(lo deja en su semestre y lo agrega a un grupo donde haya espacio)
     public static void reprobarAlumno(Grupo grupo, Alumno alumno) {
+        boolean band=true;
         for (int i = 0; i < Sistema.grupos.size(); i++) {//ciclo que recorre los grupos buscando uno del mismo semestre
             Grupo grupoNuevo = Sistema.grupos.get(i);
-            if (grupoNuevo.getSemestre() == (grupo.semestre) && grupoNuevo.getCantidadAlumnos() < 20) {
-                ArrayList<Calificacion> calificaciones = alumno.getCalificaciones();
-                for (Calificacion calificacion : calificaciones) {
-                    calificacion.setCalificacion(0);
+            if (grupoNuevo.getSemestre() == (grupo.semestre) && grupoNuevo.getCantidadAlumnos() < 20 && band) {
+                for(Calificacion calificacion: alumno.getCalificaciones()){//ciclo que busca las calificaciones del semestre
+                    String nombreMateria=calificacion.getMateria().getNombre();//obtiene el nombre de la materia
+                    char ultimoDigito= nombreMateria.charAt(nombreMateria.length()-1);//obtiene el ultimo digito(que es el numero de materia)
+                    String numero=String.valueOf(ultimoDigito);//lo convierte a string
+                    int s=Integer.parseInt(numero);//lo convierte a numero
+                    if(s == grupo.getSemestre()){//lo compara con el semestre
+                        alumno.getCalificaciones().remove(calificacion);//borra la calificacion del alumno
+                    }
                 }
-                grupoNuevo.getAlumnos().add(alumno);
-                grupo.getAlumnos().remove(alumno);
+                grupoNuevo.getAlumnos().add(alumno);//agrega al alumno al nuevo grupo
+                grupo.getAlumnos().remove(alumno);//lo borra del grupo anterior
+                band=false;
             }
         }
     }
