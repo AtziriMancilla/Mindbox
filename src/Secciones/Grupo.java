@@ -130,7 +130,7 @@ public class Grupo {
             Sistema.semestres.get(semestre-1).getGrupos().add(grupo);
             inicializarMaterias(grupo);
             System.out.println("Grupo A agregado");
-        } else if (Sistema.semestres.get(semestre-1).getGrupos().size() == 1){
+        } else if (Sistema.semestres.get(semestre-1).getGrupos().size() == 1 && Sistema.semestres.get(semestre-1).getGrupos().get(0).getCantidadAlumnos() >= 3){
             grupo = new Grupo(carrera, semestre, TipoGrupo.B);
             Sistema.semestres.get(semestre-1).getGrupos().add(grupo);
             inicializarMaterias(grupo);
