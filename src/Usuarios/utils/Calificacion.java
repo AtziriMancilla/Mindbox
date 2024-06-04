@@ -64,20 +64,19 @@ public class Calificacion {
                 Calificacion calificacion = new Calificacion(cali, ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat));
                 for (Alumno alumno: Sistema.grupos.get(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getSemestre()).getAlumnos()) {
                     if ((alumno).getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().get(alum).getNumControl())) {
-                        int caliRegistradas = 0;
+
                         boolean hayCalificaion = false;
                         if (alumno.getCalificaciones().size() != 0) {
                             for (Calificacion nota : (alumno.getCalificaciones())) {
-                                if (nota.getMateria().getMateria().equals(calificacion.getMateria().getMateria())) {
+                                if (nota.getMateria().getNombre().equals(calificacion.getMateria().getNombre())) {
                                     nota.setCalificacion(calificacion.getCalificacion());
                                     hayCalificaion = true;
                                     System.out.println("La calificación fue modificada");
                                 }
-                                caliRegistradas++;
                             }
                         }
-                        if (!hayCalificaion) {//no se como cambiarlo ocupo aiuda mariana, te invocooo
-                            alumno.getCalificaciones().get(caliRegistradas) = calificacion;
+                        if (!hayCalificaion) {//no se como cambiarlo ocupo aiuda mariana, te invocooo //Mariana.exe ha respondido
+                            alumno.getCalificaciones().add(calificacion);
                         }
                         break;
                     }
