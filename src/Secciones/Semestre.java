@@ -11,8 +11,8 @@ public class Semestre {
     private int id;
     private int numSemestre;
     private NombreCarrera carrera;
-    private ArrayList<Grupo> grupos;
-    private ArrayList<Materia> materias;
+    private ArrayList<Grupo> grupos = new ArrayList<>();
+    private ArrayList<Materia> materias = new ArrayList<>();
     private static int NUM_SEMESTRES = 1;
 
     public Semestre(int numSemestre, NombreCarrera carrera) {

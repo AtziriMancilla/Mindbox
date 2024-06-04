@@ -31,7 +31,7 @@ public class MenuProfesor {
                 case "3":
                     Profesor.verGrupos();
                     break;
-                case "4":
+                case "4", "5":
                     Calificacion.registrarCalificacion();
                     break;
                 case "0":

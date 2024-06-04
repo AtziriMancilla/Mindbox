@@ -30,8 +30,8 @@ public class Calificacion {
 
     //Asigna las calificaciones de grupos a usuarios en Sistema
     public static void grupoUsuarios(){
-        for(Map.Entry<Integer, Grupo> grupoEntry: Sistema.grupos.entrySet()){
-            for(Alumno alumno: grupoEntry.getValue().getAlumnos()){
+        for(Grupo grupo: Sistema.grupos){
+            for(Alumno alumno: grupo.getAlumnos()){
                 for(Usuario alumno1: Sistema.usuarios.get(Rol.ALUMNO)){
                     if(alumno.getNumControl().equals(((Alumno)alumno1).getNumControl())){
                         ((Alumno) alumno1).setCalificaciones(alumno.getCalificaciones());
@@ -64,20 +64,19 @@ public class Calificacion {
                 Calificacion calificacion = new Calificacion(cali, ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat));
                 for (Alumno alumno: Sistema.grupos.get(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getSemestre()).getAlumnos()) {
                     if ((alumno).getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().get(alum).getNumControl())) {
-                        int caliRegistradas = 0;
+
                         boolean hayCalificaion = false;
                         if (alumno.getCalificaciones().size() != 0) {
                             for (Calificacion nota : (alumno.getCalificaciones())) {
-                                if (nota.getMateria().getMateria().equals(calificacion.getMateria().getMateria())) {
+                                if (nota.getMateria().getNombre().equals(calificacion.getMateria().getNombre())) {
                                     nota.setCalificacion(calificacion.getCalificacion());
                                     hayCalificaion = true;
                                     System.out.println("La calificación fue modificada");
                                 }
-                                caliRegistradas++;
                             }
                         }
-                        if (!hayCalificaion) {//no se como cambiarlo ocupo aiuda mariana, te invocooo
-                            alumno.getCalificaciones().get(caliRegistradas) = calificacion;
+                        if (!hayCalificaion) {//no se como cambiarlo ocupo aiuda mariana, te invocooo //Mariana.exe ha respondido
+                            alumno.getCalificaciones().add(calificacion);
                         }
                         break;
                     }
@@ -85,8 +84,10 @@ public class Calificacion {
 
             }
         }
+
+        if(mat!=-1){
         ((Profesor)UsuarioEnSesion.getInstancia().getUsuarioActual()).asignarMaterias();
-        grupoUsuarios();
+        grupoUsuarios();}
     }
 
     //GETTERS Y SETTERS

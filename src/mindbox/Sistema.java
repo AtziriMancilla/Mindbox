@@ -20,7 +20,7 @@ public class Sistema {
     // NECESARIO: GETTERS EN USUARIO + Hacer que coordinador sea clase hija de usuario
 
     public static HashMap<Rol, ArrayList<Usuario>> usuarios = new HashMap<Rol, ArrayList<Usuario>>();
-    public static ArrayList<Grupo> grupos= new ArrayList<>();
+    public static ArrayList <Grupo> grupos=new ArrayList<>();
     public static ArrayList<Graduado> graduados = new ArrayList<>();
     public static  ArrayList<Semestre> semestres = new ArrayList<Semestre>();
 
@@ -112,7 +112,7 @@ public class Sistema {
         Sistema.graduados = graduados;
     }
     //Setter para asignar los datos obtenidos del json al atributo HashMap grupos.
-    public static void setGrupos(HashMap<Integer, Grupo> grupos) {
+    public static void setGrupos(ArrayList <Grupo> grupos) {
         Sistema.grupos = grupos;
     }
     //Setter para asignar los datos obtenidos del json al atributo ArrayList semestres.
