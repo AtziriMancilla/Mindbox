@@ -5,19 +5,24 @@ import Secciones.utils.NombreMaterias;
 import Usuarios.Alumno;
 import Usuarios.Coordinador;
 import Usuarios.Profesor;
+
 import Usuarios.Usuario;
+import Usuarios.utils.Calificacion;
 import Usuarios.utils.DatosComun;
+import Usuarios.utils.Rol;
+import Usuarios.utils.Historial;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
+import mindbox.utils.Generador;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Grupo {
     private NombreCarrera carrera;
     private ArrayList<Alumno> alumnos;
-    private int cantidadAlumnos=0;
+    private int cantidadAlumnos;
     private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();
     private int id;
     private int semestre;
@@ -92,21 +97,47 @@ public class Grupo {
 
     @Override
     public String toString(){
-        return String.format("ID: ; Carrera: ; Semestre: ; Grupo: ", id, carrera, semestre, tipoGrupo);
+        return String.format("ID: %s; Carrera: %s; Semestre: %s; Grupo: %s", id, carrera, semestre, tipoGrupo);
     }
 
     ///////////////////////////
     public static void avanzarGrupo(NombreCarrera carrera, Grupo grupo){
-        System.out.println("Avanzar grupo de semestre");
-        if (grupo.getSemestre()<3){
-            grupo.setSemestre(grupo.getSemestre()+1);
+        boolean band=true;
+        //verifica si cada alumno tiene todas sus calificaciones del semestre
+        for(Alumno alumno:grupo.alumnos){
+            if(!alumno.tieneTodasLasCalificaciones()){//aqui falta arreglarlo
+                band=false;
+            }
+        }
+        //si sí empieza a cambiar a los alumnos de semestre y al grupo
+        //solo a los que aprobaron
+        if(band&& grupo.getSemestre()!=3){
+            for(Alumno alumno:grupo.alumnos){
+                Historial.generarHistorial(alumno);
+                if(alumno.aproboSemestre()){
+                    alumno.setSemestre(grupo.semestre+1);
+                    //##cambiar materias de alumno al siguiente semestre##
+                }
+                //a los que reprobaron los cambia de grupo y deja su semestre en el mismo año
+                else{
+                    for (int i=0;i<Sistema.grupos.size();i++) {
+                        Grupo grupoNuevo=Sistema.grupos.get(i);
+                        if(grupoNuevo.getSemestre() == (grupo.semestre) && grupoNuevo.getCantidadAlumnos()<20){
+                            ArrayList<Calificacion> calificaciones=alumno.getCalificaciones();
+                            for (Calificacion calificacion : calificaciones) {
+                                calificacion.setCalificacion(0);
+                            }
+                            grupoNuevo.getAlumnos().add(alumno);
+                            grupo.getAlumnos().remove(alumno);
 
-            // Me falta resetear sus materias :> o bueno, quizas ni se ocupa porque uso el semestre
-            // para esas cosas, falta checar entonces xd
-
-
-        } else {
-            // GRADUAR GRUPO
+                        }
+                    }
+                }
+            }
+            //avanza el grupo de semestres
+            grupo.setSemestre(grupo.semestre+1);
+            //###falta cambiar las materias del grupo###
+            grupo.setCantidadAlumnos(grupo.getAlumnos().size());
         }
     }
 
@@ -114,93 +145,92 @@ public class Grupo {
     public static void crearGrupo(NombreCarrera carrera){
         // Pidiendo datos
         Grupo grupo;
-        int semestre;
-
-        System.out.println("Semestre del grupo: ");
-        do {
-            semestre = DatosComun.pedirNumero();
-            if (semestre > 3 || semestre < 1){
-                 System.out.println("El dato debe corresponder a un numero de semestre");
-             }
-        } while (semestre > 3 || semestre < 1);
-
-
-        if (Sistema.semestres.get(semestre-1).getGrupos().isEmpty()){
-            grupo = new Grupo(carrera, semestre, TipoGrupo.A);
-            Sistema.semestres.get(semestre-1).getGrupos().add(grupo);
+        System.out.println("\nCrear grupo");
+        if (Sistema.semestres.get(0).getGrupos().isEmpty()){
+            grupo = new Grupo(carrera, 1, TipoGrupo.A);
+            Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
             System.out.println("Grupo A agregado");
-        } else if (Sistema.semestres.get(semestre-1).getGrupos().size() == 1 && Sistema.semestres.get(semestre-1).getGrupos().get(0).getCantidadAlumnos() >= 3){
-            grupo = new Grupo(carrera, semestre, TipoGrupo.B);
-            Sistema.semestres.get(semestre-1).getGrupos().add(grupo);
+        } else if (Sistema.semestres.get(0).getGrupos().size() == 1 && Sistema.semestres.get(0).getGrupos().get(0).getCantidadAlumnos() >= 3){
+            grupo = new Grupo(carrera, 1, TipoGrupo.B);
+            Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
             System.out.println("Grupo B agregado");
         } else {
             System.out.println("Limite de grupos alcanzado");
         }
 
-
-
     }
 
     public static void modificarGrupo(){
         int act;
-        Grupo grupo = obtenerGrupo();
-        System.out.println("Modificar grupo");
-        System.out.println("1 - Modificar alumnos en grupo");
-        System.out.println("2 - Modificar profesor en materia");
-        System.out.println("0 - Cancelar");
-        System.out.print("Accion: ");
-        do {
-            act = DatosComun.pedirNumero();
-            if (act < 0 || act > 2){
-                System.out.println("Opcion inexistente");
+        if (hayGrupos()){
+            Grupo grupo = obtenerGrupo();
+            System.out.println("\nModificar grupo");
+            System.out.println("1 - Modificar alumnos en grupo");
+            System.out.println("2 - Modificar profesor en materia");
+            System.out.println("0 - Cancelar");
+            System.out.print("Accion: ");
+            do {
+                act = DatosComun.pedirNumero();
+                if (act < 0 || act > 2){
+                    System.out.println("Opcion inexistente");
+                }
+            } while (act < 0 || act > 2);
+            if (act == 1){
+                // llamar a metodo de pedir alumno
+                // llamar metodo de modificar alumnos en grupo
+            } else if (act == 2) {
+                Profesor profesor = null;
+                // Falta metodo para pedir profesor
+                addProfeMateria(grupo, profesor);
             }
-        } while (act < 0 || act > 2);
-        if (act == 1){
-            // llamar a metodo de pedir alumno
-            // llamar metodo de modificar alumnos en grupo
-        } else if (act == 2) {
-            Profesor profesor = null;
-            // Falta metodo para pedir profesor
-            addProfeMateria(grupo, profesor);
+        } else {
+            System.out.println("No hay grupos que eliminar");
         }
 
     }
 
     public static void eliminarGrupo(){
-        System.out.println("Eliminar grupo");
-        Grupo grupo = obtenerGrupo();
-        if (grupo.getCantidadAlumnos() == 0){
-            // llamar metodo que verifique que las materias tengan profe null
-            Sistema.semestres.get(grupo.getSemestre()).getGrupos().remove(grupo);
+        System.out.println("\nEliminar grupo");
+        if (hayGrupos()){
+            Grupo grupo = obtenerGrupo();
+            if (grupo.getCantidadAlumnos() == 0){
+                // llamar metodo que verifique que las materias tengan profe null
+                Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
+                System.out.println("Grupo eliminado");
+            } else {
+                System.out.println("Grupo no eliminado, cantidad de alumnos mayor que 0");
+            }
+        } else {
+            System.out.println("No hay grupos que eliminar");
         }
+
     }
 
     public static void mostrarGrupos(){
-        System.out.print("0 - Mostrar grupos de todos los semestres\n1 - Mostrar grupos de un semestre\n");
-        int semestre = DatosComun.pedirNumero();
-        if (semestre == 0){
-            for (int i = 0; i < 3; i++) {
-                for (Grupo grupo : Sistema.semestres.get(i).getGrupos()) {
-                    if (grupo.getCarrera() == ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera()){
-                        grupo.toString();
-                    }
+        System.out.println("\nMostrar grupos de todos los semestres");
+        for (int i = 0; i < 3; i++) {
+            for (Grupo grupo : Sistema.semestres.get(i).getGrupos()) {
+                if (grupo.getCarrera() == ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera()){
+                    System.out.println(grupo.toString());
                 }
             }
         }
-        else if (semestre == 1){
-            semestre = Semestre.obtenerSemestre().getNumSemestre();
-            for (Grupo grupo : Sistema.semestres.get(semestre).getGrupos()) {
-                grupo.toString();
-            }
-        }
-        else {
-            System.out.println("Opción inexistente");
-        }
+
     }
 
     // Metodos utiles -------------------------------------------------------------------------------------------------
+    public static Boolean hayGrupos(){
+        boolean siHay = false;
+        for (int i = 0; i < 3; i++) {
+            if (!Sistema.semestres.get(i).getGrupos().isEmpty()){
+                siHay = true;
+            }
+        }
+        return siHay;
+    }
+
     public static Grupo obtenerGrupo(){
         Grupo grupo=null;
         int id;
@@ -263,10 +293,10 @@ public class Grupo {
 
     public static void modificarMateria(Grupo grupo){
         Materia materia = obtenerMateria(grupo);
-        System.out.println("Modificar Materia\n");
+        System.out.println("Modificar Materia (Profesor en materia)\n");
         // El unico atributo modificable es profesor
-        // Falta pedir profe
-        Profesor profesor = null;
+        Profesor.mostrarProfesores();
+        Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
         asignarProfe(materia, profesor);
     }
 
@@ -279,6 +309,9 @@ public class Grupo {
     }
 
     public static void inicializarMaterias(Grupo grupo){
+        grupo.getMateria().put(1, new ArrayList<>());
+        grupo.getMateria().put(2, new ArrayList<>());
+        grupo.getMateria().put(3, new ArrayList<>());
         // Recopilando datos que ya estan guardados en grupo
         int semestre = grupo.getSemestre();
         NombreCarrera carrera = grupo.getCarrera();
@@ -331,6 +364,12 @@ public class Grupo {
 
     // Metodos de alumnos para grupos --------------------------------------------------------------------------------
 
+    public static Alumno obtenerAlumnoGeneral(NombreCarrera carrera){
+        Alumno.mostrarAlumnos(carrera);
+        Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(Alumno.pedirAlumno());
+        return alumno;
+    }
+
     public static void addAlumno(Alumno alumno, Grupo grupo){
         if (grupo.getCantidadAlumnos() >= 20){
             System.out.println("Limite de alumnos alcanzado");
@@ -339,5 +378,130 @@ public class Grupo {
             grupo.getAlumnos().add(alumno);
             System.out.println("Alumno agregado");
         }
+    }
+
+    public static void modificarAlumno(Alumno alumno){
+        int opt;
+        do {
+            System.out.println("¿Qué información deseas editar?");
+            System.out.println("1) Nombre\n2) Apellidos \n3) Ciudad\n4) Estado\n5) Dirección\n6) Fecha de nacimiento\n 7)Contraseña\n 0)Salir/Regresar");
+             opt = DatosComun.pedirNumero();
+
+            switch (opt) {
+                case 1:
+                    System.out.println("Ingrese el nuevo nombre: ");
+                    alumno.setNombre(DatosComun.pedirDatoString());
+
+                    String curpAntigua = alumno.getCurp();
+                    char sexo = curpAntigua.charAt(10);
+                    String nuevacurp = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo, alumno.getEstado());
+
+                    alumno.setCurp(nuevacurp);
+                    System.out.println("Nombre modificado");
+                    break;
+
+                case 2:
+                    System.out.println("Ingrese el nuevo apellido Paterno: ");
+                    alumno.setApellidoPaterno(DatosComun.pedirDatoString());
+                    System.out.println("Ingrese el nuevo apellido Materno: ");
+                    alumno.setApellidoMaterno(DatosComun.pedirDatoString());
+                    String curpAntigua1 = alumno.getCurp();
+                    char sexo1 = curpAntigua1.charAt(10);
+                    String nuevaCurp = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo1, alumno.getEstado());
+
+                    alumno.setCurp(nuevaCurp);
+
+                    System.out.println("Apellido modificado");
+                    break;
+
+                case 3:
+                    System.out.println("Ingrese nueva ciudad: ");
+                    alumno.setCiudad(DatosComun.pedirDatoString());
+
+                    System.out.println("Ciudad actualizada");
+                    break;
+
+                case 4:
+                    System.out.println("Ingrese nuevo estado: ");
+                    alumno.setEstado(DatosComun.pedirDatoString());
+
+                    System.out.println("Estado actualizado");
+                    break;
+
+                case 5:
+                    System.out.println("Ingrese nueva direccion: ");
+                    alumno.setDireccion(DatosComun.pedirDireccion());
+
+                    System.out.println("Dirección actualizada");
+                    break;
+
+                case 6:
+                    System.out.println("Fecha de nacimiento");
+                    LocalDate nuevaFechaNacimiento = DatosComun.obtenerFechaNacimiento();
+                    alumno.setFechaNacimiento(nuevaFechaNacimiento);
+                    int anioNacimiento = nuevaFechaNacimiento.getYear();
+                    alumno.setAnioNacimiento(anioNacimiento);
+                    String curpAntigua2 = alumno.getCurp();
+                    char sexo2 = curpAntigua2.charAt(10);
+                    String curpNueva2 = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo2, alumno.getEstado());
+
+                    alumno.setCurp(curpNueva2);
+                    System.out.println("Fecha Nacimiento Actualizada");
+                    break;
+
+                case 7:
+                    System.out.println("Ingrese nueva contraseña");
+                    String nuevaContrasena = DatosComun.pedirDatoString();
+                    alumno.setContrasena(nuevaContrasena);
+                    System.out.println("Contrasena Actualizada");
+                    break;
+                case 0:
+                    System.out.println("Usted ha salido de modificar alumno. ");
+
+                    break;
+                default:
+                    System.out.println("Opción no válida.\n");
+                    break;
+            }
+        } while (opt != 0);
+    }
+
+    public static void eliminarAlumno(Alumno alumno, Grupo grupo){
+        System.out.println("Eliminar Alumno de Grupo");
+        System.out.println("1 - Eliminar alumno de grupo\n0 - Cancelar");
+        int act;
+        do {
+            act = DatosComun.pedirNumero();
+        } while (act < 0 || act > 1);
+        if (act == 1){
+            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()-1));
+            grupo.getAlumnos().remove(alumno);
+            System.out.println("Alumno eliminado");
+        } else {
+            System.out.println("Operación cancelada");
+        }
+    }
+
+    public static void mostrarAlumnos(Grupo grupo){
+        System.out.println("Mostrar Alumnos");
+        for (Alumno alumno : grupo.getAlumnos()) {
+            System.out.println(alumno.toString());
+        }
+    }
+
+    public static Alumno obtenerAlumnoGrupo(Grupo grupo){
+        Alumno alumno = null;
+        mostrarAlumnos(grupo);
+        do {
+            System.out.print("Ingrese numero de control: ");
+            String num = DatosComun.pedirDatoString();
+            for (Alumno al : grupo.getAlumnos()) {
+                if (al.getNumControl().equals(num)){
+                    alumno = al;
+                }
+            }
+        } while (alumno==null);
+
+        return alumno;
     }
 }

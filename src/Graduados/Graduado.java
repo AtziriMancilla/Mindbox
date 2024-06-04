@@ -57,8 +57,7 @@ public class Graduado {
         double alumnoPromedio = alumno.getPromedio();
         NombreCarrera alumnoCarrera = alumno.getCarrera();
         //falta fecha de graduacion y generacion Generación de graduación. Ejemplo: Ene - Jun 2024, Ago - Dic 2024, etc.
-        System.out.println("Registro Fecha de Graduación");
-        LocalDate fechaGraduacion = DatosComun.obtenerFechaNacimiento();
+        LocalDate fechaGraduacion = LocalDate.now();
 
         String generacionDeGraduacion = obtenerGeneracion(fechaGraduacion);
 

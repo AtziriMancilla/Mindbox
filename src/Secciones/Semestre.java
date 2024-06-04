@@ -1,5 +1,6 @@
 package Secciones;
 
+import Secciones.utils.NombreCarrera;
 import Usuarios.utils.DatosComun;
 import mindbox.Sistema;
 
@@ -9,12 +10,12 @@ import java.util.Scanner;
 public class Semestre {
     private int id;
     private int numSemestre;
-    private Carrera carrera;
-    private ArrayList<Grupo> grupos;
-    private ArrayList<Materia> materias;
+    private NombreCarrera carrera;
+    private ArrayList<Grupo> grupos = new ArrayList<>();
+    private ArrayList<Materia> materias = new ArrayList<>();
     private static int NUM_SEMESTRES = 1;
 
-    public Semestre(int numSemestre, Carrera carrera) {
+    public Semestre(int numSemestre, NombreCarrera carrera) {
         this.id = NUM_SEMESTRES;
         this.numSemestre = numSemestre;
         this.carrera = carrera;
@@ -37,11 +38,11 @@ public class Semestre {
         this.numSemestre = numSemestre;
     }
 
-    public Carrera getCarrera() {
+    public NombreCarrera getCarrera() {
         return carrera;
     }
 
-    public void setCarrera(Carrera carrera) {
+    public void setCarrera(NombreCarrera carrera) {
         this.carrera = carrera;
     }
 
@@ -89,5 +90,16 @@ public class Semestre {
         }
     }
 
+    public static void inicializarSemestres(){
+        Semestre sISC, sIMAT, sELC;
+        for (int i = 1; i <= 3; i++) {
+            sISC = new Semestre(i, NombreCarrera.ISC);
+            sIMAT = new Semestre(i, NombreCarrera.IMAT);
+            sELC = new Semestre(i, NombreCarrera.ELC);
+            Sistema.semestres.add(sISC);
+            Sistema.semestres.add(sIMAT);
+            Sistema.semestres.add(sELC);
+        }
+    }
 
 }
