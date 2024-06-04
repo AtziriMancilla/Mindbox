@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 public class Profesor extends Trabajador {
     private String numControl;
-    ArrayList<Materia> materias;
+    ArrayList<Materia> materias= new ArrayList<>();
 
     public Profesor(String nombre, String apellidoPaterno, String apellidoMaterno, int anioNacimiento, LocalDate fechaNacimiento, String ciudad, String estado, String direccion, String curp, LocalDate fechaRegistro, String usuario, String contrasena, Rol rol, String rfc, double salario, String numControl) {
         super(nombre, apellidoPaterno, apellidoMaterno, anioNacimiento, fechaNacimiento, ciudad, estado, direccion, curp, fechaRegistro, usuario, contrasena, rol, rfc, salario);
@@ -51,7 +51,10 @@ public class Profesor extends Trabajador {
     public static void verInformacion() {
         System.out.println((UsuarioEnSesion.getInstancia().getUsuarioActual()).toString());
         System.out.println("Materias asignadas: ");
-        ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).mostrarMaterias();
+
+            ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).mostrarMaterias();
+
+
     }
 
     public static void actualizarInformacion() {
@@ -97,6 +100,9 @@ public class Profesor extends Trabajador {
                 i++;
                 System.out.println(i + " " + materia.getNombre() + "  " + materia.getGrupo().getSemestre() + " " + materia.getGrupo().getTipoGrupo());
             }
+        else{
+            System.out.println("No tienes materias asignadas");
+        }
     }
 
 
@@ -121,76 +127,76 @@ public class Profesor extends Trabajador {
     public static void verGrupos() {
         int opc = 0, mostrar = 0;
         System.out.println("Grupos: ");
-        if(!((Profesor)UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()){
-        for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
-            System.out.println("Grupo " + materia.getGrupo().getSemestre() + materia.getGrupo().getTipoGrupo());
-            System.out.println("Materia: " + materia.getMateria());
-            System.out.println("Id del grupo: " + materia.getGrupo().getId());
-        }
-        while (opc < 1 || opc > 4) {
-            System.out.println("1. Mostrar todos los alumnos");
-            System.out.println("2. Mostrar Aprobados");
-            System.out.println("3. Mostrar Reprobados");
-            System.out.println("4. Salir");
-            opc = DatosComun.pedirNumero();
-            switch (opc) {
-                case 1:
-                    mostrar = opc;
-                    break;
-                case 2:
-                    mostrar = opc;
-                    break;
-                case 3:
-                    mostrar = opc;
-                    break;
-                case 4:
-                    System.out.println("Usted ha salido de ver Grupos");
-                    break;
-                default:
-                    System.out.println("Opción inválida");
+        if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
+            for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
+                System.out.println("Grupo " + materia.getGrupo().getSemestre() + materia.getGrupo().getTipoGrupo());
+                System.out.println("Materia: " + materia.getMateria());
+                System.out.println("Id del grupo: " + materia.getGrupo().getId());
             }
-        }
-        if (opc == 4) {
-            opc = 6;
-        }
+            while (opc < 1 || opc > 4) {
+                System.out.println("1. Mostrar todos los alumnos");
+                System.out.println("2. Mostrar Aprobados");
+                System.out.println("3. Mostrar Reprobados");
+                System.out.println("4. Salir");
+                opc = DatosComun.pedirNumero();
+                switch (opc) {
+                    case 1:
+                        mostrar = opc;
+                        break;
+                    case 2:
+                        mostrar = opc;
+                        break;
+                    case 3:
+                        mostrar = opc;
+                        break;
+                    case 4:
+                        System.out.println("Usted ha salido de ver Grupos");
+                        break;
+                    default:
+                        System.out.println("Opción inválida");
+                }
+            }
+            if (opc == 4) {
+                opc = 6;
+            }
 
-        while (opc != 6) {
-            System.out.println("1. Mostrar alumnos de un Grupo ");
-            System.out.println("2. Mostrar alumnos de una Materia y Grupo");
-            System.out.println("3. Mostrar alumnos de un Semestre ");
-            System.out.println("4. Mostrar a todos los alumnos");
-            System.out.println("5. Salir");
-            opc = DatosComun.pedirNumero();
-            switch (opc) {
-                case 1:
-                    System.out.println("Ingrese ID del grupo: ");
-                    int id = DatosComun.pedirNumero();
-                    mostrarAlumnosGrupo(id, mostrar);
-                    break;
-                case 2:
-                    mostrarAlumnosMateria(numDeMateria(), mostrar);
-                    break;
-                case 3:
-                    System.out.println("Ingrese Semestre: ");
-                    int semestre = 0;
-                    while (semestre < 1 || semestre > 3) {
-                        semestre = DatosComun.pedirNumero();
-                    }
-                    mostrarAlumnosSemestre(semestre, mostrar);
-                    break;
-                case 4:
-                    mostrarTodosAlumnos(mostrar);
+            while (opc != 6) {
+                System.out.println("1. Mostrar alumnos de un Grupo ");
+                System.out.println("2. Mostrar alumnos de una Materia y Grupo");
+                System.out.println("3. Mostrar alumnos de un Semestre ");
+                System.out.println("4. Mostrar a todos los alumnos");
+                System.out.println("5. Salir");
+                opc = DatosComun.pedirNumero();
+                switch (opc) {
+                    case 1:
+                        System.out.println("Ingrese ID del grupo: ");
+                        int id = DatosComun.pedirNumero();
+                        mostrarAlumnosGrupo(id, mostrar);
+                        break;
+                    case 2:
+                        mostrarAlumnosMateria(numDeMateria(), mostrar);
+                        break;
+                    case 3:
+                        System.out.println("Ingrese Semestre: ");
+                        int semestre = 0;
+                        while (semestre < 1 || semestre > 3) {
+                            semestre = DatosComun.pedirNumero();
+                        }
+                        mostrarAlumnosSemestre(semestre, mostrar);
+                        break;
+                    case 4:
+                        mostrarTodosAlumnos(mostrar);
 
-                case 5:
-                    System.out.println("Usted ha salido de ver Grupos");
-                    break;
+                    case 5:
+                        System.out.println("Usted ha salido de ver Grupos");
+                        break;
 
-                default:
-                    System.out.println("Esa opción no se encuentra");
-            }}
+                    default:
+                        System.out.println("Esa opción no se encuentra");
+                }
+            }
 
-        }
-        else{
+        } else {
             System.out.println("No hay materias registradas. ");
         }
     }
@@ -245,8 +251,7 @@ public class Profesor extends Trabajador {
     public static int numDeMateria() {
         System.out.println("Materias: ");
         int mat;
-        if(!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty())
-        {
+        if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
             ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).mostrarMaterias();
             do {
                 System.out.println("Ingrese la materia: ");
@@ -254,9 +259,7 @@ public class Profesor extends Trabajador {
             } while (mat < 1 || mat > ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().size());
             mat--;
             return mat;
-        }
-
-        else{
+        } else {
             return -1;
         }
     }
@@ -543,21 +546,22 @@ public class Profesor extends Trabajador {
             }
         }
     }
-    public static void buscarProfesor(){
-        Scanner sc=new Scanner(System.in);
+
+    public static void buscarProfesor() {
+        Scanner sc = new Scanner(System.in);
         System.out.println("Ingrese el numero de control");
-        String opcion=DatosComun.pedirDatoUsuario();
-        for(int i=0; i<Sistema.usuarios.get(Rol.PROFESOR).size();i++) {
-            Profesor profesor=(Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(i);
-            if (profesor.getNumControl().equals(opcion)){
-                System.out.println("El profesor buscado es: "+profesor.toString());
-            }
-            else {
+        String opcion = DatosComun.pedirDatoUsuario();
+        for (int i = 0; i < Sistema.usuarios.get(Rol.PROFESOR).size(); i++) {
+            Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(i);
+            if (profesor.getNumControl().equals(opcion)) {
+                System.out.println("El profesor buscado es: " + profesor.toString());
+            } else {
                 System.out.println("No se encontró un profesor con ese número de control");
             }
         }
     }
-//    public static void eliminar(){ metodo sin terminar que tal vez se use
+
+    //    public static void eliminar(){ metodo sin terminar que tal vez se use
 //        System.out.println("**Eliminar**");
 //        int opcion= pedirProfesor();
 //        Profesor profesor=(Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(-1);
@@ -566,25 +570,25 @@ public class Profesor extends Trabajador {
 //            System.out.println("Profesor eliminado");
 //        }
 //    }
-    public static void borrarProfesor () {
-        Scanner sc=new Scanner(System.in);
+    public static void borrarProfesor() {
+        Scanner sc = new Scanner(System.in);
         mostrarProfesores();
-        int numProfesor=0;
+        int numProfesor = 0;
         boolean band;
         do {
             try {
-                band=false;
+                band = false;
                 System.out.println("Selecciona el profesor que deseas eliminar");
                 numProfesor = sc.nextInt();
                 Sistema.usuarios.get(Rol.PROFESOR).get(numProfesor - 1);
             } catch (IndexOutOfBoundsException | InputMismatchException error) {
                 System.out.println("Opcion no valida");
-                band=true;
+                band = true;
                 //revisar sc.nextLine
             }
-        }while(band);
-        Profesor profesor=(Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(numProfesor - 1);
-        if(profesor.getMaterias().isEmpty()) {
+        } while (band);
+        Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(numProfesor - 1);
+        if (profesor.getMaterias().isEmpty()) {
             System.out.println("Seleccionaste a: ");
             System.out.println(Sistema.usuarios.get(Rol.PROFESOR).get(numProfesor - 1).toString());
             System.out.println("¿Deseas eliminarlo? 1) Sí, Otro número) Cancelar");
@@ -596,8 +600,7 @@ public class Profesor extends Trabajador {
             if (opcion != 1) {
                 System.out.println("Se cancelo la eliminación");
             }
-        }
-        else{
+        } else {
             System.out.println("No se puede eliminar a este profesor");
         }
     }
