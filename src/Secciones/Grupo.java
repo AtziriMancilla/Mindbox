@@ -5,7 +5,6 @@ import Secciones.utils.NombreMaterias;
 import Usuarios.Alumno;
 import Usuarios.Coordinador;
 import Usuarios.Profesor;
-import Usuarios.Usuario;
 import Usuarios.utils.DatosComun;
 import Usuarios.utils.Rol;
 import mindbox.Sistema;
@@ -15,7 +14,6 @@ import mindbox.utils.Generador;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Grupo {
     private NombreCarrera carrera;
@@ -95,7 +93,7 @@ public class Grupo {
 
     @Override
     public String toString(){
-        return String.format("ID: ; Carrera: ; Semestre: ; Grupo: ", id, carrera, semestre, tipoGrupo);
+        return String.format("ID: %s; Carrera: %s; Semestre: %s; Grupo: %s", id, carrera, semestre, tipoGrupo);
     }
 
     ///////////////////////////
@@ -117,7 +115,7 @@ public class Grupo {
     public static void crearGrupo(NombreCarrera carrera){
         // Pidiendo datos
         Grupo grupo;
-
+        System.out.println("\nCrear grupo");
         if (Sistema.semestres.get(0).getGrupos().isEmpty()){
             grupo = new Grupo(carrera, 1, TipoGrupo.A);
             Sistema.semestres.get(0).getGrupos().add(grupo);
@@ -136,62 +134,73 @@ public class Grupo {
 
     public static void modificarGrupo(){
         int act;
-        Grupo grupo = obtenerGrupo();
-        System.out.println("Modificar grupo");
-        System.out.println("1 - Modificar alumnos en grupo");
-        System.out.println("2 - Modificar profesor en materia");
-        System.out.println("0 - Cancelar");
-        System.out.print("Accion: ");
-        do {
-            act = DatosComun.pedirNumero();
-            if (act < 0 || act > 2){
-                System.out.println("Opcion inexistente");
+        if (hayGrupos()){
+            Grupo grupo = obtenerGrupo();
+            System.out.println("\nModificar grupo");
+            System.out.println("1 - Modificar alumnos en grupo");
+            System.out.println("2 - Modificar profesor en materia");
+            System.out.println("0 - Cancelar");
+            System.out.print("Accion: ");
+            do {
+                act = DatosComun.pedirNumero();
+                if (act < 0 || act > 2){
+                    System.out.println("Opcion inexistente");
+                }
+            } while (act < 0 || act > 2);
+            if (act == 1){
+                // llamar a metodo de pedir alumno
+                // llamar metodo de modificar alumnos en grupo
+            } else if (act == 2) {
+                Profesor profesor = null;
+                // Falta metodo para pedir profesor
+                addProfeMateria(grupo, profesor);
             }
-        } while (act < 0 || act > 2);
-        if (act == 1){
-            // llamar a metodo de pedir alumno
-            // llamar metodo de modificar alumnos en grupo
-        } else if (act == 2) {
-            Profesor profesor = null;
-            // Falta metodo para pedir profesor
-            addProfeMateria(grupo, profesor);
+        } else {
+            System.out.println("No hay grupos que eliminar");
         }
 
     }
 
     public static void eliminarGrupo(){
-        System.out.println("Eliminar grupo");
-        Grupo grupo = obtenerGrupo();
-        if (grupo.getCantidadAlumnos() == 0){
-            // llamar metodo que verifique que las materias tengan profe null
-            Sistema.semestres.get(grupo.getSemestre()).getGrupos().remove(grupo);
+        System.out.println("\nEliminar grupo");
+        if (hayGrupos()){
+            Grupo grupo = obtenerGrupo();
+            if (grupo.getCantidadAlumnos() == 0){
+                // llamar metodo que verifique que las materias tengan profe null
+                Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
+                System.out.println("Grupo eliminado");
+            } else {
+                System.out.println("Grupo no eliminado, cantidad de alumnos mayor que 0");
+            }
+        } else {
+            System.out.println("No hay grupos que eliminar");
         }
+
     }
 
     public static void mostrarGrupos(){
-        System.out.print("0 - Mostrar grupos de todos los semestres\n1 - Mostrar grupos de un semestre\n");
-        int semestre = DatosComun.pedirNumero();
-        if (semestre == 0){
-            for (int i = 0; i < 3; i++) {
-                for (Grupo grupo : Sistema.semestres.get(i).getGrupos()) {
-                    if (grupo.getCarrera() == ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera()){
-                        grupo.toString();
-                    }
+        System.out.println("\nMostrar grupos de todos los semestres");
+        for (int i = 0; i < 3; i++) {
+            for (Grupo grupo : Sistema.semestres.get(i).getGrupos()) {
+                if (grupo.getCarrera() == ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera()){
+                    System.out.println(grupo.toString());
                 }
             }
         }
-        else if (semestre == 1){
-            semestre = Semestre.obtenerSemestre().getNumSemestre();
-            for (Grupo grupo : Sistema.semestres.get(semestre).getGrupos()) {
-                grupo.toString();
-            }
-        }
-        else {
-            System.out.println("Opción inexistente");
-        }
+
     }
 
     // Metodos utiles -------------------------------------------------------------------------------------------------
+    public static Boolean hayGrupos(){
+        boolean siHay = false;
+        for (int i = 0; i < 3; i++) {
+            if (!Sistema.semestres.get(i).getGrupos().isEmpty()){
+                siHay = true;
+            }
+        }
+        return siHay;
+    }
+
     public static Grupo obtenerGrupo(){
         Grupo grupo=null;
         int id;
@@ -270,6 +279,9 @@ public class Grupo {
     }
 
     public static void inicializarMaterias(Grupo grupo){
+        grupo.getMateria().put(1, new ArrayList<>());
+        grupo.getMateria().put(2, new ArrayList<>());
+        grupo.getMateria().put(3, new ArrayList<>());
         // Recopilando datos que ya estan guardados en grupo
         int semestre = grupo.getSemestre();
         NombreCarrera carrera = grupo.getCarrera();
