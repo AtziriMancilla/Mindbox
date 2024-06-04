@@ -10,7 +10,9 @@ import Usuarios.utils.DatosComun;
 import Usuarios.utils.Rol;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
+import mindbox.utils.Generador;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -320,7 +322,7 @@ public class Grupo {
 
     // Metodos de alumnos para grupos --------------------------------------------------------------------------------
 
-    public static Alumno obtenerAlumno(NombreCarrera carrera){
+    public static Alumno obtenerAlumnoGeneral(NombreCarrera carrera){
         Alumno.mostrarAlumnos(carrera);
         Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(Alumno.pedirAlumno());
         return alumno;
@@ -334,5 +336,130 @@ public class Grupo {
             grupo.getAlumnos().add(alumno);
             System.out.println("Alumno agregado");
         }
+    }
+
+    public static void modificarAlumno(Alumno alumno){
+        int opt;
+        do {
+            System.out.println("¿Qué información deseas editar?");
+            System.out.println("1) Nombre\n2) Apellidos \n3) Ciudad\n4) Estado\n5) Dirección\n6) Fecha de nacimiento\n 7)Contraseña\n 0)Salir/Regresar");
+             opt = DatosComun.pedirNumero();
+
+            switch (opt) {
+                case 1:
+                    System.out.println("Ingrese el nuevo nombre: ");
+                    alumno.setNombre(DatosComun.pedirDatoString());
+
+                    String curpAntigua = alumno.getCurp();
+                    char sexo = curpAntigua.charAt(10);
+                    String nuevacurp = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo, alumno.getEstado());
+
+                    alumno.setCurp(nuevacurp);
+                    System.out.println("Nombre modificado");
+                    break;
+
+                case 2:
+                    System.out.println("Ingrese el nuevo apellido Paterno: ");
+                    alumno.setApellidoPaterno(DatosComun.pedirDatoString());
+                    System.out.println("Ingrese el nuevo apellido Materno: ");
+                    alumno.setApellidoMaterno(DatosComun.pedirDatoString());
+                    String curpAntigua1 = alumno.getCurp();
+                    char sexo1 = curpAntigua1.charAt(10);
+                    String nuevaCurp = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo1, alumno.getEstado());
+
+                    alumno.setCurp(nuevaCurp);
+
+                    System.out.println("Apellido modificado");
+                    break;
+
+                case 3:
+                    System.out.println("Ingrese nueva ciudad: ");
+                    alumno.setCiudad(DatosComun.pedirDatoString());
+
+                    System.out.println("Ciudad actualizada");
+                    break;
+
+                case 4:
+                    System.out.println("Ingrese nuevo estado: ");
+                    alumno.setEstado(DatosComun.pedirDatoString());
+
+                    System.out.println("Estado actualizado");
+                    break;
+
+                case 5:
+                    System.out.println("Ingrese nueva direccion: ");
+                    alumno.setDireccion(DatosComun.pedirDireccion());
+
+                    System.out.println("Dirección actualizada");
+                    break;
+
+                case 6:
+                    System.out.println("Fecha de nacimiento");
+                    LocalDate nuevaFechaNacimiento = DatosComun.obtenerFechaNacimiento();
+                    alumno.setFechaNacimiento(nuevaFechaNacimiento);
+                    int anioNacimiento = nuevaFechaNacimiento.getYear();
+                    alumno.setAnioNacimiento(anioNacimiento);
+                    String curpAntigua2 = alumno.getCurp();
+                    char sexo2 = curpAntigua2.charAt(10);
+                    String curpNueva2 = Generador.generarCURP(alumno.getNombre(), alumno.getApellidoPaterno(), alumno.getApellidoMaterno(), alumno.getFechaNacimiento(), sexo2, alumno.getEstado());
+
+                    alumno.setCurp(curpNueva2);
+                    System.out.println("Fecha Nacimiento Actualizada");
+                    break;
+
+                case 7:
+                    System.out.println("Ingrese nueva contraseña");
+                    String nuevaContrasena = DatosComun.pedirDatoString();
+                    alumno.setContrasena(nuevaContrasena);
+                    System.out.println("Contrasena Actualizada");
+                    break;
+                case 0:
+                    System.out.println("Usted ha salido de modificar alumno. ");
+
+                    break;
+                default:
+                    System.out.println("Opción no válida.\n");
+                    break;
+            }
+        } while (opt != 0);
+    }
+
+    public static void eliminarAlumno(Alumno alumno, Grupo grupo){
+        System.out.println("Eliminar Alumno de Grupo");
+        System.out.println("1 - Eliminar alumno de grupo\n0 - Cancelar");
+        int act;
+        do {
+            act = DatosComun.pedirNumero();
+        } while (act < 0 || act > 1);
+        if (act == 1){
+            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()-1));
+            grupo.getAlumnos().remove(alumno);
+            System.out.println("Alumno eliminado");
+        } else {
+            System.out.println("Operación cancelada");
+        }
+    }
+
+    public static void mostrarAlumnos(Grupo grupo){
+        System.out.println("Mostrar Alumnos");
+        for (Alumno alumno : grupo.getAlumnos()) {
+            System.out.println(alumno.toString());
+        }
+    }
+
+    public static Alumno obtenerAlumnoGrupo(Grupo grupo){
+        Alumno alumno = null;
+        mostrarAlumnos(grupo);
+        do {
+            System.out.print("Ingrese numero de control: ");
+            String num = DatosComun.pedirDatoString();
+            for (Alumno al : grupo.getAlumnos()) {
+                if (al.getNumControl().equals(num)){
+                    alumno = al;
+                }
+            }
+        } while (alumno==null);
+
+        return alumno;
     }
 }

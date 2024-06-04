@@ -154,6 +154,7 @@ public class MenuCoordinador {
     }
     private static void menuGrupo(Grupo grupo){
         String action, actAux;
+        Alumno alumno;
         NombreCarrera carrera = ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera();
         do {
             System.out.println("\n1 - Avanzar grupo de semestre");
@@ -183,12 +184,19 @@ public class MenuCoordinador {
                     Grupo.mostrarMaterias(grupo);
                     break;
                 case "5":
+                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                    Grupo.addAlumno(alumno, grupo);
                     break;
                 case "6":
+                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                    Grupo.modificarAlumno(alumno);
                     break;
                 case "7":
+                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                    Grupo.eliminarAlumno(alumno, grupo);
                     break;
                 case "8":
+                    Grupo.mostrarAlumnos(grupo);
                     break;
                 case "0":
                     System.out.println("Regresando");
