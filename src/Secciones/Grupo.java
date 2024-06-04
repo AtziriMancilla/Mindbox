@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 public class Grupo {
     private NombreCarrera carrera;
-    private ArrayList<Alumno> alumnos;
+    private ArrayList<Alumno> alumnos = new ArrayList<>();
     private int cantidadAlumnos=0;
     private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();
     private int id;
@@ -319,6 +319,12 @@ public class Grupo {
 
 
     // Metodos de alumnos para grupos --------------------------------------------------------------------------------
+
+    public static Alumno obtenerAlumno(NombreCarrera carrera){
+        Alumno.mostrarAlumnos(carrera);
+        Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(Alumno.pedirAlumno());
+        return alumno;
+    }
 
     public static void addAlumno(Alumno alumno, Grupo grupo){
         if (grupo.getCantidadAlumnos() >= 20){

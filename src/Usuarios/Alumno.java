@@ -221,7 +221,7 @@ public class Alumno extends Usuario{
 
     }
 
-    private static int pedirAlumno() {
+    public static int pedirAlumno() {
         Scanner sc = new Scanner(System.in);
         boolean confirmacion = false;
         int numAlumno = 0;
