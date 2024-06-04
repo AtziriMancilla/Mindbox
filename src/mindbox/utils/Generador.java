@@ -10,6 +10,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import mindbox.Sistema;
+import mindbox.utils.Adapters.LocalDateAdapter;
+import mindbox.utils.Adapters.RolAdapter;
+import mindbox.utils.Adapters.UsuarioAdapter;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -102,6 +105,8 @@ public class Generador {
     //Método para deserializar (sacar) datos del archivo json.
     public static void deserializarUsuariosJson(){
         Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Rol.class, new RolAdapter())
+                .registerTypeAdapter(Usuario.class, new UsuarioAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
         System.out.println("Accediendo a datos de usuarios...");
