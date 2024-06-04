@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 public class Grupo {
     private NombreCarrera carrera;
-    private ArrayList<Alumno> alumnos;
+    private ArrayList<Alumno> alumnos = new ArrayList<>();
     private int cantidadAlumnos;
     private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();
     private int id;
