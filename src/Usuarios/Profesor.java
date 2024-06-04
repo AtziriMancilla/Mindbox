@@ -201,7 +201,7 @@ public class Profesor extends Trabajador {
                     if (mostrar == 1) {
                         System.out.print("\n" + alumno.getNombre() + " ");
                     }
-                    if (alumno.getCalificaciones().length != 0) {
+                    if (alumno.getCalificaciones().size() != 0) {
                         for (Calificacion calificacion : alumno.getCalificaciones()) {
                             if (calificacion.getMateria().getMateria().equals(materia.getMateria())) {
                                 if (mostrar == 1) {
@@ -258,7 +258,7 @@ public class Profesor extends Trabajador {
                 if (mostrar == 1) {
                     System.out.println(i + " " + alumno.getNombre() + " ");
                 }
-                if (alumno.getCalificaciones().length != 0) {
+                if (alumno.getCalificaciones().size() != 0) {
                     for (Calificacion calificacion : alumno.getCalificaciones()) {
                         if (mostrar == 1) {
                             System.out.println(calificacion.getCalificacion());
@@ -296,7 +296,7 @@ public class Profesor extends Trabajador {
                     if (mostrar == 1) {
                         System.out.println(alumno.getNombre() + " ");
                     }
-                    if (alumno.getCalificaciones().length != 0) {
+                    if (alumno.getCalificaciones().size() != 0) {
                         for (Calificacion calificacion : alumno.getCalificaciones()) {
                             if (calificacion.getMateria().getMateria().equals(materia.getMateria())) {
                                 if (mostrar == 1) {
@@ -332,7 +332,7 @@ public class Profesor extends Trabajador {
                 if (mostrar == 1) {
                     System.out.println(alumno.getNombre() + " ");
                 }
-                if (alumno.getCalificaciones().length != 0) {
+                if (alumno.getCalificaciones().size() != 0) {
                     for (Calificacion calificacion : alumno.getCalificaciones()) {
                         if (calificacion.getMateria().getMateria().equals(materia.getMateria())) {
                             if (mostrar == 1) {
@@ -535,14 +535,16 @@ public class Profesor extends Trabajador {
         Scanner sc=new Scanner(System.in);
         System.out.println("Ingrese el numero de control");
         String opcion=DatosComun.pedirDatoUsuario();
+        boolean band=true;
         for(int i=0; i<Sistema.usuarios.get(Rol.PROFESOR).size();i++) {
             Profesor profesor=(Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(i);
             if (profesor.getNumControl().equals(opcion)){
                 System.out.println("El profesor buscado es: "+profesor.toString());
+                band=false;
             }
-            else {
-                System.out.println("No se encontró un profesor con ese número de control");
-            }
+        }
+        if(band){
+            System.out.println("No se encontró el profesor");
         }
     }
 //    public static void eliminar(){ metodo sin terminar que tal vez se use

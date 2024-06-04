@@ -6,10 +6,13 @@ import Usuarios.Alumno;
 import Usuarios.Coordinador;
 import Usuarios.Profesor;
 import Usuarios.Usuario;
+import Usuarios.utils.Calificacion;
 import Usuarios.utils.DatosComun;
+import Usuarios.utils.Historial;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -17,7 +20,7 @@ import java.util.Scanner;
 public class Grupo {
     private NombreCarrera carrera;
     private ArrayList<Alumno> alumnos;
-    private int cantidadAlumnos=0;
+    private int cantidadAlumnos;
     private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();
     private int id;
     private int semestre;
@@ -33,7 +36,6 @@ public class Grupo {
         this.tipoGrupo = tipoGrupo;
         NUM_GRUPO++;
     }
-
     public NombreCarrera getCarrera() {
         return carrera;
     }
@@ -97,16 +99,42 @@ public class Grupo {
 
     ///////////////////////////
     public static void avanzarGrupo(NombreCarrera carrera, Grupo grupo){
-        System.out.println("Avanzar grupo de semestre");
-        if (grupo.getSemestre()<3){
-            grupo.setSemestre(grupo.getSemestre()+1);
+        boolean band=true;
+        //verifica si cada alumno tiene todas sus calificaciones del semestre
+        for(Alumno alumno:grupo.alumnos){
+            if(!alumno.tieneTodasLasCalificaciones()){//aqui falta arreglarlo
+                band=false;
+            }
+        }
+        //si sí empieza a cambiar a los alumnos de semestre y al grupo
+        //solo a los que aprobaron
+        if(band&& grupo.getSemestre()!=3){
+            for(Alumno alumno:grupo.alumnos){
+                Historial.generarHistorial(alumno);
+                if(alumno.aproboSemestre()){
+                    alumno.setSemestre(grupo.semestre+1);
+                    //##cambiar materias de alumno al siguiente semestre##
+                }
+                //a los que reprobaron los cambia de grupo y deja su semestre en el mismo año
+                else{
+                    for (int i=0;i<Sistema.grupos.size();i++) {
+                        Grupo grupoNuevo=Sistema.grupos.get(i);
+                        if(grupoNuevo.getSemestre() == (grupo.semestre) && grupoNuevo.getCantidadAlumnos()<20){
+                            ArrayList<Calificacion> calificaciones=alumno.getCalificaciones();
+                            for (Calificacion calificacion : calificaciones) {
+                                calificacion.setCalificacion(0);
+                            }
+                            grupoNuevo.getAlumnos().add(alumno);
+                            grupo.getAlumnos().remove(alumno);
 
-            // Me falta resetear sus materias :> o bueno, quizas ni se ocupa porque uso el semestre
-            // para esas cosas, falta checar entonces xd
-
-
-        } else {
-            // GRADUAR GRUPO
+                        }
+                    }
+                }
+            }
+            //avanza el grupo de semestres
+            grupo.setSemestre(grupo.semestre+1);
+            //###falta cambiar las materias del grupo###
+            grupo.setCantidadAlumnos(grupo.getAlumnos().size());
         }
     }
 
