@@ -66,7 +66,7 @@ public class Calificacion {
                     if ((alumno).getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().get(alum).getNumControl())) {
                         int caliRegistradas = 0;
                         boolean hayCalificaion = false;
-                        if (alumno.getCalificaciones().length != 0) {
+                        if (alumno.getCalificaciones().size() != 0) {
                             for (Calificacion nota : (alumno.getCalificaciones())) {
                                 if (nota.getMateria().getMateria().equals(calificacion.getMateria().getMateria())) {
                                     nota.setCalificacion(calificacion.getCalificacion());
@@ -76,8 +76,8 @@ public class Calificacion {
                                 caliRegistradas++;
                             }
                         }
-                        if (!hayCalificaion) {
-                            alumno.getCalificaciones()[caliRegistradas] = calificacion;
+                        if (!hayCalificaion) {//no se como cambiarlo ocupo aiuda mariana, te invocooo
+                            alumno.getCalificaciones().get(caliRegistradas) = calificacion;
                         }
                         break;
                     }

@@ -18,7 +18,7 @@ public class Alumno extends Usuario{
     private NombreCarrera carrera;
     private int semestre;
    private Grupo grupo;
-   private Calificacion[] calificaciones;
+   private ArrayList<Calificacion> calificaciones=new ArrayList<>();
     private double promedio;
     private String numControl;
     private ArrayList<Historial> historial=new ArrayList<>();
@@ -36,11 +36,11 @@ public class Alumno extends Usuario{
         return historial;
     }
 
-    public Calificacion[] getCalificaciones() {
+    public ArrayList<Calificacion> getCalificaciones() {
         return calificaciones;
     }
 
-    public void setCalificaciones(Calificacion[] calificaciones) {
+    public void setCalificaciones(ArrayList<Calificacion> calificaciones) {
         this.calificaciones = calificaciones;
     }
 
@@ -83,9 +83,19 @@ public class Alumno extends Usuario{
     public static void darDeAlta(){
 
     }
-
-    private static void revisarCalificaciones(){
-
+    //####método que dice si un alumno tiene todas las calificaciones del semestre###
+    public boolean tieneTodasLasCalificaciones(){
+        return calificaciones.size() == 3;
+    }
+    //este metodo solo funciona si se guardan las 3 calificaciones del semestre
+    public boolean aproboSemestre(){
+        boolean band=true;
+        for (Calificacion calificacion : calificaciones) {
+            if (!calificacion.isAprobado()) {
+                band = false;
+            }
+        }
+        return band;
     }
     public static void registrarAlumno(NombreCarrera carrera){
         Scanner sc = new Scanner(System.in);
