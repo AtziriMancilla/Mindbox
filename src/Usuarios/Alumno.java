@@ -413,4 +413,8 @@ public class Alumno extends Usuario{
             System.out.println("Regresando");
         }
     }
+
+    public static void grupoAlumno(){
+
+    }
 }
