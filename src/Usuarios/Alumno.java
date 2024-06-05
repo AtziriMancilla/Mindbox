@@ -273,6 +273,31 @@ public class Alumno extends Usuario{
         return numAlumno;
     }
 
+    public static int pedirAlumnoGeneral() {
+        Scanner sc = new Scanner(System.in);
+        boolean confirmacion = false;
+        int numAlumno = 0;
+
+        do {
+            confirmacion = false;
+            try {
+                System.out.println(" 0) Regresar/Salir");
+                numAlumno = DatosComun.pedirNumero();
+
+                if (numAlumno < 0 || numAlumno > Sistema.usuarios.get(Rol.ALUMNO).size()) {
+                    throw new IndexOutOfBoundsException("El dato ingresado está fuera del tamaño de la lista");
+                } else {
+                    return numAlumno;
+                }
+            } catch (IndexOutOfBoundsException error) {
+                System.out.println("Error: " + error.getMessage());
+
+            }
+        } while (confirmacion);
+        sc.nextLine();
+        return numAlumno;
+    }
+
     public static void mostrarAlumnos(NombreCarrera carrera) {
         System.out.println("\nAlumnos: \n");
         if (Sistema.usuarios.get(Rol.ALUMNO).isEmpty()) {

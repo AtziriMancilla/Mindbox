@@ -417,7 +417,7 @@ public class Grupo {
 
     public static Alumno obtenerAlumnoGeneral(NombreCarrera carrera){
         Alumno.mostrarAlumnos(carrera);
-        Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(Alumno.pedirAlumno());
+        Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(Alumno.pedirAlumnoGeneral());
         return alumno;
     }
 
