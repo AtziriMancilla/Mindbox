@@ -49,10 +49,10 @@ public class Sistema {
 
         Profesor prof1 = new Profesor("Alejandro","Montejano","Diaz", 2003, LocalDate.now(), "Morelia", "Michoacan", "Calle desconocida", "MODA030204HMNNZLA4", LocalDate.now(), "Elpro","1234", Rol.PROFESOR, "MODA030204HMN", 0, "MA24ISC0");
         Profesor prof2 = new Profesor("Mariana", "Paz", "Alfaro", 2005, LocalDate.now(), "Morelia", "Michoacan", "Calle de Juanito", "PAAM050210MMNZLRA9", LocalDate.now(), "genshin", "amogenshin", Rol.PROFESOR,  "PAAM050210MMN", 0, "MM24ISC0");
-        Profesor prof3 = new Profesor("Atziri", "Mancilla", "Cruz", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Callechida", "MACA960605MMNNRT02", LocalDate.now(), "AtziriProfe", "Alan", Rol.PROFESOR, "LOME200522HMN", 0, "MA24ISC0" );
+        Profesor prof3 = new Profesor("Daniela", "Mancilla", "Cruz", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Callechida", "MACA960605MMNNRT02", LocalDate.now(), "AtziriProfe", "Alan", Rol.PROFESOR, "LOME200522HMN", 0, "MD24ISC0" );
 
         Profesor prof4 = new Profesor("Pamela", "Cardoso", "Riveron", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Calle municipal", "PEGJ850315MJCRRN07", LocalDate.now(), "gatitocosmico", "uwu", Rol.PROFESOR,  "PEGJ850315MJC", 0, "MP24IMAT0");
-        Profesor prof5 = new Profesor("Jose Manuel", "Mancilla", "Cruz", 2000, LocalDate.now(), "Morelia", "Michoacan", "Juan Alvarez", "MACM990516HMNNRN06", LocalDate.now(), "Wizdo", "wishes", Rol.PROFESOR,  "MACM990516HMN", 0, "MJ24IMAT0");
+        Profesor prof5 = new Profesor("Manuel", "Mancilla", "Cruz", 2000, LocalDate.now(), "Morelia", "Michoacan", "Juan Alvarez", "MACM990516HMNNRN06", LocalDate.now(), "Wizdo", "wishes", Rol.PROFESOR,  "MACM990516HMN", 0, "MM24IMAT0");
         Profesor prof6 = new Profesor("Jafet", "Santoyo", "Benites", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Calle municipal", "MACA960605MMNNRT02", LocalDate.now(), "jafiSanProfe", "uwu", Rol.PROFESOR,  "MACA960605MMN", 0, "MJ24IMAT0");
 
         Profesor prof7 = new Profesor("Alan", "Lopez", "Mancilla", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Callechida", "LOME200522HMNPNDA5", LocalDate.now(), "Sonic", "amosonic", Rol.PROFESOR, "LOME200522HMN", 0, "MA24ELEC0" );
