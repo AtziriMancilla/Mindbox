@@ -217,6 +217,31 @@ public class Grupo {
         }
 
     }
+    //
+    public static void agregarAlumnoGrupo(NombreCarrera carrera,Grupo grupo) {
+        Alumno.mostrarAlumnosSinGrupo(carrera);
+        boolean band;
+        Alumno alumno=null;
+        int opcion=0;
+        do {
+            try {
+                band = false;
+                System.out.println("Seleccione el alumno: ");
+                opcion = DatosComun.pedirNumero();
+                if (opcion < 1 || opcion > Sistema.usuarios.get(Rol.ALUMNO).size()) {
+                    throw new IndexOutOfBoundsException("El dato ingresado está fuera del tamaño de la lista");
+                }
+                alumno=(Alumno)Sistema.usuarios.get(Rol.ALUMNO).get(opcion-1);
+                if(!alumno.getCarrera().equals(carrera)||alumno.getGrupo()!=null){
+                    throw new IndexOutOfBoundsException("El indice no es valido");
+                }
+            } catch (IndexOutOfBoundsException error) {
+                System.out.println("Error: " + error.getMessage());
+                band = true;
+            }
+        }while (band);
+        grupo.getAlumnos().add(alumno);
+    }
 
     public static void modificarGrupo(){
         int act;
