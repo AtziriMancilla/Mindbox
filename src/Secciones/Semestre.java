@@ -22,6 +22,10 @@ public class Semestre {
         NUM_SEMESTRES++;
     }
 
+    public int getSemestre() {
+        return numSemestre;
+    }
+
     public int getId() {
         return id;
     }

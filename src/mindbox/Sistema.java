@@ -150,6 +150,19 @@ public class Sistema {
     public static void setGrupos(ArrayList <Grupo> grupos) {
         Sistema.grupos = grupos;
     }
+
+    public static void setGruposJson(ArrayList<Grupo> nuevosGrupos) {
+        for (Grupo grupo : nuevosGrupos) {
+            for (Semestre semestre : semestres) {
+                if (semestre.getSemestre() == grupo.getSemestre() &&
+                        semestre.getCarrera().equals(grupo.getCarrera())) {
+                    semestre.getGrupos().add(grupo);
+                    break;
+                }
+            }
+        }
+    }
+
     //Setter para asignar los datos obtenidos del json al atributo ArrayList semestres.
     public static void setSemestres(ArrayList<Semestre> semestres) {
         Sistema.semestres = semestres;

@@ -29,7 +29,7 @@ public class Grupo {
     private int semestre;
     private TipoGrupo tipoGrupo;
 
-    private static int NUM_GRUPO = 1;
+    public static int NUM_GRUPO = 1;
 
     public Grupo(NombreCarrera carrera, int semestre, TipoGrupo tipoGrupo) {
         this.id = NUM_GRUPO;
@@ -38,6 +38,8 @@ public class Grupo {
         this.semestre = semestre;
         this.tipoGrupo = tipoGrupo;
         NUM_GRUPO++;
+        //inicializarMaterias(this);
+        //addMateriasSemestre(this);
     }
 
     public NombreCarrera getCarrera() {

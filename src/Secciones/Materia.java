@@ -15,12 +15,18 @@ public class Materia {
     private NombreCarrera carrera;
     private int grupo;
     private Profesor profesor;
-    private static int NUM_MATERIA = 1;
+    public static int NUM_MATERIA = 1;
 
     public Materia(NombreMaterias materia, NombreCarrera carrera, int grupo, Profesor profesor) {
         this.id = NUM_MATERIA;
         this.materia = materia;
-        this.nombre = (materia.toString().toLowerCase() + " " + MenuAlumno.obtenerGrupoPorID(grupo).getSemestre());
+        Grupo grupoObj = MenuAlumno.obtenerGrupoPorID(grupo);
+        if (grupoObj != null) {
+            this.nombre = (materia.toString().toLowerCase() + " " + grupoObj.getSemestre());
+        } else {
+            this.nombre = materia.toString().toLowerCase(); // Maneja el caso donde el grupo no se encuentra
+        }
+        this.nombre = (materia.toString().toLowerCase() + " " + grupo);
         this.carrera = carrera;
         this.grupo = grupo;
         this.profesor = profesor;

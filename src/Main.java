@@ -1,3 +1,4 @@
+import Secciones.Semestre;
 import menu.Menu;
 import mindbox.Sistema;
 import mindbox.utils.Generador;
@@ -11,6 +12,7 @@ public class Main {
         File grupos = new File("grupos.json");//Para el archivo grupos.json
         File graduados = new File("graduados.json");//Para el archivo graduados.json
         File semestres = new File("semestres.json");//Para el archivo semestres.json
+        Semestre.inicializarSemestres();
         /*Nota importante: Es necesario que los 4 archivos EXISTAN para que la condicional se active
          y cargue los datos. De lo contrario, mejor se procede a inicializar los objetos como es costumbre, para evitar errores o caos en los datos del programa.*/
         if (usuarios.exists() && grupos.exists() && graduados.exists() && semestres.exists()) {//Si los archivos existen, se llama al deserializador para leer los datos.

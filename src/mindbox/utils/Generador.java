@@ -2,17 +2,17 @@ package mindbox.utils;
 
 import Graduados.Graduado;
 import Secciones.Grupo;
+import Secciones.Materia;
 import Secciones.Semestre;
 import Secciones.utils.NombreCarrera;
 import Usuarios.Usuario;
 import Usuarios.utils.Rol;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import mindbox.Sistema;
-import mindbox.utils.Adapters.LocalDateAdapter;
-import mindbox.utils.Adapters.RolAdapter;
-import mindbox.utils.Adapters.UsuarioAdapter;
+import mindbox.utils.Adapters.*;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -94,6 +94,8 @@ public class Generador {
         Gson json = new GsonBuilder().setPrettyPrinting()//Recordar que setPrettyPrinting es para que el json no quede escrito en una sola línea y esté estéticamente mejor organizado con sus datos.
                 .registerTypeAdapter(Rol.class, new RolAdapter())
                 .registerTypeAdapter(Usuario.class, new UsuarioAdapter())
+                .registerTypeAdapter(Grupo.class, new GrupoAdapter())
+                .registerTypeAdapter(Materia.class, new MateriaAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())//Se inserta un nuevo TypeAdapter que viene desde la clase LocalDateAdapter, para que sepa manejar los objetos de clase LocalDate al serializar.
                 .create();//Creará el archivo json.
         System.out.println("Guardando usuarios en archivo json...");
@@ -109,6 +111,8 @@ public class Generador {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Rol.class, new RolAdapter())
                 .registerTypeAdapter(Usuario.class, new UsuarioAdapter())
+                .registerTypeAdapter(Grupo.class, new GrupoAdapter())
+                .registerTypeAdapter(Materia.class, new MateriaAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
         System.out.println("Accediendo a datos de usuarios...");
@@ -127,6 +131,8 @@ public class Generador {
     //Método para serializar datos de los grupos en un archivo json.
     public static void guardarGruposJson(ArrayList<Grupo> grupos) {
         Gson json = new GsonBuilder().setPrettyPrinting()
+                .registerTypeAdapter(Grupo.class, new GrupoAdapter())
+                .registerTypeAdapter(Materia.class, new MateriaAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
         System.out.println("Guardando grupos en archivo json...");
@@ -140,16 +146,29 @@ public class Generador {
     //Método para deserializar (sacar) datos de los grupos del archivo json.
     public static void deserializarGruposJson() {
         Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Grupo.class, new GrupoAdapter())
+                .registerTypeAdapter(Materia.class, new MateriaAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
         System.out.println("Accediendo a datos de grupos...");
         try (BufferedReader reader = new BufferedReader(new FileReader("grupos.json"))) {
             Type grupoListType = new TypeToken<ArrayList<Grupo>>() {}.getType();
-            ArrayList <Grupo> grupos = gson.fromJson(reader, grupoListType);
-            Sistema.setGrupos(grupos);
+            ArrayList<Grupo> grupos = gson.fromJson(reader, grupoListType);
+
+            // Verifica si la lista de grupos está vacía o es nula
+            if (grupos == null || grupos.isEmpty()) {
+                System.out.println("No se encontraron datos de grupos en el archivo JSON.");
+                //System.out.println("Inicializando grupo...");
+                //Sistema.inicializarGrupos();
+                return;
+            }
+
+            Sistema.setGruposJson(grupos);
             System.out.println("Datos de grupos recuperados con éxito.\n");
         } catch (IOException error) {
-            System.out.println("No se pudieron recuperar los datos: "+ error.getMessage());
+            System.out.println("No se pudieron recuperar los datos: " + error.getMessage());
+        } catch (JsonSyntaxException error) {
+            System.out.println("Error en el formato del archivo JSON: " + error.getMessage());
         }
     }
     //Método para serializar datos de los graduados en un archivo json.
@@ -183,6 +202,8 @@ public class Generador {
     //Método para serializar datos de los semestres en un archivos json.
     public static void guardarSemestresJson(ArrayList<Semestre> semestres) {
         Gson json = new GsonBuilder().setPrettyPrinting()
+                .registerTypeAdapter(Grupo.class, new GrupoAdapter())
+                .registerTypeAdapter(Materia.class, new MateriaAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
         System.out.println("Guardando semestres en archivo json...");
@@ -196,6 +217,8 @@ public class Generador {
     //Método para deserializar (sacar) datos de los graduados del archivo json.
     public static void deserializarSemestresJson() {
         Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Grupo.class, new GrupoAdapter())
+                .registerTypeAdapter(Materia.class, new MateriaAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
         System.out.println("Accediendo a datos de semestres...");
