@@ -97,7 +97,7 @@ public class Profesor extends Trabajador {
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty())
             for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
                 i++;
-                System.out.println(i + " " + materia.getNombre() + "  " + materia.getGrupo().getSemestre() + " " + materia.getGrupo().getTipoGrupo());
+                System.out.println(i + ". " + materia.getNombre() + "  Grupo: " + materia.getGrupo().getSemestre() + " " + materia.getGrupo().getTipoGrupo());
             }
         else {
             System.out.println("No tienes materias asignadas");
@@ -108,11 +108,11 @@ public class Profesor extends Trabajador {
     //Aplicar después de cambiar Semestre y asignar Profesores, para que al Profesor se le registren las materias que tiene
     public void asignarMaterias() {
         materias.clear();
-        if (!Sistema.grupos.isEmpty()) {
+        if (!Sistema.semestres.isEmpty()) {
             for (Semestre semestre : Sistema.semestres) {//entra a semestres
                 if (!semestre.getGrupos().isEmpty()) {
                     for (Grupo grupo : semestre.getGrupos()) { //entra a los grupos de semestre
-                        if (!grupo.getAlumnos().isEmpty()) { //revisa que el grupo tenga alumnos
+                        if (!grupo.getAlumnos().isEmpty()) {//revisa que el grupo tenga alumnos
                             if (!grupo.getMateria().isEmpty()) {  //revisa que grupos tenga materias
                                 for (Map.Entry<Integer, ArrayList<Materia>> matEntry : grupo.getMateria().entrySet()) {//entra a listas de materias
                                     if (grupo.getSemestre() == matEntry.getKey()) { //revisa que el grupo tenga el mismo semestre que la lista de materias
@@ -172,7 +172,7 @@ public class Profesor extends Trabajador {
                 opc = 6;
             }
 
-            while (opc != 6) {
+            while (opc != 5) {
                 System.out.println("1. Mostrar alumnos de un Grupo ");
                 System.out.println("2. Mostrar alumnos de una Materia y Grupo");
                 System.out.println("3. Mostrar alumnos de un Semestre ");
@@ -221,7 +221,7 @@ public class Profesor extends Trabajador {
                     todoBien = true;
                     for (Alumno alumno : materia.getGrupo().getAlumnos()) {
                         if (mostrar == 1) {
-                            System.out.print("\n" + alumno.getNombre() + " ");
+                            System.out.print("\n" + alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                         }
                         if (alumno.getCalificaciones().size() != 0) {
                             for (Calificacion calificacion : alumno.getCalificaciones()) {
@@ -233,14 +233,14 @@ public class Profesor extends Trabajador {
                                     }
                                     if (mostrar == 2) {
                                         if (calificacion.isAprobado()) {
-                                            System.out.print("\n" + alumno.getNombre() + " ");
+                                            System.out.print("\n" + alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                                             System.out.print(calificacion.getMateria().getMateria() + " " +
                                                     calificacion.getMateria().getGrupo().getSemestre() + " " + calificacion.getCalificacion() + "\n");
                                         }
                                     }
                                     if (mostrar == 3) {
                                         if (!calificacion.isAprobado()) {
-                                            System.out.print("\n" + alumno.getNombre() + " ");
+                                            System.out.print("\n" + alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                                             System.out.print(calificacion.getMateria().getMateria() + " " +
                                                     calificacion.getMateria().getGrupo().getSemestre() + " " + calificacion.getCalificacion() + "\n");
                                         }
@@ -249,6 +249,7 @@ public class Profesor extends Trabajador {
                             }
                         }
                     }
+                    System.out.println();
                 }
                 break;
             }
@@ -283,7 +284,7 @@ public class Profesor extends Trabajador {
                     ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getTipoGrupo() + ": ");
             for (Alumno alumno : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos()) {
                 if (mostrar == 1) {
-                    System.out.println(i + " " + alumno.getNombre() + " ");
+                    System.out.print(i+". " + alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                 }
                 if (alumno.getCalificaciones().size() != 0) {
                     for (Calificacion calificacion : alumno.getCalificaciones()) {
@@ -293,13 +294,13 @@ public class Profesor extends Trabajador {
                             }
                             if (mostrar == 2) {
                                 if (calificacion.isAprobado()) {
-                                    System.out.print(i + " " + alumno.getNombre() + " ");
+                                    System.out.print(i+". " + alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                                     System.out.println(calificacion.getCalificacion());
                                 }
                             }
                             if (mostrar == 3) {
                                 if (!calificacion.isAprobado()) {
-                                    System.out.print(i + " " + alumno.getNombre() + " ");
+                                    System.out.print(i+". " + alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                                     System.out.println(calificacion.getCalificacion());
                                 }
                             }
@@ -324,7 +325,7 @@ public class Profesor extends Trabajador {
                     System.out.println("Materia: " + materia.getMateria());
                     for (Alumno alumno : materia.getGrupo().getAlumnos()) {
                         if (mostrar == 1) {
-                            System.out.println(alumno.getNombre() + " ");
+                            System.out.print(alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                         }
                         if (alumno.getCalificaciones().size() != 0) {
                             for (Calificacion calificacion : alumno.getCalificaciones()) {
@@ -334,13 +335,13 @@ public class Profesor extends Trabajador {
                                     }
                                     if (mostrar == 2) {
                                         if (calificacion.isAprobado()) {
-                                            System.out.print(alumno.getNombre() + " ");
+                                            System.out.print(alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                                             System.out.println(calificacion.getCalificacion());
                                         }
                                     }
                                     if (mostrar == 3) {
                                         if (!calificacion.isAprobado()) {
-                                            System.out.print(alumno.getNombre() + " ");
+                                            System.out.print(alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                                             System.out.println(calificacion.getCalificacion());
                                         }
                                     }

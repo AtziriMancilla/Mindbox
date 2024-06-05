@@ -297,9 +297,13 @@ public class Grupo {
         if (hayGrupos()){
             Grupo grupo = obtenerGrupo();
             if (grupo.getAlumnos().isEmpty()){
-                // llamar metodo que verifique que las materias tengan profe null
-                Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
-                System.out.println("Grupo eliminado");
+                if (verProfNull(grupo)){
+                    Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
+                    System.out.println("Grupo eliminado");
+                } else {
+                    System.out.println("Operacion cancelada, maestros asignados a materias del grupo");
+                }
+
             } else {
                 System.out.println("Grupo no eliminado, cantidad de alumnos mayor que 0");
             }
@@ -307,6 +311,16 @@ public class Grupo {
             System.out.println("No hay grupos que eliminar");
         }
 
+    }
+
+    private static Boolean verProfNull(Grupo grupo){
+        boolean siNull = true;
+        for (Materia mat : grupo.getMateria().get(grupo.getSemestre())) {
+            if (mat.getProfesor() != null){
+                siNull = false;
+            }
+        }
+        return siNull;
     }
 
     public static void mostrarGrupos(){
@@ -639,8 +653,8 @@ public class Grupo {
         Alumno alumno = null;
         mostrarAlumnos(grupo);
         do {
-            System.out.print("Ingrese numero de control: ");
-            String num = DatosComun.pedirDatoString();
+            System.out.print("Ingrese numero de control");
+            String num = DatosComun.pedirDatoUsuario();
             for (Alumno al : grupo.getAlumnos()) {
                 if (al.getNumControl().equals(num)){
                     alumno = al;
