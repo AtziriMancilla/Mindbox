@@ -125,7 +125,6 @@ public class Calificacion {
     public String toString() {
         return
                 "Calificacion:" + calificacion +
-                        ", Aprobado:" + aprobado +
                         ", Materia:" + materia +
                         ", Fecha:" + fecha +
                         ' ';
