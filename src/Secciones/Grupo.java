@@ -189,20 +189,7 @@ public class Grupo {
             grupo = new Grupo(carrera, 1, TipoGrupo.A);
             int i = 0;
             do{
-                //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno y tambien para ver que no este en otros grupos
-//                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-//                if (alumno == null){
-//                    add = false;
-//                    i = 3;
-//                    System.out.println("Operacion cancelada");
-//                } else {
-//                    if (alumno.getGrupo() == null){
-//                        Grupo.addAlumno(alumno, grupo);
-//                        i++;
-//                    } else {
-//                        System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
-//                    }
-//                }
+
                 agregarAlumnoGrupo(carrera,grupo);
                 i++;
             } while (i<3);
@@ -226,14 +213,6 @@ public class Grupo {
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
             int i = 0;
             do{
-//                //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno
-//                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-//                if (alumno.getGrupo() == null){
-//                    Grupo.addAlumno(alumno, grupo);
-//                    i++;
-//                } else {
-//                    System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
-//                }
                 agregarAlumnoGrupo(carrera,grupo);
                 i++;
             } while (i<3);
@@ -287,12 +266,19 @@ public class Grupo {
                 }
             } while (act < 0 || act > 2);
             if (act == 1){
-                // llamar a metodo de pedir alumno
-                // llamar metodo de modificar alumnos en grupo
+                System.out.println("Modificar alumno en grupo");
+                Alumno alumno = Grupo.obtenerAlumnoGrupo(grupo);
+                Grupo.modificarAlumno(alumno);
             } else if (act == 2) {
-                Profesor profesor = null;
-                // Falta metodo para pedir profesor
-                addProfeMateria(grupo, profesor);
+                System.out.println("Modifivar profesor en materia");
+                Profesor.mostrarProfesores();
+                Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
+                Grupo.addProfeMateria(grupo, profesor);
+                for (Usuario prof : Sistema.usuarios.get(Rol.PROFESOR)) {
+                    if (((Profesor) prof).getNumControl().equals(profesor.getNumControl())){
+                        ((Profesor) prof).asignarMaterias();
+                    }
+                }
             }
         } else {
             System.out.println("No hay grupos que modificar.");
