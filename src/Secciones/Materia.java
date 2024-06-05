@@ -4,6 +4,7 @@ import Secciones.utils.NombreCarrera;
 import Secciones.utils.NombreMaterias;
 import Usuarios.Profesor;
 import Usuarios.utils.DatosComun;
+import menu.MenuAlumno;
 
 import java.time.format.DateTimeFormatter;
 
@@ -12,14 +13,14 @@ public class Materia {
     private String nombre;
     private NombreMaterias materia;
     private NombreCarrera carrera;
-    private Grupo grupo;
+    private int grupo;
     private Profesor profesor;
     private static int NUM_MATERIA = 1;
 
-    public Materia(NombreMaterias materia, NombreCarrera carrera, Grupo grupo, Profesor profesor) {
+    public Materia(NombreMaterias materia, NombreCarrera carrera, int grupo, Profesor profesor) {
         this.id = NUM_MATERIA;
         this.materia = materia;
-        this.nombre = (materia.toString().toLowerCase() + " " + grupo.getSemestre());
+        this.nombre = (materia.toString().toLowerCase() + " " + MenuAlumno.obtenerGrupoPorID(grupo).getSemestre());
         this.carrera = carrera;
         this.grupo = grupo;
         this.profesor = profesor;
@@ -59,11 +60,11 @@ public class Materia {
         this.carrera = carrera;
     }
 
-    public Grupo getGrupo() {
+    public int getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(Grupo grupo) {
+    public void setGrupo(int grupo) {
         this.grupo = grupo;
     }
 

@@ -94,7 +94,7 @@ public class MenuAlumno {
         if(alumno.getGrupo() != 0){
             ArrayList<Materia> materias= grupo.getMateria().get(alumno.getSemestre());
             for(Materia materia:materias){
-                materia.toString();
+                System.out.println(materia.toString());
             }
         }
         else {

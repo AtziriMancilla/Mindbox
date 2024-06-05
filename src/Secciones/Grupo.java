@@ -477,9 +477,9 @@ public class Grupo {
 
         switch (carrera){
             case ISC:
-                m1 = new Materia(NombreMaterias.PROGRAMACION, carrera, grupo, null);
-                m2 = new Materia(NombreMaterias.PROBABILIDAD, carrera, grupo, null);
-                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                m1 = new Materia(NombreMaterias.PROGRAMACION, carrera, grupo.getId(), null);
+                m2 = new Materia(NombreMaterias.PROBABILIDAD, carrera, grupo.getId(), null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo.getId(), null);
                 grupo.getMateria().get(grupo.getSemestre()).add(m1);
                 grupo.getMateria().get(grupo.getSemestre()).add(m2);
                 grupo.getMateria().get(grupo.getSemestre()).add(m3);
@@ -488,9 +488,9 @@ public class Grupo {
                 Sistema.semestres.get(semestre-1).getMaterias().add(m3);
                 break;
             case IMAT:
-                m1 = new Materia(NombreMaterias.ESTADISTICA, carrera, grupo, null);
-                m2 = new Materia(NombreMaterias.CONTABILIDAD, carrera, grupo, null);
-                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                m1 = new Materia(NombreMaterias.ESTADISTICA, carrera, grupo.getId(), null);
+                m2 = new Materia(NombreMaterias.CONTABILIDAD, carrera, grupo.getId(), null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo.getId(), null);
                 grupo.getMateria().get(grupo.getSemestre()).add(m1);
                 grupo.getMateria().get(grupo.getSemestre()).add(m2);
                 grupo.getMateria().get(grupo.getSemestre()).add(m3);
@@ -499,9 +499,9 @@ public class Grupo {
                 Sistema.semestres.get(semestre-1).getMaterias().add(m3);
                 break;
             case ELC:
-                m1 = new Materia(NombreMaterias.REDES, carrera, grupo, null);
-                m2 = new Materia(NombreMaterias.CIRCUITOS, carrera, grupo, null);
-                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                m1 = new Materia(NombreMaterias.REDES, carrera, grupo.getId(), null);
+                m2 = new Materia(NombreMaterias.CIRCUITOS, carrera, grupo.getId(), null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo.getId(), null);
                 grupo.getMateria().get(grupo.getSemestre()).add(m1);
                 grupo.getMateria().get(grupo.getSemestre()).add(m2);
                 grupo.getMateria().get(grupo.getSemestre()).add(m3);
