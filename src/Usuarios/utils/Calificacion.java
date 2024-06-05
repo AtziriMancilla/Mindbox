@@ -5,12 +5,10 @@ import Secciones.Materia;
 import Secciones.Semestre;
 import Usuarios.Alumno;
 import Usuarios.Profesor;
-import Usuarios.Usuario;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 
 import java.time.LocalDate;
-import java.util.Map;
 
 
 public class Calificacion {
@@ -48,13 +46,15 @@ public class Calificacion {
         int alum = 4;
         System.out.println("Alumnos: ");
         Profesor.mostrarAlumnosMateria(mat, 1);
+        Profesor profesor = (Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual();
+        Materia materia1 = profesor.getMaterias().get(mat);
+        Grupo grupo1 = Profesor.obtenerGrupoPorId(materia1.getId());
         while (alum != -1 && mat != -1) {
             do {
                 System.out.println("Ingrese el no. de alumno: ");
                 System.out.println("Ingrese 0 para dejar de Calificar");
                 alum = DatosComun.pedirNumero();
-            }
-            while (alum < 0 || alum > ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().size());
+            } while (alum < 0 || alum > grupo1.getAlumnos().size());
             alum--;
             if (alum != -1) {
                 double cali = -4;
@@ -65,9 +65,11 @@ public class Calificacion {
                 Calificacion calificacion = new Calificacion(cali, ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat));
                 for (Semestre semestre : Sistema.semestres) {
                     for (Grupo grupo : semestre.getGrupos()) {
-                            if (grupo.getId() == calificacion.getMateria().getGrupo().getId()) {
+                        Materia materia2 = calificacion.getMateria();
+                        Grupo grupo2 = Profesor.obtenerGrupoPorId(materia2.getId());
+                            if (grupo.getId() == grupo2.getId()) {
                                 for (Alumno alumno : grupo.getAlumnos()) {
-                                    if ((alumno).getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().get(alum).getNumControl())) {
+                                    if ((alumno).getNumControl().equals(grupo1.getAlumnos().get(alum).getNumControl())) {
                                         boolean hayCalificaion = false;
                                         if (alumno.getCalificaciones().size() != 0) {
                                             for (Calificacion nota : (alumno.getCalificaciones())) {
@@ -119,6 +121,15 @@ public class Calificacion {
 
     public Materia getMateria() {
         return materia;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "Calificacion:" + calificacion +
+                        ", Materia:" + materia +
+                        ", Fecha:" + fecha +
+                        ' ';
     }
 
 }
