@@ -122,7 +122,8 @@ public class Grupo {
                     if (alumno.aproboSemestre()) {
                         cambiarSemestreGrupo(grupo);
                         alumno.setSemestre(grupo.semestre + 1);
-                        //##cambiar materias de alumno al siguiente semestre##
+                        //##cambiar materias de alumno al siguiente semestre## Aqui ta
+                        addMateriasSemestre(grupo);
                     }
                     //a los que reprobaron los cambia de grupo y deja su semestre en el mismo año
                     else {
@@ -188,6 +189,7 @@ public class Grupo {
             Sistema.grupos.add(grupo);
             Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
+            addMateriasSemestre(grupo);
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
             for(int i=0;i<3;i++){
                 //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno y tambien para ver que no este en otros grupos
@@ -205,6 +207,7 @@ public class Grupo {
             Sistema.grupos.add(grupo);
             Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
+            addMateriasSemestre(grupo);
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
             for(int i=0;i<3;i++){
                 //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno
@@ -379,17 +382,48 @@ public class Grupo {
         grupo.getMateria().put(1, new ArrayList<>());
         grupo.getMateria().put(2, new ArrayList<>());
         grupo.getMateria().put(3, new ArrayList<>());
+    }
+    public static void addMateriasSemestre(Grupo grupo){
         // Recopilando datos que ya estan guardados en grupo
         int semestre = grupo.getSemestre();
         NombreCarrera carrera = grupo.getCarrera();
-        Materia materia;
+        Materia m1, m2, m3;
 
-        for (NombreMaterias mat : NombreMaterias.values()) {
-            // Creando
-            materia = new Materia(mat, carrera, grupo, null);
-            // Añadiendo materia a donde la piden, para borrar o modificar buscaremos por su ID
-            grupo.getMateria().get(grupo.getSemestre()).add(materia);
-            Sistema.semestres.get(semestre-1).getMaterias().add(materia);
+        switch (carrera){
+            case ISC:
+                m1 = new Materia(NombreMaterias.PROGRAMACION, carrera, grupo, null);
+                m2 = new Materia(NombreMaterias.PROBABILIDAD, carrera, grupo, null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                grupo.getMateria().get(grupo.getSemestre()).add(m1);
+                grupo.getMateria().get(grupo.getSemestre()).add(m2);
+                grupo.getMateria().get(grupo.getSemestre()).add(m3);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m1);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m2);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m3);
+                break;
+            case IMAT:
+                m1 = new Materia(NombreMaterias.ESTADISTICA, carrera, grupo, null);
+                m2 = new Materia(NombreMaterias.CONTABILIDAD, carrera, grupo, null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                grupo.getMateria().get(grupo.getSemestre()).add(m1);
+                grupo.getMateria().get(grupo.getSemestre()).add(m2);
+                grupo.getMateria().get(grupo.getSemestre()).add(m3);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m1);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m2);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m3);
+                break;
+            case ELC:
+                m1 = new Materia(NombreMaterias.REDES, carrera, grupo, null);
+                m2 = new Materia(NombreMaterias.CIRCUITOS, carrera, grupo, null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                grupo.getMateria().get(grupo.getSemestre()).add(m1);
+                grupo.getMateria().get(grupo.getSemestre()).add(m2);
+                grupo.getMateria().get(grupo.getSemestre()).add(m3);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m1);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m2);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m3);
+                break;
+            default:
         }
     }
 
