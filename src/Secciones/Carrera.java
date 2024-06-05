@@ -35,11 +35,12 @@ public class Carrera {
                 }
             }
         }
-        if (!Sistema.grupos.isEmpty()) {
-            for (Grupo grupo:Sistema.grupos) {
+        if (!Sistema.semestres.isEmpty()) {
+            for(Semestre semestre:Sistema.semestres){
+            for (Grupo grupo:semestre.getGrupos()) {
                 if (grupo.getCarrera() == carrera) {
                     cantGrupo++;
-                }
+                }}
             }
         }
     }
