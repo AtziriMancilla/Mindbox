@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class Alumno extends Usuario{
     private NombreCarrera carrera;
     private int semestre;
-   private String grupo;
+   private int grupo=0;
    private ArrayList<Calificacion> calificaciones=new ArrayList<>();
     private double promedio=asignarPromedio();
     private String numControl;
@@ -28,7 +28,7 @@ public class Alumno extends Usuario{
         super(nombre, apellidoPaterno, apellidoMaterno, anioNacimiento, fechaNacimiento, ciudad, estado, direccion, curp, fechaRegistro, usuario, contrasena, rol);
        this.carrera=nombreCarrera;
        this.numControl= numControl;
-       this.grupo = "No grupo asignado";
+
     }
     @Override
     public String toString(){
@@ -50,11 +50,11 @@ public class Alumno extends Usuario{
         return carrera;
     }
 
-    public String getGrupo() {
+    public int getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(String grupo) {
+    public void setGrupo(int grupo) {
         this.grupo = grupo;
     }
 
@@ -333,7 +333,7 @@ public class Alumno extends Usuario{
         } else {
             for (int i = 0; i < Sistema.usuarios.get(Rol.ALUMNO).size(); i++) {
                 Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(i);
-                if(carrera.equals(alumno.getCarrera())&&alumno.getGrupo()==null){
+                if(carrera.equals(alumno.getCarrera())&&alumno.getGrupo() == 0){
                     System.out.println((i + 1) + " " + alumno.toString());
                 }
             }
@@ -347,7 +347,7 @@ public class Alumno extends Usuario{
         else {
             for (int i = 0; i < Sistema.usuarios.get(Rol.ALUMNO).size(); i++) {
                 Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(i);
-                if (carrera.equals(alumno.getCarrera()) && alumno.getGrupo() == null) {
+                if (carrera.equals(alumno.getCarrera()) && alumno.getGrupo() == 0) {
                     numero++;
                 }
             }
