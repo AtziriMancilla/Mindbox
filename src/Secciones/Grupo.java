@@ -250,7 +250,7 @@ public class Grupo {
                 }
             } while (band);
             grupo.getAlumnos().add(alumno);
-            alumno.setGrupo(grupo);
+            alumno.setGrupo(grupo.toString());
             alumno.setSemestre(grupo.getSemestre());
             System.out.println("Alumno agregado");
         }
@@ -539,7 +539,7 @@ public class Grupo {
         } else {
 //            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()+1));
             grupo.getAlumnos().add(alumno);
-            alumno.setGrupo(grupo);
+            alumno.setGrupo(grupo.toString());
             System.out.println("Alumno agregado");
         }
     }

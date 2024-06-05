@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class Alumno extends Usuario{
     private NombreCarrera carrera;
     private int semestre;
-   private Grupo grupo;
+   private String grupo;
    private ArrayList<Calificacion> calificaciones=new ArrayList<>();
     private double promedio=asignarPromedio();
     private String numControl;
@@ -28,6 +28,7 @@ public class Alumno extends Usuario{
         super(nombre, apellidoPaterno, apellidoMaterno, anioNacimiento, fechaNacimiento, ciudad, estado, direccion, curp, fechaRegistro, usuario, contrasena, rol);
        this.carrera=nombreCarrera;
        this.numControl= numControl;
+       this.grupo = "No grupo asignado";
     }
     @Override
     public String toString(){
@@ -49,11 +50,11 @@ public class Alumno extends Usuario{
         return carrera;
     }
 
-    public Grupo getGrupo() {
+    public String getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(Grupo grupo) {
+    public void setGrupo(String grupo) {
         this.grupo = grupo;
     }
 
@@ -414,7 +415,4 @@ public class Alumno extends Usuario{
         }
     }
 
-    public static void grupoAlumno(){
-
-    }
 }
