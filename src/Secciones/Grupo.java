@@ -23,7 +23,7 @@ import java.util.HashMap;
 public class Grupo {
     private NombreCarrera carrera;
     private ArrayList<Alumno> alumnos = new ArrayList<>();
-    private int cantidadAlumnos;
+//    private int cantidadAlumnos;
     private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();
     private int id;
     private int semestre;
@@ -34,7 +34,7 @@ public class Grupo {
     public Grupo(NombreCarrera carrera, int semestre, TipoGrupo tipoGrupo) {
         this.id = NUM_GRUPO;
         this.carrera = carrera;
-        this.cantidadAlumnos = 0;
+//        this.cantidadAlumnos = 0;
         this.semestre = semestre;
         this.tipoGrupo = tipoGrupo;
         NUM_GRUPO++;
@@ -48,13 +48,13 @@ public class Grupo {
         this.carrera = carrera;
     }
 
-    public int getCantidadAlumnos() {
-        return cantidadAlumnos;
-    }
-
-    public void setCantidadAlumnos(int cantidadAlumnos) {
-        this.cantidadAlumnos = cantidadAlumnos;
-    }
+//    public int getCantidadAlumnos() {
+////        return cantidadAlumnos;
+//    }
+//
+//    public void setCantidadAlumnos(int cantidadAlumnos) {
+////        this.cantidadAlumnos = cantidadAlumnos;
+//    }
 
     public int getId() {
         return id;
@@ -103,50 +103,55 @@ public class Grupo {
 
     ///////////////////////////
     public static void avanzarGrupo(NombreCarrera carrera, Grupo grupo){
-        boolean band=true;
-        //verifica si cada alumno tiene todas sus calificaciones del semestre
-        for(Alumno alumno:grupo.alumnos){
-            if(!alumno.tieneTodasLasCalificaciones()){
-                band=false;//si hay alguno que no tiene todas sus calificaciones lanza un booleano false
-            }
+        if(grupo.getAlumnos().isEmpty()){
+            System.out.println("No se puede avanzar el grupo porque no hay alumnos");
         }
-        //si sí empieza a cambiar a los alumnos de semestre y al grupo
-        //solo a los que aprobaron y su semestre es menor a 3
-        if(band && grupo.getSemestre()!=3){
-            for(Alumno alumno:grupo.alumnos){
-                Historial.generarHistorial(alumno);
-                if(alumno.aproboSemestre()){
-                    alumno.setSemestre(grupo.semestre+1);
-                    //##cambiar materias de alumno al siguiente semestre##
+        else {
+            boolean band = true;
+            //verifica si cada alumno tiene todas sus calificaciones del semestre
+            for (Alumno alumno : grupo.alumnos) {
+                if (!alumno.tieneTodasLasCalificaciones()) {
+                    band = false;//si hay alguno que no tiene todas sus calificaciones lanza un booleano false
                 }
-                //a los que reprobaron los cambia de grupo y deja su semestre en el mismo año
-                else{
-                    reprobarAlumno(grupo,alumno);
+            }
+            //si sí empieza a cambiar a los alumnos de semestre y al grupo
+            //solo a los que aprobaron y su semestre es menor a 3
+            if (band && grupo.getSemestre() != 3) {
+                for (Alumno alumno : grupo.alumnos) {
+                    Historial.generarHistorial(alumno);
+                    if (alumno.aproboSemestre()) {
+                        alumno.setSemestre(grupo.semestre + 1);
+                        //##cambiar materias de alumno al siguiente semestre##
                     }
-            }
-            //avanza el grupo de semestres
-            grupo.setSemestre(grupo.semestre+1);
-            //###falta cambiar las materias del grupo###
-            grupo.setCantidadAlumnos(grupo.getAlumnos().size());
-        }
-        //si todos tienen sus calificaciones y el semestre es igual a 3 se gradua un grupo
-        if(band && grupo.getSemestre()==3){
-            for(Alumno alumno:grupo.alumnos){
-                Historial.generarHistorial(alumno);
-                //si el alumno aprobo lo gradua
-                if(alumno.aproboSemestre()){
-                    Graduado.registrarGraduado(alumno);//este metodo crea un graduado y lo agrega a la lista de graduados del sistema
+                    //a los que reprobaron los cambia de grupo y deja su semestre en el mismo año
+                    else {
+                        reprobarAlumno(grupo, alumno);
+                    }
                 }
-                //reprueba al alumno
-                else {
-                    reprobarAlumno(grupo,alumno);
-                }
+                //avanza el grupo de semestres
+                grupo.setSemestre(grupo.semestre + 1);
+                //###falta cambiar las materias del grupo###
+//                grupo.setCantidadAlumnos(grupo.getAlumnos().size());
             }
-            //##elimina al grupo de la lista de grupos porque ya se graduaron## no se si se pueda eliminar asi comom asi
-            Sistema.grupos.remove(grupo);
-        }
-        if(!band){
-            System.out.println("No se puede avanzar este grupo");
+            //si todos tienen sus calificaciones y el semestre es igual a 3 se gradua un grupo
+            if (band && grupo.getSemestre() == 3) {
+                for (Alumno alumno : grupo.alumnos) {
+                    Historial.generarHistorial(alumno);
+                    //si el alumno aprobo lo gradua
+                    if (alumno.aproboSemestre()) {
+                        Graduado.registrarGraduado(alumno);//este metodo crea un graduado y lo agrega a la lista de graduados del sistema
+                    }
+                    //reprueba al alumno
+                    else {
+                        reprobarAlumno(grupo, alumno);
+                    }
+                }
+                //##elimina al grupo de la lista de grupos porque ya se graduaron## no se si se pueda eliminar asi comom asi
+                Sistema.grupos.remove(grupo);
+            }
+            if (!band) {
+                System.out.println("No se puede avanzar este grupo");
+            }
         }
     }
 
@@ -155,7 +160,7 @@ public class Grupo {
         boolean band=true;
         for (int i = 0; i < Sistema.grupos.size(); i++) {//ciclo que recorre los grupos buscando uno del mismo semestre
             Grupo grupoNuevo = Sistema.grupos.get(i);
-            if (grupoNuevo.getSemestre() == (grupo.semestre) && grupoNuevo.getCantidadAlumnos() < 20 && band) {
+            if (grupoNuevo.getSemestre() == (grupo.semestre) && grupoNuevo.getAlumnos().size() < 20 && band) {
                 for(Calificacion calificacion: alumno.getCalificaciones()){//ciclo que busca las calificaciones del semestre
                     String nombreMateria=calificacion.getMateria().getNombre();//obtiene el nombre de la materia
                     char ultimoDigito= nombreMateria.charAt(nombreMateria.length()-1);//obtiene el ultimo digito(que es el numero de materia)
@@ -182,13 +187,25 @@ public class Grupo {
             Sistema.grupos.add(grupo);
             Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
+            System.out.println("Seleccione 3 alumnos para poder crear el grupo");
+            for(int i=0;i<3;i++){
+                //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno y tambien para ver que no este en otros grupos
+                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                Grupo.addAlumno(alumno, grupo);
+            }
             System.out.println("Grupo A agregado");
 
-        } else if (Sistema.semestres.get(0).getGrupos().size() == 1 && Sistema.semestres.get(0).getGrupos().get(0).getCantidadAlumnos() >= 3){
+        } else if (Sistema.semestres.get(0).getGrupos().size() == 1 && Sistema.semestres.get(0).getGrupos().get(0).getAlumnos().size() >= 3){
             grupo = new Grupo(carrera, 1, TipoGrupo.B);
             Sistema.grupos.add(grupo);
             Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
+            System.out.println("Seleccione 3 alumnos para poder crear el grupo");
+            for(int i=0;i<3;i++){
+                //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno
+                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                Grupo.addAlumno(alumno, grupo);
+            }
             System.out.println("Grupo B agregado");
         } else {
             System.out.println("Limite de grupos alcanzado");
@@ -229,7 +246,7 @@ public class Grupo {
         System.out.println("\nEliminar grupo");
         if (hayGrupos()){
             Grupo grupo = obtenerGrupo();
-            if (grupo.getCantidadAlumnos() == 0){
+            if (grupo.getAlumnos().isEmpty()){
                 // llamar metodo que verifique que las materias tengan profe null
                 Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
                 System.out.println("Grupo eliminado");
@@ -405,10 +422,10 @@ public class Grupo {
     }
 
     public static void addAlumno(Alumno alumno, Grupo grupo){
-        if (grupo.getCantidadAlumnos() >= 20){
+        if (grupo.getAlumnos().size() >= 20){
             System.out.println("Limite de alumnos alcanzado");
         } else {
-            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()+1));
+//            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()+1));
             grupo.getAlumnos().add(alumno);
             System.out.println("Alumno agregado");
         }
@@ -508,7 +525,7 @@ public class Grupo {
             act = DatosComun.pedirNumero();
         } while (act < 0 || act > 1);
         if (act == 1){
-            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()-1));
+//            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()-1));
             grupo.getAlumnos().remove(alumno);
             System.out.println("Alumno eliminado");
         } else {
