@@ -28,7 +28,7 @@ public class Calificacion {
         this.materia = materia;
         fecha = LocalDate.now();
     }
-
+/*
     //Asigna las calificaciones de grupos a usuarios en Sistema
     public static void grupoUsuarios() {
         for (Grupo grupo : Sistema.grupos) {
@@ -40,7 +40,7 @@ public class Calificacion {
                 }
             }
         }
-    }
+    }*/
 
     //También sirve para modificar
     public static void registrarCalificacion() {
@@ -87,9 +87,9 @@ public class Calificacion {
                                 }
                                 break;
                             }
-                        }
+                        }break;
+
                     }
-                    break;
                 }
             }
         }
