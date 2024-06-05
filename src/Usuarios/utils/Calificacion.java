@@ -64,8 +64,7 @@ public class Calificacion {
                 }
                 Calificacion calificacion = new Calificacion(cali, ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat));
                 for (Semestre semestre : Sistema.semestres) {
-                    if (semestre.getNumSemestre() == calificacion.getMateria().getGrupo().getSemestre()) {
-                        for (Grupo grupo : semestre.getGrupos()) {
+                    for (Grupo grupo : semestre.getGrupos()) {
                             if (grupo.getId() == calificacion.getMateria().getGrupo().getId()) {
                                 for (Alumno alumno : grupo.getAlumnos()) {
                                     if ((alumno).getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos().get(alum).getNumControl())) {
@@ -87,9 +86,9 @@ public class Calificacion {
                                 }
                                 break;
                             }
-                        }break;
+                        }
 
-                    }
+
                 }
             }
         }
