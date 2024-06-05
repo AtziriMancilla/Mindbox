@@ -35,11 +35,12 @@ public class Carrera {
                 }
             }
         }
-        if (!Sistema.grupos.isEmpty()) {
-            for (Map.Entry<Integer, Grupo> entry : Sistema.grupos.entrySet()) {
-                if (entry.getValue().getCarrera() == carrera) {
+        if (!Sistema.semestres.isEmpty()) {
+            for(Semestre semestre:Sistema.semestres){
+            for (Grupo grupo:semestre.getGrupos()) {
+                if (grupo.getCarrera() == carrera) {
                     cantGrupo++;
-                }
+                }}
             }
         }
     }

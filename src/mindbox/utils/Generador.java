@@ -123,7 +123,7 @@ public class Generador {
         }
     } //Nota: Las funciones de los siguientes métodos son las mismas que expliqué anteriormente.
     //Método para serializar datos de los grupos en un archivo json.
-    public static void guardarGruposJson(HashMap<Integer, Grupo> grupos) {
+    public static void guardarGruposJson(ArrayList<Grupo> grupos) {
         Gson json = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
@@ -142,8 +142,8 @@ public class Generador {
                 .create();
         System.out.println("Accediendo a datos de grupos...");
         try (BufferedReader reader = new BufferedReader(new FileReader("grupos.json"))) {
-            Type grupoMapType = new TypeToken<HashMap<Integer, Grupo>>() {}.getType();
-            HashMap<Integer, Grupo> grupos = gson.fromJson(reader, grupoMapType);
+            Type grupoListType = new TypeToken<ArrayList<Grupo>>() {}.getType();
+            ArrayList <Grupo> grupos = gson.fromJson(reader, grupoListType);
             Sistema.setGrupos(grupos);
             System.out.println("Datos de grupos recuperados con éxito.\n");
         } catch (IOException error) {
