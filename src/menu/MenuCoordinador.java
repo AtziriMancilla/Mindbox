@@ -191,7 +191,8 @@ public class MenuCoordinador {
                     Grupo.addProfeMateria(grupo, profesor);
                     for (Usuario prof : Sistema.usuarios.get(Rol.PROFESOR)) {
                         if (((Profesor) prof).getNumControl().equals(profesor.getNumControl())){
-((Profesor) prof).asignarMaterias();                      }
+                            ((Profesor) prof).asignarMaterias();
+                        }
                     }
                     break;
                 case "3":

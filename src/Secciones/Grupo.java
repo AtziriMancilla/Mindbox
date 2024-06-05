@@ -257,12 +257,19 @@ public class Grupo {
                 }
             } while (act < 0 || act > 2);
             if (act == 1){
-                // llamar a metodo de pedir alumno
-                // llamar metodo de modificar alumnos en grupo
+                System.out.println("Modificar alumno en grupo");
+                Alumno alumno = Grupo.obtenerAlumnoGrupo(grupo);
+                Grupo.modificarAlumno(alumno);
             } else if (act == 2) {
-                Profesor profesor = null;
-                // Falta metodo para pedir profesor
-                addProfeMateria(grupo, profesor);
+                System.out.println("Modifivar profesor en materia");
+                Profesor.mostrarProfesores();
+                Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
+                Grupo.addProfeMateria(grupo, profesor);
+                for (Usuario prof : Sistema.usuarios.get(Rol.PROFESOR)) {
+                    if (((Profesor) prof).getNumControl().equals(profesor.getNumControl())){
+                        ((Profesor) prof).asignarMaterias();
+                    }
+                }
             }
         } else {
             System.out.println("No hay grupos que modificar.");
