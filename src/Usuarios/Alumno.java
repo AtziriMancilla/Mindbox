@@ -142,6 +142,7 @@ public class Alumno extends Usuario{
     public static void modificarAlumno(NombreCarrera carrera) {
         Scanner sc = new Scanner(System.in);
         mostrarAlumnos(carrera);
+        System.out.println("Selecciona el alumno que quieres modificar:");
         int numAlumno = pedirAlumno();
         if(numAlumno != 0){
 
@@ -232,7 +233,8 @@ public class Alumno extends Usuario{
 
                 }
                 else {
-                    System.out.println("El alumno que eligió no era parte de sus opciones dentro de la carrera que coordina");
+                    System.out.println("El id del alumno  que eligió no pertenece la carrera que coordina");
+                    System.out.println("Regresando");
                     opt=0;
                 }
 
@@ -254,8 +256,7 @@ public class Alumno extends Usuario{
         do {
             confirmacion = false;
             try {
-                System.out.println("Selecciona al alumno: ");
-                System.out.println("ingrese 0) Regresar/Salir");
+                System.out.println(" 0) Regresar/Salir");
                 numAlumno = DatosComun.pedirNumero();
 
                 if (numAlumno < 0 || numAlumno > Sistema.usuarios.get(Rol.ALUMNO).size()) {
@@ -314,36 +315,40 @@ public class Alumno extends Usuario{
             }
         }
     }*/
-    public static void eliminarAlumno(NombreCarrera carrera){
-        Scanner sc=new Scanner(System.in);
+    public static void eliminarAlumno(NombreCarrera carrera) {
+        Scanner sc = new Scanner(System.in);
         mostrarAlumnos(carrera);
-        int numAlumno=0;
+        int numAlumno = 0;
         boolean band;
-        do {
-            try {
-                band=false;
-                System.out.println("Selecciona el Alumno que deseas eliminar");
-                numAlumno = DatosComun.pedirNumero();
-                Sistema.usuarios.get(Rol.ALUMNO).get(numAlumno - 1);
-            } catch (IndexOutOfBoundsException | InputMismatchException error) {
-                System.out.println("Opcion no valida");
-                band=true;
+        System.out.println("Selecciona el Alumno que deseas eliminar");
+        numAlumno = pedirAlumno();
+        if (numAlumno != 0) {
+            do {
+                try {
+                    band = false;
+
+                    Sistema.usuarios.get(Rol.ALUMNO).get(numAlumno - 1);
+                } catch (IndexOutOfBoundsException | InputMismatchException error) {
+                    System.out.println("Opcion no valida");
+                    band = true;
+                } finally {
+                    sc.nextLine();
+                }
+            } while (band);
+            System.out.println("Seleccionaste a: ");
+            System.out.println(Sistema.usuarios.get(Rol.ALUMNO).get(numAlumno - 1).toString());
+            System.out.println("¿Deseas eliminarlo? 1) Sí, Otro número) Cancelar");
+            int opcion = DatosComun.pedirNumero();
+            if (opcion == 1) {
+                Sistema.usuarios.get(Rol.ALUMNO).remove(numAlumno - 1);
+                System.out.println("Alumno eliminado");
             }
-            finally {
-                sc.nextLine();
+            if (opcion != 1) {
+                System.out.println("Se cancelo la eliminación");
             }
-        }while(band);
-        System.out.println("Seleccionaste a: ");
-        System.out.println(Sistema.usuarios.get(Rol.ALUMNO).get(numAlumno - 1).toString());
-        System.out.println("¿Deseas eliminarlo? 1) Sí, Otro número) Cancelar");
-        int opcion = DatosComun.pedirNumero();
-        if (opcion == 1) {
-            Sistema.usuarios.get(Rol.ALUMNO).remove(numAlumno - 1);
-            System.out.println("Alumno eliminado");
         }
-        if (opcion != 1) {
-            System.out.println("Se cancelo la eliminación");
+        else {
+            System.out.println("Regresando");
         }
     }
-
 }
