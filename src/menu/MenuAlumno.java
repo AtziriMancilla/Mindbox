@@ -1,5 +1,6 @@
 package menu;
 
+import Secciones.Grupo;
 import Secciones.Materia;
 import Usuarios.Alumno;
 import Usuarios.Profesor;
@@ -84,11 +85,12 @@ public class MenuAlumno {
         }
     }
     //ver como hacer si no hay calificaciuones
-    public static void verMaterias(Alumno alumno){
+    public static void verMaterias(Alumno alumno, Grupo grupo){
         if(alumno.getGrupo()!=null){
-            ArrayList<Materia> materias= alumno.getGrupo().getMateria().get(alumno.getSemestre());
-            for(Materia materia:materias){
-                materia.toString();
+            int semestre = grupo.getSemestre();
+            System.out.println("Mostrar Materias del semestre " + semestre);
+            for (Materia mat : grupo.getMateria().get(semestre)) {
+                System.out.println(mat.toString());
             }
         }
         else {
