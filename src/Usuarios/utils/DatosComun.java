@@ -61,24 +61,36 @@ public class DatosComun {
     }
     public static String obtenerNombreUsuario(Rol rol) {
         Scanner scanner = new Scanner(System.in);
-        boolean nombreUsuarioExistente = true;
+        boolean flag1=true,flag2=true,flag3=true;
         String nombreUsuario = "";
 
         do {
             System.out.println("Ingresa el nombre de usuario");
             nombreUsuario = DatosComun.pedirDatoUsuario();
 
-            nombreUsuarioExistente = false;
-            for (Usuario usuario : Sistema.usuarios.get(rol)) {
+            flag1 = false; flag2 = false; flag3 = false;
+            for (Usuario usuario : Sistema.usuarios.get(Rol.ALUMNO)) {
                 if (usuario.getUsuario().equals(nombreUsuario)) {
-                    nombreUsuarioExistente = true;
+                    flag1 = true;
                 }
             }
 
-            if (nombreUsuarioExistente) {
+            for (Usuario usuario : Sistema.usuarios.get(Rol.PROFESOR)) {
+                if (usuario.getUsuario().equals(nombreUsuario)) {
+                    flag2 = true;
+                }
+            }
+
+            for (Usuario usuario : Sistema.usuarios.get(Rol.COORDINADOR)) {
+                if (usuario.getUsuario().equals(nombreUsuario)) {
+                    flag3 = true;
+                }
+            }
+
+            if (flag1||flag2||flag3) {
                 System.out.println("El nombre de usuario ya existe. Intenta de nuevo\n");
             }
-        } while (nombreUsuarioExistente);
+        } while (flag1||flag2||flag3);
 
         return nombreUsuario;
     }
