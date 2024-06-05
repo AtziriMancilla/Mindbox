@@ -35,6 +35,7 @@ public class Sistema {
         }
         return null;
     }
+
     public static void inicializar(){
         usuarios.put(Rol.ALUMNO, new ArrayList<>());
         usuarios.put(Rol.PROFESOR, new ArrayList<>());
@@ -56,7 +57,7 @@ public class Sistema {
         Profesor prof6 = new Profesor("Jafet", "Santoyo", "Benites", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Calle municipal", "MACA960605MMNNRT02", LocalDate.now(), "jafiSanProfe", "uwu", Rol.PROFESOR,  "MACA960605MMN", 0, "MJ24IMAT0");
 
         Profesor prof7 = new Profesor("Alan", "Lopez", "Mancilla", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Callechida", "LOME200522HMNPNDA5", LocalDate.now(), "Sonic", "amosonic", Rol.PROFESOR, "LOME200522HMN", 0, "MA24ELEC0" );
-        Profesor prof8 = new Profesor("Sianya", "Garcia", "Medina", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Calle municipal", "GAMS050720MMNRDNA4", LocalDate.now(), "sianyis", "contabilidadesmipasion",  Rol.PROFESOR,  "PEGJ850315MJC", 0, "MS24ELC0");
+        Profesor prof8 = new Profesor("Sianya", "Garcia", "Medina", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Calle municipal", "GAMS050720MMNRDNA4", LocalDate.now(), "sianyia", "contabilidadesmipasion",  Rol.PROFESOR,  "PEGJ850315MJC", 0, "MS24ELC0");
         Profesor prof9 = new Profesor("Paola Itzel", "Negrete", "Cobian", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Calle municipal", "NECP970423MMNGBL03", LocalDate.now(), "Pao", "Draco", Rol.PROFESOR,  "NECP970423MMN", 0, "MP24ELEC0");
 
         usuarios.get(Rol.PROFESOR).add(prof1);
