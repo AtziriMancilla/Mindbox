@@ -191,7 +191,11 @@ public class Grupo {
             for(int i=0;i<3;i++){
                 //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno y tambien para ver que no este en otros grupos
                 Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                Grupo.addAlumno(alumno, grupo);
+                if (alumno.getGrupo() == null){
+                    Grupo.addAlumno(alumno, grupo);
+                } else {
+                    System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
+                }
             }
             System.out.println("Grupo A agregado");
 
@@ -427,6 +431,7 @@ public class Grupo {
         } else {
 //            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()+1));
             grupo.getAlumnos().add(alumno);
+            alumno.setGrupo(grupo);
             System.out.println("Alumno agregado");
         }
     }
@@ -527,6 +532,7 @@ public class Grupo {
         if (act == 1){
 //            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()-1));
             grupo.getAlumnos().remove(alumno);
+            alumno.setGrupo(null);
             System.out.println("Alumno eliminado");
         } else {
             System.out.println("Operación cancelada");
