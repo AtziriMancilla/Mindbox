@@ -92,6 +92,8 @@ public class Generador {
     //Método para serializar datos de usuario en un archivo json.
     public static void guardarUsuariosJson(HashMap<Rol, ArrayList<Usuario>> usuarios){
         Gson json = new GsonBuilder().setPrettyPrinting()//Recordar que setPrettyPrinting es para que el json no quede escrito en una sola línea y esté estéticamente mejor organizado con sus datos.
+                .registerTypeAdapter(Rol.class, new RolAdapter())
+                .registerTypeAdapter(Usuario.class, new UsuarioAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())//Se inserta un nuevo TypeAdapter que viene desde la clase LocalDateAdapter, para que sepa manejar los objetos de clase LocalDate al serializar.
                 .create();//Creará el archivo json.
         System.out.println("Guardando usuarios en archivo json...");

@@ -112,6 +112,22 @@ public class Sistema {
         Grupo.addMateriasSemestre(g1);
         grupos.add(g1);
     }
+
+    public static void inicializarGrupos_Semestres() {
+        Semestre.inicializarSemestres();
+
+        Grupo g1 = new Grupo(NombreCarrera.ISC, 1, TipoGrupo.A);
+        grupos.add(g1);
+        semestres.get(0).getGrupos().add(g1);
+        Grupo.inicializarMaterias(g1);
+        Grupo.addMateriasSemestre(g1);
+
+        Grupo g2 = new Grupo(NombreCarrera.ELC, 3, TipoGrupo.A);
+        grupos.add(g2);
+        semestres.get(2).getGrupos().add(g2);
+        Grupo.inicializarMaterias(g2);
+        Grupo.addMateriasSemestre(g2);
+    }
     //Setter para poder asignar los nuevos datos obtenidos del json al atributo HashMap usuarios.
     public static void setUsuarios(HashMap<Rol, ArrayList<Usuario>> usuarios) {
         Sistema.usuarios = usuarios;

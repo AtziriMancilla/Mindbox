@@ -54,9 +54,9 @@ public class Menu {
             continuar();
         } else {//Guardado de los datos de Sistema en archivos json antes de finalizar el programa.
             Generador.guardarUsuariosJson(Sistema.usuarios);
-            Generador.guardarGruposJson(Sistema.grupos);
+            //Generador.guardarGruposJson(Sistema.grupos);
             Generador.guardarGraduadosJson(Sistema.graduados);
-            Generador.guardarSemestresJson(Sistema.semestres);
+            //Generador.guardarSemestresJson(Sistema.semestres);
             System.out.println("Saliendo del programa...");
         }
     }
