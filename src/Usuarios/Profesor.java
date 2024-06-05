@@ -603,7 +603,7 @@ public class Profesor extends Trabajador {
             try {
                 band = false;
                 System.out.println("Selecciona el profesor que deseas eliminar");
-                numProfesor = sc.nextInt();
+                numProfesor = DatosComun.pedirNumero();
                 Sistema.usuarios.get(Rol.PROFESOR).get(numProfesor - 1);
             } catch (IndexOutOfBoundsException | InputMismatchException error) {
                 System.out.println("Opcion no valida");
