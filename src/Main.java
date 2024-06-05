@@ -18,7 +18,7 @@ public class Main {
             //Generador.deserializarGruposJson();//Leerá los datos de grupos del archivo json y los asignará a Sistema.
             Generador.deserializarGraduadosJson();//Leerá los datos de graduados del archivo json y los asignará a Sistema.
             //Generador.deserializarSemestresJson();//Leerá los datos de semestre del archivo json y los asignará a Sistema.
-            Sistema.inicializarGrupos_Semestres();
+            //Sistema.inicializarGrupos_Semestres();
             Menu.iniciarSesion();//Una vez obtenidos los datos, se inicia el menú.
         } else {//Si los archivos NO existen, se inicializan los objetos como es habitual y se inicia el menú.
             Sistema.inicializar();
