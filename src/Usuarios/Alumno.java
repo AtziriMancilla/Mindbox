@@ -20,7 +20,7 @@ public class Alumno extends Usuario{
     private int semestre;
    private Grupo grupo;
    private ArrayList<Calificacion> calificaciones=new ArrayList<>();
-    private double promedio;
+    private double promedio=asignarPromedio();
     private String numControl;
     private ArrayList<Historial> historial=new ArrayList<>();
 
@@ -71,6 +71,17 @@ public class Alumno extends Usuario{
 
     public void setPromedio(double promedio) {
         this.promedio = promedio;
+    }
+    public double asignarPromedio() {
+        double promedio=0;
+        double suma=0;
+        if(!calificaciones.isEmpty()){
+            for (Calificacion calificacion:calificaciones){
+                suma+=calificacion.getCalificacion();
+            }
+            promedio=suma/calificaciones.size();
+        }
+        return promedio;
     }
 
     public String getNumControl() {
@@ -326,6 +337,21 @@ public class Alumno extends Usuario{
                 }
             }
         }
+    }
+    public static int numeroAlumnosSinGrupo(NombreCarrera carrera) {
+        int numero = 0;
+        if (Sistema.usuarios.get(Rol.ALUMNO).isEmpty()) {
+            return numero;
+        }
+        else {
+            for (int i = 0; i < Sistema.usuarios.get(Rol.ALUMNO).size(); i++) {
+                Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(i);
+                if (carrera.equals(alumno.getCarrera()) && alumno.getGrupo() == null) {
+                    numero++;
+                }
+            }
+        }
+        return numero;
     }
 
     public void mostrarHistorial(){
