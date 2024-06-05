@@ -190,11 +190,7 @@ public class MenuCoordinador {
                     Profesor.mostrarProfesores();
                     Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
                     Grupo.addProfeMateria(grupo, profesor);
-                    for (Usuario prof : Sistema.usuarios.get(Rol.PROFESOR)) {
-                        if (((Profesor) prof).getNumControl().equals(profesor.getNumControl())){
-                            ((Profesor) prof).asignarMaterias();
-                        }
-                    }
+
                     break;
                 case "3":
                     Grupo.modificarMateria(grupo);

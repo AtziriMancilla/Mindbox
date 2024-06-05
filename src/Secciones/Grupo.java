@@ -392,7 +392,11 @@ public class Grupo {
                 System.out.println("Profesor asignado");
             }
         }
-
+        for (Usuario prof : Sistema.usuarios.get(Rol.PROFESOR)) {
+            if (((Profesor) prof).getNumControl().equals(profesor.getNumControl())){
+                ((Profesor) prof).asignarMaterias();
+            }
+        }
     }
     private static void asignarProfe(Materia materia, Profesor profesor){
         if (materia.getProfesor() == null){
