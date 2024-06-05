@@ -24,7 +24,7 @@ public class Grupo {
     private NombreCarrera carrera;
     private ArrayList<Alumno> alumnos = new ArrayList<>();
 //    private int cantidadAlumnos;
-    private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();
+    private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();//accede por medio de un entero que es el semestre
     private int id;
     private int semestre;
     private TipoGrupo tipoGrupo;
@@ -183,26 +183,26 @@ public class Grupo {
     public static void crearGrupo(NombreCarrera carrera){
         // Pidiendo datos
         Grupo grupo;
+        Boolean add = true;
         System.out.println("\nCrear grupo");
         if (Sistema.semestres.get(0).getGrupos().isEmpty()){
             grupo = new Grupo(carrera, 1, TipoGrupo.A);
-            Sistema.grupos.add(grupo);
-            Sistema.semestres.get(0).getGrupos().add(grupo);
-            inicializarMaterias(grupo);
-            addMateriasSemestre(grupo);
-            System.out.println("Seleccione 3 alumnos para poder crear el grupo");
             int i = 0;
             do{
-                //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno y tambien para ver que no este en otros grupos
-                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                if (alumno.getGrupo() == null){
-                    Grupo.addAlumno(alumno, grupo);
-                    i++;
-                } else {
-                    System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
-                }
+
+                agregarAlumnoGrupo(carrera,grupo);
+                i++;
             } while (i<3);
-            System.out.println("Grupo A agregado");
+
+            if (add){
+                Sistema.grupos.add(grupo);
+                Sistema.semestres.get(0).getGrupos().add(grupo);
+                inicializarMaterias(grupo);
+                addMateriasSemestre(grupo);
+                System.out.println("Grupo A agregado");
+            }
+
+
 
         } else if (Sistema.semestres.get(0).getGrupos().size() == 1){
             grupo = new Grupo(carrera, 1, TipoGrupo.B);
@@ -213,20 +213,41 @@ public class Grupo {
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
             int i = 0;
             do{
-                //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno
-                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                if (alumno.getGrupo() == null){
-                    Grupo.addAlumno(alumno, grupo);
-                    i++;
-                } else {
-                    System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
-                }
+                agregarAlumnoGrupo(carrera,grupo);
+                i++;
             } while (i<3);
             System.out.println("Grupo B agregado");
         } else {
             System.out.println("Limite de grupos alcanzado");
         }
 
+    }
+    //
+    public static void agregarAlumnoGrupo(NombreCarrera carrera,Grupo grupo) {
+        Alumno.mostrarAlumnosSinGrupo(carrera);
+        boolean band;
+        Alumno alumno=null;
+        int opcion=0;
+        do {
+            try {
+                band = false;
+                System.out.println("Seleccione el alumno: ");
+                opcion = DatosComun.pedirNumero();
+                if (opcion < 1 || opcion > Sistema.usuarios.get(Rol.ALUMNO).size()) {
+                    throw new IndexOutOfBoundsException("El dato ingresado está fuera del tamaño de la lista");
+                }
+                alumno=(Alumno)Sistema.usuarios.get(Rol.ALUMNO).get(opcion-1);
+                if(!alumno.getCarrera().equals(carrera)||alumno.getGrupo()!=null){
+                    throw new IndexOutOfBoundsException("El indice no es valido");
+                }
+            } catch (IndexOutOfBoundsException error) {
+                System.out.println("Error: " + error.getMessage());
+                band = true;
+            }
+        }while (band);
+        grupo.getAlumnos().add(alumno);
+        alumno.setGrupo(grupo);
+        System.out.println("Alumno agregado");
     }
 
     public static void modificarGrupo(){
@@ -245,12 +266,19 @@ public class Grupo {
                 }
             } while (act < 0 || act > 2);
             if (act == 1){
-                // llamar a metodo de pedir alumno
-                // llamar metodo de modificar alumnos en grupo
+                System.out.println("Modificar alumno en grupo");
+                Alumno alumno = Grupo.obtenerAlumnoGrupo(grupo);
+                Grupo.modificarAlumno(alumno);
             } else if (act == 2) {
-                Profesor profesor = null;
-                // Falta metodo para pedir profesor
-                addProfeMateria(grupo, profesor);
+                System.out.println("Modifivar profesor en materia");
+                Profesor.mostrarProfesores();
+                Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
+                Grupo.addProfeMateria(grupo, profesor);
+                for (Usuario prof : Sistema.usuarios.get(Rol.PROFESOR)) {
+                    if (((Profesor) prof).getNumControl().equals(profesor.getNumControl())){
+                        ((Profesor) prof).asignarMaterias();
+                    }
+                }
             }
         } else {
             System.out.println("No hay grupos que modificar.");
@@ -263,9 +291,13 @@ public class Grupo {
         if (hayGrupos()){
             Grupo grupo = obtenerGrupo();
             if (grupo.getAlumnos().isEmpty()){
-                // llamar metodo que verifique que las materias tengan profe null
-                Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
-                System.out.println("Grupo eliminado");
+                if (verProfNull(grupo)){
+                    Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
+                    System.out.println("Grupo eliminado");
+                } else {
+                    System.out.println("Operacion cancelada, maestros asignados a materias del grupo");
+                }
+
             } else {
                 System.out.println("Grupo no eliminado, cantidad de alumnos mayor que 0");
             }
@@ -273,6 +305,16 @@ public class Grupo {
             System.out.println("No hay grupos que eliminar");
         }
 
+    }
+
+    private static Boolean verProfNull(Grupo grupo){
+        boolean siNull = true;
+        for (Materia mat : grupo.getMateria().get(grupo.getSemestre())) {
+            if (mat.getProfesor() != null){
+                siNull = false;
+            }
+        }
+        return siNull;
     }
 
     public static void mostrarGrupos(){
@@ -472,7 +514,11 @@ public class Grupo {
 
     public static Alumno obtenerAlumnoGeneral(NombreCarrera carrera){
         Alumno.mostrarAlumnos(carrera);
-        Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(Alumno.pedirAlumnoGeneral());
+        int num = Alumno.pedirAlumno();
+        Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(num);
+        if (num == 0){
+            alumno = null;
+        }
         return alumno;
     }
 
@@ -601,8 +647,8 @@ public class Grupo {
         Alumno alumno = null;
         mostrarAlumnos(grupo);
         do {
-            System.out.print("Ingrese numero de control: ");
-            String num = DatosComun.pedirDatoString();
+            System.out.print("Ingrese numero de control");
+            String num = DatosComun.pedirDatoUsuario();
             for (Alumno al : grupo.getAlumnos()) {
                 if (al.getNumControl().equals(num)){
                     alumno = al;

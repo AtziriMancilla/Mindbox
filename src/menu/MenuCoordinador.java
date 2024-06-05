@@ -8,6 +8,7 @@ import Usuarios.Alumno;
 import Usuarios.Coordinador;
 import Usuarios.Profesor;
 import Usuarios.Usuario;
+import Usuarios.utils.DatosComun;
 import Usuarios.utils.Rol;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
@@ -191,7 +192,8 @@ public class MenuCoordinador {
                     Grupo.addProfeMateria(grupo, profesor);
                     for (Usuario prof : Sistema.usuarios.get(Rol.PROFESOR)) {
                         if (((Profesor) prof).getNumControl().equals(profesor.getNumControl())){
-((Profesor) prof).asignarMaterias();                      }
+                            ((Profesor) prof).asignarMaterias();
+                        }
                     }
                     break;
                 case "3":
@@ -201,16 +203,33 @@ public class MenuCoordinador {
                     Grupo.mostrarMaterias(grupo);
                     break;
                 case "5":
-                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                    Grupo.addAlumno(alumno, grupo);
+                    Grupo.agregarAlumnoGrupo(carrera,grupo);
                     break;
                 case "6":
-                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                    alumno = Grupo.obtenerAlumnoGrupo(grupo);
                     Grupo.modificarAlumno(alumno);
                     break;
                 case "7":
-                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                    Grupo.eliminarAlumno(alumno, grupo);
+                    if (grupo.getAlumnos().size() > 3){
+                        alumno = Grupo.obtenerAlumnoGrupo(grupo);
+                        Grupo.eliminarAlumno(alumno, grupo);
+                    } else {
+                        System.out.println("Cantidad de alumnos en grupo es: "+grupo.getAlumnos().size());
+                        System.out.println("Desea:\n1 - Eliminar alumno\n2 - Cancelar");
+                        int aux;
+                        do {
+                            aux = DatosComun.pedirNumero();
+                            if (aux < 1 || aux > 2){
+                                System.out.println("Desea:\n1 - Eliminar alumno\n2 - Cancelar");
+                            }
+                        } while (aux < 1 || aux > 2);
+                        if (aux == 1){
+                            alumno = Grupo.obtenerAlumnoGrupo(grupo);
+                            Grupo.eliminarAlumno(alumno, grupo);
+                        } else {
+                            System.out.println("Operacion cancelada");
+                        }
+                    }
                     break;
                 case "8":
                     Grupo.mostrarAlumnos(grupo);
