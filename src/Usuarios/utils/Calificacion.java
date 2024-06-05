@@ -48,7 +48,7 @@ public class Calificacion {
         Profesor.mostrarAlumnosMateria(mat, 1);
         Profesor profesor = (Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual();
         Materia materia1 = profesor.getMaterias().get(mat);
-        Grupo grupo1 = Profesor.obtenerGrupoPorId(materia1.getId());
+        Grupo grupo1 = Profesor.obtenerGrupoPorId(materia1.getGrupo());
         while (alum != -1 && mat != -1) {
             do {
                 System.out.println("Ingrese el no. de alumno: ");
@@ -66,7 +66,7 @@ public class Calificacion {
                 for (Semestre semestre : Sistema.semestres) {
                     for (Grupo grupo : semestre.getGrupos()) {
                         Materia materia2 = calificacion.getMateria();
-                        Grupo grupo2 = Profesor.obtenerGrupoPorId(materia2.getId());
+                        Grupo grupo2 = Profesor.obtenerGrupoPorId(materia2.getGrupo());
                             if (grupo.getId() == grupo2.getId()) {
                                 for (Alumno alumno : grupo.getAlumnos()) {
                                     if ((alumno).getNumControl().equals(grupo1.getAlumnos().get(alum).getNumControl())) {

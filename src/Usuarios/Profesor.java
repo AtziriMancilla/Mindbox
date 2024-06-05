@@ -109,13 +109,12 @@ public class Profesor extends Trabajador {
     public static Grupo obtenerGrupoPorId(int id) {
         Grupo grupo = null;
         for (int i = 0; i < 3; i++) {
-            for(Grupo grupo1:Sistema.semestres.get(i).getGrupos()) {
-                if(grupo1.getId() == id) {
-                    grupo = grupo1;
+            for(Grupo gr : Sistema.semestres.get(i).getGrupos()){
+                if (gr.getId() == id){
+                    return gr;
                 }
             }
         }
-
         return grupo;
     }
 
@@ -155,7 +154,7 @@ public class Profesor extends Trabajador {
         System.out.println("Grupos: ");
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
             for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
-                Grupo grupo = obtenerGrupoPorId(materia.getId());
+                Grupo grupo = obtenerGrupoPorId(materia.getGrupo());
 
                 System.out.println("Grupo " + grupo.getSemestre() + grupo.getTipoGrupo());
                 System.out.println("Materia: " + materia.getMateria());
@@ -233,7 +232,7 @@ public class Profesor extends Trabajador {
         boolean todoBien = false;
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
             for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
-                Grupo grupo = obtenerGrupoPorId(materia.getId());
+                Grupo grupo = obtenerGrupoPorId(materia.getGrupo());
 
                 if (grupo.getId() == id) {
                     todoBien = true;
@@ -244,7 +243,7 @@ public class Profesor extends Trabajador {
                         if (alumno.getCalificaciones().size() != 0) {
                             for (Calificacion calificacion : alumno.getCalificaciones()) {
                                 Materia materia1 = calificacion.getMateria();
-                                Grupo grupo1 = obtenerGrupoPorId(materia1.getId());
+                                Grupo grupo1 = obtenerGrupoPorId(materia1.getGrupo());
                                 if (calificacion.getMateria().getProfesor().getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getNumControl())) {
 
                                     if (mostrar == 1) {
@@ -301,7 +300,7 @@ public class Profesor extends Trabajador {
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
             Profesor profesor = (Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual();
             Materia materia = profesor.getMaterias().get(mat);
-            Grupo grupo = obtenerGrupoPorId(materia.getId());
+            Grupo grupo = obtenerGrupoPorId(materia.getGrupo());
             System.out.println(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getMateria() + " " +
                     grupo.getSemestre() + " " +
                     grupo.getTipoGrupo() + ": ");
@@ -344,7 +343,7 @@ public class Profesor extends Trabajador {
         System.out.println("Alumnos de Semestre: " + semestre);
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
             for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
-                Grupo grupo = obtenerGrupoPorId(materia.getId());
+                Grupo grupo = obtenerGrupoPorId(materia.getGrupo());
 
                 if (grupo.getSemestre() == semestre) {
                     System.out.println("Materia: " + materia.getMateria());
@@ -386,7 +385,7 @@ public class Profesor extends Trabajador {
 
     public static void mostrarTodosAlumnos(int mostrar) {
         for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
-            Grupo grupo = obtenerGrupoPorId(materia.getId());
+            Grupo grupo = obtenerGrupoPorId(materia.getGrupo());
 
             System.out.println("Materia: " + materia.getMateria() + " Grupo: " + grupo.getSemestre() + grupo.getTipoGrupo());
             for (Alumno alumno : grupo.getAlumnos()) {
