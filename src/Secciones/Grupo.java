@@ -24,7 +24,7 @@ public class Grupo {
     private NombreCarrera carrera;
     private ArrayList<Alumno> alumnos = new ArrayList<>();
 //    private int cantidadAlumnos;
-    private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();
+    private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();//accede por medio de un entero que es el semestre
     private int id;
     private int semestre;
     private TipoGrupo tipoGrupo;

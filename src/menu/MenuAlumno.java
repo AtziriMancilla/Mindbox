@@ -5,6 +5,7 @@ import Usuarios.Alumno;
 import Usuarios.Profesor;
 import mindbox.UsuarioEnSesion;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuAlumno {
@@ -52,22 +53,46 @@ public class MenuAlumno {
         System.out.println(datos);
     }
     public static void verGrupo(Alumno alumno){
+        if(alumno.getGrupo()==null){
+            System.out.println("Aun no estas registrado en un grupo");
+        }
+        else{
         String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getAlumnos().size());
         System.out.println(datos);
+        }
     }
     public static void verProfesores(Alumno alumno){
-        Profesor profesor1= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0).getProfesor();
-        Materia materia1= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0);
-        Profesor profesor2= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1).getProfesor();
-        Materia materia2= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1);
-        Profesor profesor3= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2).getProfesor();
-        Materia materia3= alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2);
-        String profesores=String.format("Profesor: %s Materia: %s\nProfesor: %s, Materia: %s\nProfesor: %s, Materia: %s",profesor1,materia1,profesor2,materia2,profesor3,materia3);
-        System.out.println(profesores);
+        if(alumno.getGrupo()==null){
+            System.out.println("No tienes profesores asignados");
+        }
+        else {
+            if (alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0) != null) {
+                Profesor profesor1 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0).getProfesor();
+                Materia materia1 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0);
+                System.out.printf("Profesor 1: %s \n Materia que imparte: %s", profesor1, materia1);
+            }
+            if (alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1) != null) {
+                Profesor profesor2 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1).getProfesor();
+                Materia materia2 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1);
+                System.out.printf("Profesor 2: %s \n Materia que imparte: %s", profesor2, materia2);
+            }
+            if (alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2) != null) {
+                Profesor profesor3 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2).getProfesor();
+                Materia materia3 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2);
+                System.out.printf("Profesor 1: %s \n Materia que imparte: %s", profesor3, materia3);
+            }
+        }
     }
     //ver como hacer si no hay calificaciuones
     public static void verMaterias(Alumno alumno){
-        System.out.println(alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0).toString());
-        //String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getCantidadAlumnos());
+        if(alumno.getGrupo()!=null){
+            ArrayList<Materia> materias= alumno.getGrupo().getMateria().get(alumno.getSemestre());
+            for(Materia materia:materias){
+                materia.toString();
+            }
+        }
+        else {
+            System.out.println("No hay materias asignadas");
+        }
     }
 }
