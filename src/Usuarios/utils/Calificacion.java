@@ -87,9 +87,9 @@ public class Calificacion {
                                 }
                                 break;
                             }
-                        }
+                        }break;
+
                     }
-                    break;
                 }
             }
         }
