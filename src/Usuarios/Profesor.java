@@ -96,7 +96,7 @@ public class Profesor extends Trabajador {
         int i = 0;
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty())
             for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
-                Grupo grupo = obtenerGrupoPorId(materia.getId());
+                Grupo grupo = obtenerGrupoPorId(materia.getGrupo());
 
                 i++;
                 System.out.println(i + ". " + materia.getNombre() + "  Grupo: " + grupo.getSemestre() + " " + grupo.getTipoGrupo());

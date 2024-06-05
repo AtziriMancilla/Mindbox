@@ -105,7 +105,7 @@ public class Grupo {
     public static void avanzarGrupo(NombreCarrera carrera, Grupo grupo){
             boolean band = true;
             //verifica si cada alumno tiene todas sus calificaciones del semestre
-            for (Alumno alumno : grupo.alumnos) {
+            for (Alumno alumno : grupo.getAlumnos()) {
                 if (!alumno.tieneTodasLasCalificaciones()) {
                     band = false;//si hay alguno que no tiene todas sus calificaciones lanza un booleano false
                 }

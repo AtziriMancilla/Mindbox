@@ -111,7 +111,7 @@ public class MenuAlumno {
         for (int i = 0; i < 3; i++) {
             for(Grupo gr : Sistema.semestres.get(i).getGrupos()){
                 if (gr.getId() == id){
-                    grupo = gr;
+                    return gr;
                 }
             }
         }

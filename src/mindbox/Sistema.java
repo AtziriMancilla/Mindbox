@@ -103,14 +103,23 @@ public class Sistema {
 
         Semestre.inicializarSemestres();
 
-        Grupo g1 = new Grupo(NombreCarrera.ISC, 1, TipoGrupo.A);
-        //g1.getAlumnos().add(al1);
-        //g1.getAlumnos().add(al2);
-        //g1.getAlumnos().add(al3);
-        semestres.get(0).getGrupos().add(g1);
-        Grupo.inicializarMaterias(g1);
-        Grupo.addMateriasSemestre(g1);
-        grupos.add(g1);
+//        Grupo g1 = new Grupo(NombreCarrera.ISC, 1, TipoGrupo.A);
+//        g1.getAlumnos().add(al1);
+//        g1.getAlumnos().add(al2);
+//        g1.getAlumnos().add(al3);
+//        semestres.get(0).getGrupos().add(g1);
+//        Grupo.inicializarMaterias(g1);
+//        Grupo.addMateriasSemestre(g1);
+//        grupos.add(g1);
+//        for(Grupo grupo:semestres.get(0).getGrupos()){
+//            if(grupo.getId()==g1.getId()){
+//                grupo.getMateria().get(0).get(0).setProfesor(prof1);
+//                grupo.getMateria().get(0).get(1).setProfesor(prof1);
+//                grupo.getMateria().get(0).get(2).setProfesor(prof1);
+//                break;
+//
+//            }
+//        }
     }
 
     public static void inicializarGrupos_Semestres() {
