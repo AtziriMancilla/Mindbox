@@ -190,19 +190,21 @@ public class Grupo {
             int i = 0;
             do{
                 //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno y tambien para ver que no este en otros grupos
-                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                if (alumno == null){
-                    add = false;
-                    i = 3;
-                    System.out.println("Operacion cancelada");
-                } else {
-                    if (alumno.getGrupo() == null){
-                        Grupo.addAlumno(alumno, grupo);
-                        i++;
-                    } else {
-                        System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
-                    }
-                }
+//                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
+//                if (alumno == null){
+//                    add = false;
+//                    i = 3;
+//                    System.out.println("Operacion cancelada");
+//                } else {
+//                    if (alumno.getGrupo() == null){
+//                        Grupo.addAlumno(alumno, grupo);
+//                        i++;
+//                    } else {
+//                        System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
+//                    }
+//                }
+                agregarAlumnoGrupo(carrera,grupo);
+                i++;
             } while (i<3);
 
             if (add){
@@ -210,7 +212,6 @@ public class Grupo {
                 Sistema.semestres.get(0).getGrupos().add(grupo);
                 inicializarMaterias(grupo);
                 addMateriasSemestre(grupo);
-                System.out.println("Seleccione 3 alumnos para poder crear el grupo");
                 System.out.println("Grupo A agregado");
             }
 
@@ -225,14 +226,16 @@ public class Grupo {
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
             int i = 0;
             do{
-                //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno
-                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                if (alumno.getGrupo() == null){
-                    Grupo.addAlumno(alumno, grupo);
-                    i++;
-                } else {
-                    System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
-                }
+//                //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno
+//                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
+//                if (alumno.getGrupo() == null){
+//                    Grupo.addAlumno(alumno, grupo);
+//                    i++;
+//                } else {
+//                    System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
+//                }
+                agregarAlumnoGrupo(carrera,grupo);
+                i++;
             } while (i<3);
             System.out.println("Grupo B agregado");
         } else {
@@ -264,6 +267,8 @@ public class Grupo {
             }
         }while (band);
         grupo.getAlumnos().add(alumno);
+        alumno.setGrupo(grupo);
+        System.out.println("Alumno agregado");
     }
 
     public static void modificarGrupo(){
