@@ -185,7 +185,7 @@ public class Grupo {
         Grupo grupo;
         Boolean add = true;
         System.out.println("\nCrear grupo");
-        if (Sistema.semestres.get(0).getGrupos().isEmpty()){
+        if (noExisteGrupo(carrera)){
             grupo = new Grupo(carrera, 1, TipoGrupo.A);
             int i = 0;
             do{
@@ -231,10 +231,19 @@ public class Grupo {
         }
 
     }
+    public static boolean noExisteGrupo(NombreCarrera carrera){
+        boolean band=true;
+        for (Grupo grupo:Sistema.grupos){
+            if(grupo.getCarrera()==carrera){
+                band=false;
+            }
+        }
+        return band;
+    }
     public static boolean yahayGrupoA(NombreCarrera carrera){
         boolean band=false;
         for (Grupo grupo:Sistema.grupos){
-            if(grupo.getCarrera().equals(carrera)&&grupo.getSemestre()==1){
+            if(grupo.getCarrera()==carrera&&grupo.getSemestre()==1){
                 band=true;
             }
         }
