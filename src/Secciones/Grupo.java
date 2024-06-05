@@ -426,7 +426,7 @@ public class Grupo {
         int idProf = Profesor.pedirProfesor();
         Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(idProf);
         asignarProfe(materia, profesor);
-        ((Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(idProf)).asignarMaterias();
+
     }
 
     public static void mostrarMaterias(Grupo grupo){
