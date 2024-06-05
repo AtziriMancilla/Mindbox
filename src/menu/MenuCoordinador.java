@@ -188,7 +188,7 @@ public class MenuCoordinador {
                     break;
                 case "2":
                     Profesor.mostrarProfesores();
-                    Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
+                    Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesorIndice());
                     Grupo.addProfeMateria(grupo, profesor);
 
                     break;

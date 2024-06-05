@@ -556,6 +556,32 @@ public class Profesor extends Trabajador {
         sc.nextLine();
         return numProfesor;
     }
+    public static int pedirProfesorIndice() {
+        Scanner sc = new Scanner(System.in);
+        boolean confirmacion = false;
+        int numProfesor = 0;
+
+        do {
+            confirmacion = false;
+            try {
+                System.out.println("Selecciona al profesor: ");
+                numProfesor = DatosComun.pedirNumero();
+
+                if (numProfesor < 1 || numProfesor > Sistema.usuarios.get(Rol.PROFESOR).size()) {
+                    throw new IndexOutOfBoundsException("El dato ingresado está fuera del tamaño de la lista");
+                } else {
+
+                    return numProfesor-1;
+                }
+            } catch (IndexOutOfBoundsException error) {
+
+                System.out.println("Error: " + error.getMessage());
+
+            }
+        } while (confirmacion);
+        sc.nextLine();
+        return numProfesor-1;
+    }
 
     public static void mostrarProfesores() {
         System.out.println("\nProfesores: \n");
