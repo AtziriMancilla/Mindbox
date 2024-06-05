@@ -93,9 +93,6 @@ public class Alumno extends Usuario{
         this.numControl = numControl;
     }
     /////////////////////////////////////////
-    public static void darDeAlta(){
-
-    }
     //####método que dice si un alumno tiene todas las calificaciones del semestre###
     public boolean tieneTodasLasCalificaciones(){
         boolean band=false;
@@ -259,7 +256,16 @@ public class Alumno extends Usuario{
 
 
     }
-
+    public void verCalificaciones(){
+        if(calificaciones.isEmpty()){
+            System.out.println("No tienes calificaciones registradas");
+        }
+        else {
+            for (Calificacion calificacion : calificaciones) {
+                System.out.println(calificacion.toString());
+            }
+        }
+    }
     public static int pedirAlumno() {
         Scanner sc = new Scanner(System.in);
         boolean confirmacion = false;

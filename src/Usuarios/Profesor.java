@@ -96,14 +96,28 @@ public class Profesor extends Trabajador {
         int i = 0;
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty())
             for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
+                Grupo grupo = obtenerGrupoPorId(materia.getGrupo());
+
                 i++;
-                System.out.println(i + ". " + materia.getNombre() + "  Grupo: " + materia.getGrupo().getSemestre() + " " + materia.getGrupo().getTipoGrupo());
+                System.out.println(i + ". " + materia.getNombre() + "  Grupo: " + grupo.getSemestre() + " " + grupo.getTipoGrupo());
             }
         else {
             System.out.println("No tienes materias asignadas");
         }
     }
 
+    public static Grupo obtenerGrupoPorId(int id) {
+        Grupo grupo = null;
+        for (int i = 0; i < 3; i++) {
+            for(Grupo grupo1:Sistema.semestres.get(i).getGrupos()) {
+                if(grupo1.getId() == id) {
+                    grupo = grupo1;
+                }
+            }
+        }
+
+        return grupo;
+    }
 
     //Aplicar después de cambiar Semestre y asignar Profesores, para que al Profesor se le registren las materias que tiene
     public void asignarMaterias() {
@@ -141,9 +155,11 @@ public class Profesor extends Trabajador {
         System.out.println("Grupos: ");
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
             for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
-                System.out.println("Grupo " + materia.getGrupo().getSemestre() + materia.getGrupo().getTipoGrupo());
+                Grupo grupo = obtenerGrupoPorId(materia.getId());
+
+                System.out.println("Grupo " + grupo.getSemestre() + grupo.getTipoGrupo());
                 System.out.println("Materia: " + materia.getMateria());
-                System.out.println("Id del grupo: " + materia.getGrupo().getId());
+                System.out.println("Id del grupo: " + grupo.getId());
             }
             while (opc < 1 || opc > 4) {
                 System.out.println("1. Mostrar todos los alumnos");
@@ -217,32 +233,36 @@ public class Profesor extends Trabajador {
         boolean todoBien = false;
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
             for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
-                if (materia.getGrupo().getId() == id) {
+                Grupo grupo = obtenerGrupoPorId(materia.getId());
+
+                if (grupo.getId() == id) {
                     todoBien = true;
-                    for (Alumno alumno : materia.getGrupo().getAlumnos()) {
+                    for (Alumno alumno : grupo.getAlumnos()) {
                         if (mostrar == 1) {
                             System.out.print("\n" + alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                         }
                         if (alumno.getCalificaciones().size() != 0) {
                             for (Calificacion calificacion : alumno.getCalificaciones()) {
+                                Materia materia1 = calificacion.getMateria();
+                                Grupo grupo1 = obtenerGrupoPorId(materia1.getId());
                                 if (calificacion.getMateria().getProfesor().getNumControl().equals(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getNumControl())) {
 
                                     if (mostrar == 1) {
                                         System.out.print(calificacion.getMateria().getMateria() + " " +
-                                                calificacion.getMateria().getGrupo().getSemestre() + " " + calificacion.getCalificacion() + "\n");
+                                                grupo1.getSemestre() + " " + calificacion.getCalificacion() + "\n");
                                     }
                                     if (mostrar == 2) {
                                         if (calificacion.isAprobado()) {
                                             System.out.print("\n" + alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                                             System.out.print(calificacion.getMateria().getMateria() + " " +
-                                                    calificacion.getMateria().getGrupo().getSemestre() + " " + calificacion.getCalificacion() + "\n");
+                                                    grupo1.getSemestre() + " " + calificacion.getCalificacion() + "\n");
                                         }
                                     }
                                     if (mostrar == 3) {
                                         if (!calificacion.isAprobado()) {
                                             System.out.print("\n" + alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                                             System.out.print(calificacion.getMateria().getMateria() + " " +
-                                                    calificacion.getMateria().getGrupo().getSemestre() + " " + calificacion.getCalificacion() + "\n");
+                                                    grupo1.getSemestre() + " " + calificacion.getCalificacion() + "\n");
                                         }
                                     }
                                 }
@@ -279,10 +299,13 @@ public class Profesor extends Trabajador {
     public static void mostrarAlumnosMateria(int mat, int mostrar) {
         int i = 1;
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
+            Profesor profesor = (Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual();
+            Materia materia = profesor.getMaterias().get(mat);
+            Grupo grupo = obtenerGrupoPorId(materia.getId());
             System.out.println(((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getMateria() + " " +
-                    ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getSemestre() + " " +
-                    ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getTipoGrupo() + ": ");
-            for (Alumno alumno : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().get(mat).getGrupo().getAlumnos()) {
+                    grupo.getSemestre() + " " +
+                    grupo.getTipoGrupo() + ": ");
+            for (Alumno alumno : grupo.getAlumnos()) {
                 if (mostrar == 1) {
                     System.out.print(i+". " + alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                 }
@@ -321,9 +344,11 @@ public class Profesor extends Trabajador {
         System.out.println("Alumnos de Semestre: " + semestre);
         if (!((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias().isEmpty()) {
             for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
-                if (materia.getGrupo().getSemestre() == semestre) {
+                Grupo grupo = obtenerGrupoPorId(materia.getId());
+
+                if (grupo.getSemestre() == semestre) {
                     System.out.println("Materia: " + materia.getMateria());
-                    for (Alumno alumno : materia.getGrupo().getAlumnos()) {
+                    for (Alumno alumno : grupo.getAlumnos()) {
                         if (mostrar == 1) {
                             System.out.print(alumno.getNombre()+" "+alumno.getApellidoPaterno()+" "+alumno.getApellidoMaterno()+" ");
                         }
@@ -361,8 +386,10 @@ public class Profesor extends Trabajador {
 
     public static void mostrarTodosAlumnos(int mostrar) {
         for (Materia materia : ((Profesor) UsuarioEnSesion.getInstancia().getUsuarioActual()).getMaterias()) {
-            System.out.println("Materia: " + materia.getMateria() + " Grupo: " + materia.getGrupo().getSemestre() + materia.getGrupo().getTipoGrupo());
-            for (Alumno alumno : materia.getGrupo().getAlumnos()) {
+            Grupo grupo = obtenerGrupoPorId(materia.getId());
+
+            System.out.println("Materia: " + materia.getMateria() + " Grupo: " + grupo.getSemestre() + grupo.getTipoGrupo());
+            for (Alumno alumno : grupo.getAlumnos()) {
                 if (mostrar == 1) {
                     System.out.println(alumno.getNombre() + " ");
                 }

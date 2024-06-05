@@ -25,6 +25,7 @@ public class MenuAlumno {
             System.out.println("3 - Ver mis materias en curso");
             System.out.println("4 - Ver mis profesores en curso");
             System.out.println("5 - Ver mi historial");
+            System.out.println("6 - Ver mis calificaciones");
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
@@ -41,6 +42,9 @@ public class MenuAlumno {
                     break;
                 case "5":
                     alumno.mostrarHistorial();
+                    break;
+                case "6":
+                    alumno.verCalificaciones();
                     break;
                 case "0":
                     UsuarioEnSesion.getInstancia().cerrarSesion();
@@ -94,7 +98,7 @@ public class MenuAlumno {
         if(alumno.getGrupo() != 0){
             ArrayList<Materia> materias= grupo.getMateria().get(alumno.getSemestre());
             for(Materia materia:materias){
-                materia.toString();
+                System.out.println(materia.toString());
             }
         }
         else {
@@ -107,7 +111,7 @@ public class MenuAlumno {
         for (int i = 0; i < 3; i++) {
             for(Grupo gr : Sistema.semestres.get(i).getGrupos()){
                 if (gr.getId() == id){
-                    grupo = gr;
+                    return gr;
                 }
             }
         }

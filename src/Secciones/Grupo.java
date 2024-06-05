@@ -103,13 +103,9 @@ public class Grupo {
 
     ///////////////////////////
     public static void avanzarGrupo(NombreCarrera carrera, Grupo grupo){
-        if(grupo.getAlumnos().isEmpty()){
-            System.out.println("No se puede avanzar el grupo porque no hay alumnos");
-        }
-        else {
             boolean band = true;
             //verifica si cada alumno tiene todas sus calificaciones del semestre
-            for (Alumno alumno : grupo.alumnos) {
+            for (Alumno alumno : grupo.getAlumnos()) {
                 if (!alumno.tieneTodasLasCalificaciones()) {
                     band = false;//si hay alguno que no tiene todas sus calificaciones lanza un booleano false
                 }
@@ -154,7 +150,6 @@ public class Grupo {
             if (!band) {
                 System.out.println("No se puede avanzar este grupo");
             }
-        }
     }
 
     //metodo que reprueba a un alumno(lo deja en su semestre y lo agrega a un grupo donde haya espacio)
@@ -477,9 +472,9 @@ public class Grupo {
 
         switch (carrera){
             case ISC:
-                m1 = new Materia(NombreMaterias.PROGRAMACION, carrera, grupo, null);
-                m2 = new Materia(NombreMaterias.PROBABILIDAD, carrera, grupo, null);
-                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                m1 = new Materia(NombreMaterias.PROGRAMACION, carrera, grupo.getId(), null);
+                m2 = new Materia(NombreMaterias.PROBABILIDAD, carrera, grupo.getId(), null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo.getId(), null);
                 grupo.getMateria().get(grupo.getSemestre()).add(m1);
                 grupo.getMateria().get(grupo.getSemestre()).add(m2);
                 grupo.getMateria().get(grupo.getSemestre()).add(m3);
@@ -488,9 +483,9 @@ public class Grupo {
                 Sistema.semestres.get(semestre-1).getMaterias().add(m3);
                 break;
             case IMAT:
-                m1 = new Materia(NombreMaterias.ESTADISTICA, carrera, grupo, null);
-                m2 = new Materia(NombreMaterias.CONTABILIDAD, carrera, grupo, null);
-                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                m1 = new Materia(NombreMaterias.ESTADISTICA, carrera, grupo.getId(), null);
+                m2 = new Materia(NombreMaterias.CONTABILIDAD, carrera, grupo.getId(), null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo.getId(), null);
                 grupo.getMateria().get(grupo.getSemestre()).add(m1);
                 grupo.getMateria().get(grupo.getSemestre()).add(m2);
                 grupo.getMateria().get(grupo.getSemestre()).add(m3);
@@ -499,9 +494,9 @@ public class Grupo {
                 Sistema.semestres.get(semestre-1).getMaterias().add(m3);
                 break;
             case ELC:
-                m1 = new Materia(NombreMaterias.REDES, carrera, grupo, null);
-                m2 = new Materia(NombreMaterias.CIRCUITOS, carrera, grupo, null);
-                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                m1 = new Materia(NombreMaterias.REDES, carrera, grupo.getId(), null);
+                m2 = new Materia(NombreMaterias.CIRCUITOS, carrera, grupo.getId(), null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo.getId(), null);
                 grupo.getMateria().get(grupo.getSemestre()).add(m1);
                 grupo.getMateria().get(grupo.getSemestre()).add(m2);
                 grupo.getMateria().get(grupo.getSemestre()).add(m3);

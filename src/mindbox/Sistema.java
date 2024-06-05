@@ -41,11 +41,11 @@ public class Sistema {
         usuarios.put(Rol.PROFESOR, new ArrayList<>());
         usuarios.put(Rol.COORDINADOR, new ArrayList<>());
 
-        Coordinador c1 = new Coordinador("Atziri", "Mancilla", "Cruz", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Patzcuarito", "MACA960605MMNNRT02", LocalDate.now(), "Atziri", "Alan", Rol.COORDINADOR, "MACA960605MMN", 0, "CA24ISC0", NombreCarrera.ISC);
+        Coordinador c1 = new Coordinador("Atziri", "Mancilla", "Cruz", 2000, LocalDate.now(), "Patzcuaro", "Michoacan", "Patzcuarito", "MACA960605MMNNRT02", LocalDate.now(), "a", "a", Rol.COORDINADOR, "MACA960605MMN", 0, "CA24ISC0", NombreCarrera.ISC);
         usuarios.get(Rol.COORDINADOR).add(c1);
-        Coordinador c2 = new Coordinador("Jafet", "Santoyo", "Benites", 2000, LocalDate.now(), "Morelia", "Michoacán", "Rey Ezequias #88", "SABJ970130HMNNNF09", LocalDate.now(), "jafiSan", "uwu", Rol.COORDINADOR, "SABJ970130HM1", 0, "CJ24IMAT0", NombreCarrera.IMAT);
+        Coordinador c2 = new Coordinador("Jafet", "Santoyo", "Benites", 2000, LocalDate.now(), "Morelia", "Michoacán", "Rey Ezequias #88", "SABJ970130HMNNNF09", LocalDate.now(), "b", "b", Rol.COORDINADOR, "SABJ970130HM1", 0, "CJ24IMAT0", NombreCarrera.IMAT);
         usuarios.get(Rol.COORDINADOR).add(c2);
-        Coordinador c3 = new Coordinador("Sianya", "Garcia", "Medina", 2000, LocalDate.now(), "Hidalgo", "Michoacan", "3", "GAMS050720MMNRDNA4", LocalDate.now(), "sianyis", "contabilidadesmipasion", Rol.COORDINADOR, "GAMS050720MMN", 0, "CS24ELC0", NombreCarrera.ELC);
+        Coordinador c3 = new Coordinador("Sianya", "Garcia", "Medina", 2000, LocalDate.now(), "Hidalgo", "Michoacan", "3", "GAMS050720MMNRDNA4", LocalDate.now(), "c", "c", Rol.COORDINADOR, "GAMS050720MMN", 0, "CS24ELC0", NombreCarrera.ELC);
         usuarios.get(Rol.COORDINADOR).add(c3);
 
         Profesor prof1 = new Profesor("Alejandro","Montejano","Diaz", 2003, LocalDate.now(), "Morelia", "Michoacan", "Calle desconocida", "MODA030204HMNNZLA4", LocalDate.now(), "Elpro","1234", Rol.PROFESOR, "MODA030204HMN", 0, "MA24ISC0");
@@ -104,14 +104,23 @@ public class Sistema {
 
         Semestre.inicializarSemestres();
 
-        Grupo g1 = new Grupo(NombreCarrera.ISC, 1, TipoGrupo.A);
-        g1.getAlumnos().add(al1);
-        g1.getAlumnos().add(al2);
-        g1.getAlumnos().add(al3);
-        semestres.get(0).getGrupos().add(g1);
-        Grupo.inicializarMaterias(g1);
-        Grupo.addMateriasSemestre(g1);
-        grupos.add(g1);
+//        Grupo g1 = new Grupo(NombreCarrera.ISC, 1, TipoGrupo.A);
+//        g1.getAlumnos().add(al1);
+//        g1.getAlumnos().add(al2);
+//        g1.getAlumnos().add(al3);
+//        semestres.get(0).getGrupos().add(g1);
+//        Grupo.inicializarMaterias(g1);
+//        Grupo.addMateriasSemestre(g1);
+//        grupos.add(g1);
+//        for(Grupo grupo:semestres.get(0).getGrupos()){
+//            if(grupo.getId()==g1.getId()){
+//                grupo.getMateria().get(0).get(0).setProfesor(prof1);
+//                grupo.getMateria().get(0).get(1).setProfesor(prof1);
+//                grupo.getMateria().get(0).get(2).setProfesor(prof1);
+//                break;
+//
+//            }
+//        }
     }
 
     public static void inicializarGrupos_Semestres() {
