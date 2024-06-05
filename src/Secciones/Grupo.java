@@ -241,7 +241,7 @@ public class Grupo {
                         throw new IndexOutOfBoundsException("El dato ingresado está fuera del tamaño de la lista");
                     }
                     alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(opcion - 1);
-                    if (!alumno.getCarrera().equals(carrera) || alumno.getGrupo() != null) {
+                    if (!alumno.getCarrera().equals(carrera) || alumno.getGrupo() != 0) {
                         throw new IndexOutOfBoundsException("El indice no es valido");
                     }
                 } catch (IndexOutOfBoundsException error) {
@@ -250,7 +250,7 @@ public class Grupo {
                 }
             } while (band);
             grupo.getAlumnos().add(alumno);
-            alumno.setGrupo(grupo);
+            alumno.setGrupo(grupo.getId());
             alumno.setSemestre(grupo.getSemestre());
             System.out.println("Alumno agregado");
         }
@@ -539,7 +539,7 @@ public class Grupo {
         } else {
 //            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()+1));
             grupo.getAlumnos().add(alumno);
-            alumno.setGrupo(grupo);
+            alumno.setGrupo(grupo.getId());
             System.out.println("Alumno agregado");
         }
     }
@@ -640,7 +640,7 @@ public class Grupo {
         if (act == 1){
 //            grupo.setCantidadAlumnos((grupo.getCantidadAlumnos()-1));
             grupo.getAlumnos().remove(alumno);
-            alumno.setGrupo(null);
+            alumno.setGrupo(0);
             System.out.println("Alumno eliminado");
         } else {
             System.out.println("Operación cancelada");

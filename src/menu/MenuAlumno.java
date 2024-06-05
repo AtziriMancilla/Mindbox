@@ -2,8 +2,10 @@ package menu;
 
 import Secciones.Grupo;
 import Secciones.Materia;
+import Secciones.Semestre;
 import Usuarios.Alumno;
 import Usuarios.Profesor;
+import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
 
 import java.util.ArrayList;
@@ -54,47 +56,61 @@ public class MenuAlumno {
         System.out.println(datos);
     }
     public static void verGrupo(Alumno alumno){
-        if(alumno.getGrupo()==null){
+        Grupo grupo = obtenerGrupoPorID(alumno.getGrupo());
+        if(alumno.getGrupo() == 0){
             System.out.println("Aun no estas registrado en un grupo");
         }
         else{
-            String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getAlumnos().size());
+            String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d", grupo.getId(),grupo.getTipoGrupo(),grupo.getSemestre(),grupo.getAlumnos().size());
             System.out.println(datos);
         }
     }
     public static void verProfesores(Alumno alumno){
-        if(alumno.getGrupo()==null){
+        Grupo grupo = obtenerGrupoPorID(alumno.getGrupo());
+        if(alumno.getGrupo() == 0){
             System.out.println("No tienes profesores asignados");
         }
         else {
-            if (alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0) != null) {
-                Profesor profesor1 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0).getProfesor();
-                Materia materia1 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(0);
+            if (grupo.getMateria().get(alumno.getSemestre()).get(0) != null) {
+                Profesor profesor1 = grupo.getMateria().get(alumno.getSemestre()).get(0).getProfesor();
+                Materia materia1 = grupo.getMateria().get(alumno.getSemestre()).get(0);
                 System.out.printf("Profesor 1: %s \n Materia que imparte: %s", profesor1, materia1);
             }
-            if (alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1) != null) {
-                Profesor profesor2 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1).getProfesor();
-                Materia materia2 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(1);
+            if (grupo.getMateria().get(alumno.getSemestre()).get(1) != null) {
+                Profesor profesor2 = grupo.getMateria().get(alumno.getSemestre()).get(1).getProfesor();
+                Materia materia2 = grupo.getMateria().get(alumno.getSemestre()).get(1);
                 System.out.printf("Profesor 2: %s \n Materia que imparte: %s", profesor2, materia2);
             }
-            if (alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2) != null) {
-                Profesor profesor3 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2).getProfesor();
-                Materia materia3 = alumno.getGrupo().getMateria().get(alumno.getSemestre()).get(2);
+            if (grupo.getMateria().get(alumno.getSemestre()).get(2) != null) {
+                Profesor profesor3 = grupo.getMateria().get(alumno.getSemestre()).get(2).getProfesor();
+                Materia materia3 = grupo.getMateria().get(alumno.getSemestre()).get(2);
                 System.out.printf("Profesor 1: %s \n Materia que imparte: %s", profesor3, materia3);
             }
         }
     }
     //ver como hacer si no hay calificaciuones
-    public static void verMaterias(Alumno alumno, Grupo grupo){
-        if(alumno.getGrupo()!=null){
-            int semestre = grupo.getSemestre();
-            System.out.println("Mostrar Materias del semestre " + semestre);
-            for (Materia mat : grupo.getMateria().get(semestre)) {
-                System.out.println(mat.toString());
+    public static void verMaterias(Alumno alumno){
+        Grupo grupo = obtenerGrupoPorID(alumno.getGrupo());
+        if(alumno.getGrupo() != 0){
+            ArrayList<Materia> materias= grupo.getMateria().get(alumno.getSemestre());
+            for(Materia materia:materias){
+                materia.toString();
             }
         }
         else {
             System.out.println("No hay materias asignadas");
         }
+    }
+
+    public static Grupo obtenerGrupoPorID(int id){
+        Grupo grupo = null;
+        for (int i = 0; i < 3; i++) {
+            for(Grupo gr : Sistema.semestres.get(i).getGrupos()){
+                if (gr.getId() == id){
+                    grupo = gr;
+                }
+            }
+        }
+        return grupo;
     }
 }
