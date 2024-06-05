@@ -314,11 +314,20 @@ public class Alumno extends Usuario{
             }
         }
     }
-
-    public static void mostrarAlmunosPorFiltro(){
-
-
+    public static void mostrarAlumnosSinGrupo(NombreCarrera carrera) {
+        System.out.println("\nAlumnos: \n");
+        if (Sistema.usuarios.get(Rol.ALUMNO).isEmpty()) {
+            System.out.println("No hay alumnos registrados");
+        } else {
+            for (int i = 0; i < Sistema.usuarios.get(Rol.ALUMNO).size(); i++) {
+                Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(i);
+                if(carrera.equals(alumno.getCarrera())&&alumno.getGrupo()==null){
+                    System.out.println((i + 1) + " " + alumno.toString());
+                }
+            }
+        }
     }
+
     public void mostrarHistorial(){
         if(historial.isEmpty())
             System.out.println("No nada para mostrar");

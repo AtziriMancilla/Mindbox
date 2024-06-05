@@ -24,7 +24,7 @@ public class Grupo {
     private NombreCarrera carrera;
     private ArrayList<Alumno> alumnos = new ArrayList<>();
 //    private int cantidadAlumnos;
-    private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();
+    private HashMap<Integer, ArrayList<Materia>> materia= new HashMap<>();//accede por medio de un entero que es el semestre
     private int id;
     private int semestre;
     private TipoGrupo tipoGrupo;
@@ -189,20 +189,9 @@ public class Grupo {
             grupo = new Grupo(carrera, 1, TipoGrupo.A);
             int i = 0;
             do{
-                //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno y tambien para ver que no este en otros grupos
-                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                if (alumno == null){
-                    add = false;
-                    i = 3;
-                    System.out.println("Operacion cancelada");
-                } else {
-                    if (alumno.getGrupo() == null){
-                        Grupo.addAlumno(alumno, grupo);
-                        i++;
-                    } else {
-                        System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
-                    }
-                }
+
+                agregarAlumnoGrupo(carrera,grupo);
+                i++;
             } while (i<3);
 
             if (add){
@@ -210,7 +199,6 @@ public class Grupo {
                 Sistema.semestres.get(0).getGrupos().add(grupo);
                 inicializarMaterias(grupo);
                 addMateriasSemestre(grupo);
-                System.out.println("Seleccione 3 alumnos para poder crear el grupo");
                 System.out.println("Grupo A agregado");
             }
 
@@ -225,20 +213,41 @@ public class Grupo {
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
             int i = 0;
             do{
-                //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno
-                Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                if (alumno.getGrupo() == null){
-                    Grupo.addAlumno(alumno, grupo);
-                    i++;
-                } else {
-                    System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
-                }
+                agregarAlumnoGrupo(carrera,grupo);
+                i++;
             } while (i<3);
             System.out.println("Grupo B agregado");
         } else {
             System.out.println("Limite de grupos alcanzado");
         }
 
+    }
+    //
+    public static void agregarAlumnoGrupo(NombreCarrera carrera,Grupo grupo) {
+        Alumno.mostrarAlumnosSinGrupo(carrera);
+        boolean band;
+        Alumno alumno=null;
+        int opcion=0;
+        do {
+            try {
+                band = false;
+                System.out.println("Seleccione el alumno: ");
+                opcion = DatosComun.pedirNumero();
+                if (opcion < 1 || opcion > Sistema.usuarios.get(Rol.ALUMNO).size()) {
+                    throw new IndexOutOfBoundsException("El dato ingresado está fuera del tamaño de la lista");
+                }
+                alumno=(Alumno)Sistema.usuarios.get(Rol.ALUMNO).get(opcion-1);
+                if(!alumno.getCarrera().equals(carrera)||alumno.getGrupo()!=null){
+                    throw new IndexOutOfBoundsException("El indice no es valido");
+                }
+            } catch (IndexOutOfBoundsException error) {
+                System.out.println("Error: " + error.getMessage());
+                band = true;
+            }
+        }while (band);
+        grupo.getAlumnos().add(alumno);
+        alumno.setGrupo(grupo);
+        System.out.println("Alumno agregado");
     }
 
     public static void modificarGrupo(){

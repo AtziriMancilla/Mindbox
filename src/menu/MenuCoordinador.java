@@ -202,8 +202,7 @@ public class MenuCoordinador {
                     Grupo.mostrarMaterias(grupo);
                     break;
                 case "5":
-                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                    Grupo.addAlumno(alumno, grupo);
+                    Grupo.agregarAlumnoGrupo(carrera,grupo);
                     break;
                 case "6":
                     alumno = Grupo.obtenerAlumnoGeneral(carrera);
