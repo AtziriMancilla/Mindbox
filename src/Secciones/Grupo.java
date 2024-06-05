@@ -441,9 +441,10 @@ public class Grupo {
         System.out.println("Modificar Materia (Profesor en materia)\n");
         // El unico atributo modificable es profesor
         Profesor.mostrarProfesores();
-        Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
+        int idProf = Profesor.pedirProfesor();
+        Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(idProf);
         asignarProfe(materia, profesor);
-        ((Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor())).asignarMaterias();
+
     }
 
     public static void mostrarMaterias(Grupo grupo){
