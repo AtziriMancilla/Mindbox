@@ -30,7 +30,7 @@ public class Carrera {
         cantGrupo = 0;
         if (Sistema.usuarios.get(Rol.ALUMNO) != null) {
             for (Usuario usuario : Sistema.usuarios.get(Rol.ALUMNO)) {
-                if (((Alumno) usuario).getGrupo().getCarrera() == carrera) {
+                if (((Alumno) usuario).getCarrera() == carrera) {
                     cantAlum++;
                 }
             }
