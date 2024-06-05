@@ -25,6 +25,7 @@ public class MenuAlumno {
             System.out.println("3 - Ver mis materias en curso");
             System.out.println("4 - Ver mis profesores en curso");
             System.out.println("5 - Ver mi historial");
+            System.out.println("6 - Ver mis calificaciones");
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
@@ -41,6 +42,9 @@ public class MenuAlumno {
                     break;
                 case "5":
                     alumno.mostrarHistorial();
+                    break;
+                case "6":
+                    alumno.verCalificaciones();
                     break;
                 case "0":
                     UsuarioEnSesion.getInstancia().cerrarSesion();

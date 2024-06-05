@@ -103,10 +103,6 @@ public class Grupo {
 
     ///////////////////////////
     public static void avanzarGrupo(NombreCarrera carrera, Grupo grupo){
-        if(grupo.getAlumnos().isEmpty()){
-            System.out.println("No se puede avanzar el grupo porque no hay alumnos");
-        }
-        else {
             boolean band = true;
             //verifica si cada alumno tiene todas sus calificaciones del semestre
             for (Alumno alumno : grupo.alumnos) {
@@ -154,7 +150,6 @@ public class Grupo {
             if (!band) {
                 System.out.println("No se puede avanzar este grupo");
             }
-        }
     }
 
     //metodo que reprueba a un alumno(lo deja en su semestre y lo agrega a un grupo donde haya espacio)
