@@ -20,7 +20,6 @@ public class Alumno extends Usuario{
     private int semestre;
    private int grupo=0;
    private ArrayList<Calificacion> calificaciones=new ArrayList<>();
-    private double promedio=asignarPromedio();
     private String numControl;
     private ArrayList<Historial> historial=new ArrayList<>();
 
@@ -32,7 +31,7 @@ public class Alumno extends Usuario{
     }
     @Override
     public String toString(){
-        return String.format("%s, Semestre: %d, Promedio: %f, Numero de Control: %s", super.toString(), semestre, promedio, numControl);
+        return String.format("%s, Semestre: %d, Promedio: %f, Numero de Control: %s", super.toString(), semestre, getPromedio(), numControl);
     }
     public ArrayList<Historial> getHistorial() {
         return historial;
@@ -67,12 +66,9 @@ public class Alumno extends Usuario{
     }
 
     public double getPromedio() {
-        return promedio;
+        return asignarPromedio();
     }
 
-    public void setPromedio(double promedio) {
-        this.promedio = promedio;
-    }
     public double asignarPromedio() {
         double promedio=0;
         double suma=0;
@@ -80,7 +76,7 @@ public class Alumno extends Usuario{
             for (Calificacion calificacion:calificaciones){
                 suma+=calificacion.getCalificacion();
             }
-            promedio=suma/calificaciones.size();
+            return suma/calificaciones.size();
         }
         return promedio;
     }

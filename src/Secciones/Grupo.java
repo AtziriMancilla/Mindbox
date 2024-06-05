@@ -128,6 +128,7 @@ public class Grupo {
                 }
                 //avanza el grupo de semestres
                 grupo.setSemestre(grupo.semestre + 1);
+                System.out.println("Se avanzo el grupo");
                 //###falta cambiar las materias del grupo###
 //                grupo.setCantidadAlumnos(grupo.getAlumnos().size());
             }
@@ -146,6 +147,7 @@ public class Grupo {
                 }
                 //##elimina al grupo de la lista de grupos porque ya se graduaron## no se si se pueda eliminar asi comom asi
                 Sistema.grupos.remove(grupo);
+                System.out.println("se graduo el grupo");
             }
             if (!band) {
                 System.out.println("No se puede avanzar este grupo");

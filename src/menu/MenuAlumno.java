@@ -56,7 +56,7 @@ public class MenuAlumno {
         } while (!action.equals("0"));
     }
     public static void mostrarPerfil(Alumno alumno){
-        String datos=String.format("Numero de control: %s, Promedio: %f,Carrera: %s",alumno.getNumControl(),alumno.getPromedio(),alumno.getCarrera());
+        String datos=String.format("Numero de control: %s, Promedio: %.2f,Carrera: %s",alumno.getNumControl(),alumno.getPromedio(),alumno.getCarrera());
         System.out.println(datos);
     }
     public static void verGrupo(Alumno alumno){

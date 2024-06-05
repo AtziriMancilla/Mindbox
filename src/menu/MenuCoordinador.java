@@ -47,8 +47,7 @@ public class MenuCoordinador {
                     break;
                 case "4":
                     if (Grupo.hayGrupos()){
-                        Grupo grupo = Grupo.obtenerGrupo();
-                        menuGrupo(grupo);
+                        menuGrupo(Grupo.obtenerGrupo());
                     } else {
                         System.out.println("No hay grupos");
                     }
