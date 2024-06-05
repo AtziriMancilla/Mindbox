@@ -120,6 +120,7 @@ public class Grupo {
                 for (Alumno alumno : grupo.alumnos) {
                     Historial.generarHistorial(alumno);
                     if (alumno.aproboSemestre()) {
+                        cambiarSemestreGrupo(grupo);
                         alumno.setSemestre(grupo.semestre + 1);
                         //##cambiar materias de alumno al siguiente semestre##
                     }
@@ -276,6 +277,17 @@ public class Grupo {
     }
 
     // Metodos utiles -------------------------------------------------------------------------------------------------
+    public static void cambiarSemestreGrupo(Grupo grupo){
+        if (grupo.getSemestre()<3){
+            Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
+            Sistema.semestres.get(grupo.getSemestre()).getGrupos().add(grupo);
+        } else if (grupo.getSemestre() == 3) {
+            Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
+            // Añadir grupo a graduados, o dejar así, esto es solo para quitar de 3er semestre
+        }
+
+    }
+
     public static Boolean hayGrupos(){
         boolean siHay = false;
         for (int i = 0; i < 3; i++) {
