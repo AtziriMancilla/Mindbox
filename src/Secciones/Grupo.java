@@ -291,9 +291,13 @@ public class Grupo {
         if (hayGrupos()){
             Grupo grupo = obtenerGrupo();
             if (grupo.getAlumnos().isEmpty()){
-                // llamar metodo que verifique que las materias tengan profe null
-                Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
-                System.out.println("Grupo eliminado");
+                if (verProfNull(grupo)){
+                    Sistema.semestres.get(grupo.getSemestre()-1).getGrupos().remove(grupo);
+                    System.out.println("Grupo eliminado");
+                } else {
+                    System.out.println("Operacion cancelada, maestros asignados a materias del grupo");
+                }
+
             } else {
                 System.out.println("Grupo no eliminado, cantidad de alumnos mayor que 0");
             }
@@ -303,6 +307,15 @@ public class Grupo {
 
     }
 
+    private static Boolean verProfNull(Grupo grupo){
+        boolean siNull = true;
+        for (Materia mat : grupo.getMateria().get(grupo.getSemestre())) {
+            if (mat.getProfesor() != null){
+                siNull = false;
+            }
+        }
+        return siNull;
+    }
 
     public static void mostrarGrupos(){
         System.out.println("\nMostrar grupos de todos los semestres");
