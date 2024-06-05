@@ -57,8 +57,8 @@ public class MenuAlumno {
             System.out.println("Aun no estas registrado en un grupo");
         }
         else{
-        String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getAlumnos().size());
-        System.out.println(datos);
+            String datos=String.format("id: %d, Tipo grupo: %s, Semestre: %d, Cantidad alumnos: %d",alumno.getGrupo().getId(),alumno.getGrupo().getTipoGrupo(),alumno.getGrupo().getSemestre(),alumno.getGrupo().getAlumnos().size());
+            System.out.println(datos);
         }
     }
     public static void verProfesores(Alumno alumno){
