@@ -1,6 +1,8 @@
 package Usuarios.utils;
 
+import Secciones.Grupo;
 import Usuarios.Alumno;
+import menu.MenuAlumno;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class Historial {
     public static void generarHistorial(Alumno alumno){
         Historial historial=new Historial();
         historial.setSemestre(alumno.getSemestre());
-        historial.setGrupo(alumno.getGrupo().getId());
+        historial.setGrupo(alumno.getGrupo());
         historial.setFechaFinal(LocalDate.now());
         alumno.getHistorial().add(historial);
     }

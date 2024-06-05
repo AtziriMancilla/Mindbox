@@ -204,10 +204,8 @@ public class Grupo {
 
 
 
-        } else if (Sistema.semestres.get(0).getGrupos().size() == 1){
+        } else if (yahayGrupoA(carrera)){
             grupo = new Grupo(carrera, 1, TipoGrupo.B);
-            Sistema.grupos.add(grupo);
-            Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
             addMateriasSemestre(grupo);
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
@@ -216,11 +214,31 @@ public class Grupo {
                 agregarAlumnoGrupo(carrera,grupo);
                 i++;
             } while (i<3);
-            System.out.println("Grupo B agregado");
+            if(grupo.getAlumnos().size()==3) {
+                Sistema.semestres.get(0).getGrupos().add(grupo);
+                Sistema.grupos.add(grupo);
+                System.out.println("Grupo B agregado");
+            }
+            else{
+                for (Alumno alumno: grupo.getAlumnos()) {
+                    alumno.setGrupo(0);
+                    alumno.setSemestre(0);
+                }
+                System.out.println("No se puede agregar un grupo con menos de 3 alumnos");
+            }
         } else {
             System.out.println("Limite de grupos alcanzado");
         }
 
+    }
+    public static boolean yahayGrupoA(NombreCarrera carrera){
+        boolean band=false;
+        for (Grupo grupo:Sistema.grupos){
+            if(grupo.getCarrera().equals(carrera)&&grupo.getSemestre()==1){
+                band=true;
+            }
+        }
+        return band;
     }
     //
     public static void agregarAlumnoGrupo(NombreCarrera carrera,Grupo grupo) {
