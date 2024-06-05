@@ -294,6 +294,7 @@ public class Grupo {
 
     }
 
+
     public static void mostrarGrupos(){
         System.out.println("\nMostrar grupos de todos los semestres");
         for (int i = 0; i < 3; i++) {
