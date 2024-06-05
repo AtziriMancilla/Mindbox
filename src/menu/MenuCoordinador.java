@@ -7,6 +7,7 @@ import Secciones.utils.NombreMaterias;
 import Usuarios.Alumno;
 import Usuarios.Coordinador;
 import Usuarios.Profesor;
+import Usuarios.Usuario;
 import Usuarios.utils.Rol;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
@@ -15,7 +16,8 @@ import java.util.Scanner;
 
 public class MenuCoordinador {
     private static Scanner scanner = new Scanner(System.in);
-    public static void menu(){
+
+    public static void menu() {
         String action;
         /*
         Acciones:
@@ -32,12 +34,15 @@ public class MenuCoordinador {
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
-            switch (action){
-                case "1": menuAlumnos();
+            switch (action) {
+                case "1":
+                    menuAlumnos();
                     break;
-                case "2": menuProfesores();
+                case "2":
+                    menuProfesores();
                     break;
-                case "3": menuGrupos();
+                case "3":
+                    menuGrupos();
                     break;
                 case "4":
                     if (Grupo.hayGrupos()){
@@ -54,7 +59,8 @@ public class MenuCoordinador {
             }
         } while (!action.equals("0"));
     }
-    private static void menuAlumnos(){
+
+    private static void menuAlumnos() {
         String action, numControl;
         do {
             System.out.println("\n1 - Crear alumno");
@@ -64,9 +70,9 @@ public class MenuCoordinador {
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
-            switch (action){
+            switch (action) {
                 case "1":
-                 //obtener de que carrera es el coordinador
+                    //obtener de que carrera es el coordinador
                     Coordinador coordinador = (Coordinador) UsuarioEnSesion.getInstancia().getUsuarioActual();
                     Alumno.registrarAlumno(coordinador.getCarrera());
                     break;
@@ -91,7 +97,8 @@ public class MenuCoordinador {
             }
         } while (!action.equals("0"));
     }
-    private static void menuProfesores(){
+
+    private static void menuProfesores() {
         String action, numControl;
         Coordinador coordinador = (Coordinador) UsuarioEnSesion.getInstancia().getUsuarioActual();
         do {
@@ -102,7 +109,7 @@ public class MenuCoordinador {
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
-            switch (action){
+            switch (action) {
                 case "1":
                     Profesor.registrarProfesor(coordinador.getCarrera());
                     break;
@@ -123,9 +130,10 @@ public class MenuCoordinador {
             }
         } while (!action.equals("0"));
     }
-    private static void menuGrupos(){
+
+    private static void menuGrupos() {
         String action, numControl;
-        NombreCarrera carrera = ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera();
+        NombreCarrera carrera = ((Coordinador) UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera();
         do {
             System.out.println("\n1 - Crear grupo");
             System.out.println("2 - Modificar grupo");
@@ -134,7 +142,7 @@ public class MenuCoordinador {
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
-            switch (action){
+            switch (action) {
                 case "1":
                     Grupo.crearGrupo(carrera);
                     break;
@@ -156,10 +164,11 @@ public class MenuCoordinador {
             }
         } while (!action.equals("0"));
     }
-    private static void menuGrupo(Grupo grupo){
+
+    private static void menuGrupo(Grupo grupo) {
         String action;
         Alumno alumno;
-        NombreCarrera carrera = ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera();
+        NombreCarrera carrera = ((Coordinador) UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera();
         do {
             System.out.println("\n1 - Avanzar grupo de semestre");
             System.out.println("2 - Asignar profesor a materia");
@@ -172,7 +181,7 @@ public class MenuCoordinador {
             System.out.println("0 - Salir");
             System.out.print("Selección: ");
             action = scanner.next();
-            switch (action){
+            switch (action) {
                 case "1":
                     Grupo.avanzarGrupo(carrera, grupo);
                     break;
@@ -180,6 +189,10 @@ public class MenuCoordinador {
                     Profesor.mostrarProfesores();
                     Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
                     Grupo.addProfeMateria(grupo, profesor);
+                    for (Usuario prof : Sistema.usuarios.get(Rol.PROFESOR)) {
+                        if (((Profesor) prof).getNumControl().equals(profesor.getNumControl())){
+((Profesor) prof).asignarMaterias();                      }
+                    }
                     break;
                 case "3":
                     Grupo.modificarMateria(grupo);
