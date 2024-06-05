@@ -8,6 +8,7 @@ import Usuarios.Alumno;
 import Usuarios.Coordinador;
 import Usuarios.Profesor;
 import Usuarios.Usuario;
+import Usuarios.utils.DatosComun;
 import Usuarios.utils.Rol;
 import mindbox.Sistema;
 import mindbox.UsuarioEnSesion;
@@ -209,8 +210,26 @@ public class MenuCoordinador {
                     Grupo.modificarAlumno(alumno);
                     break;
                 case "7":
-                    alumno = Grupo.obtenerAlumnoGrupo(grupo);
-                    Grupo.eliminarAlumno(alumno, grupo);
+                    if (grupo.getAlumnos().size() > 3){
+                        alumno = Grupo.obtenerAlumnoGrupo(grupo);
+                        Grupo.eliminarAlumno(alumno, grupo);
+                    } else {
+                        System.out.println("Cantidad de alumnos en grupo es: "+grupo.getAlumnos().size());
+                        System.out.println("Desea:\n1 - Eliminar alumno\n2 - Cancelar");
+                        int aux;
+                        do {
+                            aux = DatosComun.pedirNumero();
+                            if (aux < 1 || aux > 2){
+                                System.out.println("Desea:\n1 - Eliminar alumno\n2 - Cancelar");
+                            }
+                        } while (aux < 1 || aux > 2);
+                        if (aux == 1){
+                            alumno = Grupo.obtenerAlumnoGrupo(grupo);
+                            Grupo.eliminarAlumno(alumno, grupo);
+                        } else {
+                            System.out.println("Operacion cancelada");
+                        }
+                    }
                     break;
                 case "8":
                     Grupo.mostrarAlumnos(grupo);
