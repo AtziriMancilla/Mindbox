@@ -261,6 +261,8 @@ public class Alumno extends Usuario{
 
                 if (numAlumno < 0 || numAlumno > Sistema.usuarios.get(Rol.ALUMNO).size()) {
                     throw new IndexOutOfBoundsException("El dato ingresado está fuera del tamaño de la lista");
+                } else if (numAlumno == 0) {
+                    return 0;
                 } else {
                     return numAlumno;
                 }

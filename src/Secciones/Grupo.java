@@ -183,26 +183,38 @@ public class Grupo {
     public static void crearGrupo(NombreCarrera carrera){
         // Pidiendo datos
         Grupo grupo;
+        Boolean add = true;
         System.out.println("\nCrear grupo");
         if (Sistema.semestres.get(0).getGrupos().isEmpty()){
             grupo = new Grupo(carrera, 1, TipoGrupo.A);
-            Sistema.grupos.add(grupo);
-            Sistema.semestres.get(0).getGrupos().add(grupo);
-            inicializarMaterias(grupo);
-            addMateriasSemestre(grupo);
-            System.out.println("Seleccione 3 alumnos para poder crear el grupo");
             int i = 0;
             do{
                 //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno y tambien para ver que no este en otros grupos
                 Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                if (alumno.getGrupo() == null){
-                    Grupo.addAlumno(alumno, grupo);
-                    i++;
+                if (alumno == null){
+                    add = false;
+                    i = 3;
+                    System.out.println("Operacion cancelada");
                 } else {
-                    System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
+                    if (alumno.getGrupo() == null){
+                        Grupo.addAlumno(alumno, grupo);
+                        i++;
+                    } else {
+                        System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
+                    }
                 }
             } while (i<3);
-            System.out.println("Grupo A agregado");
+
+            if (add){
+                Sistema.grupos.add(grupo);
+                Sistema.semestres.get(0).getGrupos().add(grupo);
+                inicializarMaterias(grupo);
+                addMateriasSemestre(grupo);
+                System.out.println("Seleccione 3 alumnos para poder crear el grupo");
+                System.out.println("Grupo A agregado");
+            }
+
+
 
         } else if (Sistema.semestres.get(0).getGrupos().size() == 1){
             grupo = new Grupo(carrera, 1, TipoGrupo.B);
@@ -472,7 +484,11 @@ public class Grupo {
 
     public static Alumno obtenerAlumnoGeneral(NombreCarrera carrera){
         Alumno.mostrarAlumnos(carrera);
-        Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(Alumno.pedirAlumno());
+        int num = Alumno.pedirAlumno();
+        Alumno alumno = (Alumno) Sistema.usuarios.get(Rol.ALUMNO).get(num);
+        if (num == 0){
+            alumno = null;
+        }
         return alumno;
     }
 
