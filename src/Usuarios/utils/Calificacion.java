@@ -121,4 +121,14 @@ public class Calificacion {
         return materia;
     }
 
+    @Override
+    public String toString() {
+        return
+                "Calificacion:" + calificacion +
+                        ", Aprobado:" + aprobado +
+                        ", Materia:" + materia +
+                        ", Fecha:" + fecha +
+                        ' ';
+    }
+
 }
