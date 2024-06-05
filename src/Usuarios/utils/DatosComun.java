@@ -185,8 +185,8 @@ public class DatosComun {
                     throw new IllegalArgumentException("El dato solo puede contener letras.");
                 }
 
-                if (dato.length()<2){
-                    throw new IllegalArgumentException("Error: solo ingresaste un carácter");
+                if (dato.length()<3){
+                    throw new IllegalArgumentException("Error: carácteres insuficientes");
                 }
                 else{
                     return dato;

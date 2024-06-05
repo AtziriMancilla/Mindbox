@@ -122,7 +122,8 @@ public class Grupo {
                     if (alumno.aproboSemestre()) {
                         cambiarSemestreGrupo(grupo);
                         alumno.setSemestre(grupo.semestre + 1);
-                        //##cambiar materias de alumno al siguiente semestre##
+                        //##cambiar materias de alumno al siguiente semestre## Aqui ta
+                        addMateriasSemestre(grupo);
                     }
                     //a los que reprobaron los cambia de grupo y deja su semestre en el mismo año
                     else {
@@ -188,29 +189,39 @@ public class Grupo {
             Sistema.grupos.add(grupo);
             Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
+            addMateriasSemestre(grupo);
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
-            for(int i=0;i<3;i++){
+            int i = 0;
+            do{
                 //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno y tambien para ver que no este en otros grupos
                 Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
                 if (alumno.getGrupo() == null){
                     Grupo.addAlumno(alumno, grupo);
+                    i++;
                 } else {
                     System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
                 }
-            }
+            } while (i<3);
             System.out.println("Grupo A agregado");
 
-        } else if (Sistema.semestres.get(0).getGrupos().size() == 1 && Sistema.semestres.get(0).getGrupos().get(0).getAlumnos().size() >= 3){
+        } else if (Sistema.semestres.get(0).getGrupos().size() == 1){
             grupo = new Grupo(carrera, 1, TipoGrupo.B);
             Sistema.grupos.add(grupo);
             Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
+            addMateriasSemestre(grupo);
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
-            for(int i=0;i<3;i++){
+            int i = 0;
+            do{
                 //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno
                 Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                Grupo.addAlumno(alumno, grupo);
-            }
+                if (alumno.getGrupo() == null){
+                    Grupo.addAlumno(alumno, grupo);
+                    i++;
+                } else {
+                    System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
+                }
+            } while (i<3);
             System.out.println("Grupo B agregado");
         } else {
             System.out.println("Limite de grupos alcanzado");
@@ -299,7 +310,6 @@ public class Grupo {
     }
 
     public static Grupo obtenerGrupo(){
-        Grupo grupo=null;
         int id;
         mostrarGrupos();
         System.out.println("Seleccionar grupo por ID");
@@ -308,15 +318,12 @@ public class Grupo {
             for (int i = 0; i < 3; i++) {
                 for (Grupo gru : Sistema.semestres.get(i).getGrupos()) {
                     if (gru.getId() == id && gru.getCarrera() == ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera()){
-                        grupo = gru;
+                        return gru;
                     }
                 }
             }
-            if (grupo == null){
                 System.out.println("Grupo no encontrado, intente de nuevo");
-            }
-        } while (grupo == null);
-        return grupo;
+        } while (true);
     }
 
 
@@ -326,7 +333,6 @@ public class Grupo {
     // Este metodo será llamado cuando se quiera modificar el profesor de una materia al grupo
     public static void addProfeMateria(Grupo grupo, Profesor profesor){
         System.out.println("Asignar profesor");
-
         NombreCarrera carrera = grupo.getCarrera();
         NombreMaterias mateNomb = Materia.seleccionarMateria(carrera);
         String nombre = (mateNomb.toString().toLowerCase() + " " + grupo.getSemestre());
@@ -337,6 +343,7 @@ public class Grupo {
                 asignarProfe(mat, profesor);
             }
         }
+
     }
     private static void asignarProfe(Materia materia, Profesor profesor){
         if (materia.getProfesor() == null){
@@ -365,6 +372,7 @@ public class Grupo {
         Profesor.mostrarProfesores();
         Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
         asignarProfe(materia, profesor);
+        ((Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor())).asignarMaterias();
     }
 
     public static void mostrarMaterias(Grupo grupo){
@@ -379,17 +387,48 @@ public class Grupo {
         grupo.getMateria().put(1, new ArrayList<>());
         grupo.getMateria().put(2, new ArrayList<>());
         grupo.getMateria().put(3, new ArrayList<>());
+    }
+    public static void addMateriasSemestre(Grupo grupo){
         // Recopilando datos que ya estan guardados en grupo
         int semestre = grupo.getSemestre();
         NombreCarrera carrera = grupo.getCarrera();
-        Materia materia;
+        Materia m1, m2, m3;
 
-        for (NombreMaterias mat : NombreMaterias.values()) {
-            // Creando
-            materia = new Materia(mat, carrera, grupo, null);
-            // Añadiendo materia a donde la piden, para borrar o modificar buscaremos por su ID
-            grupo.getMateria().get(grupo.getSemestre()).add(materia);
-            Sistema.semestres.get(semestre-1).getMaterias().add(materia);
+        switch (carrera){
+            case ISC:
+                m1 = new Materia(NombreMaterias.PROGRAMACION, carrera, grupo, null);
+                m2 = new Materia(NombreMaterias.PROBABILIDAD, carrera, grupo, null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                grupo.getMateria().get(grupo.getSemestre()).add(m1);
+                grupo.getMateria().get(grupo.getSemestre()).add(m2);
+                grupo.getMateria().get(grupo.getSemestre()).add(m3);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m1);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m2);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m3);
+                break;
+            case IMAT:
+                m1 = new Materia(NombreMaterias.ESTADISTICA, carrera, grupo, null);
+                m2 = new Materia(NombreMaterias.CONTABILIDAD, carrera, grupo, null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                grupo.getMateria().get(grupo.getSemestre()).add(m1);
+                grupo.getMateria().get(grupo.getSemestre()).add(m2);
+                grupo.getMateria().get(grupo.getSemestre()).add(m3);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m1);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m2);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m3);
+                break;
+            case ELC:
+                m1 = new Materia(NombreMaterias.REDES, carrera, grupo, null);
+                m2 = new Materia(NombreMaterias.CIRCUITOS, carrera, grupo, null);
+                m3 = new Materia(NombreMaterias.CALCULO, carrera, grupo, null);
+                grupo.getMateria().get(grupo.getSemestre()).add(m1);
+                grupo.getMateria().get(grupo.getSemestre()).add(m2);
+                grupo.getMateria().get(grupo.getSemestre()).add(m3);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m1);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m2);
+                Sistema.semestres.get(semestre-1).getMaterias().add(m3);
+                break;
+            default:
         }
     }
 
