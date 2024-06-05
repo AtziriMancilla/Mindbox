@@ -3,6 +3,7 @@ package mindbox;
 import Graduados.Graduado;
 import Secciones.Grupo;
 import Secciones.Semestre;
+import Secciones.TipoGrupo;
 import Secciones.utils.NombreCarrera;
 import Usuarios.Alumno;
 import Usuarios.Coordinador;
@@ -101,6 +102,18 @@ public class Sistema {
         usuarios.get(Rol.ALUMNO).add(al15);
 
         Semestre.inicializarSemestres();
+
+        Grupo g1 = new Grupo(NombreCarrera.ISC, 1, TipoGrupo.A);
+        grupos.add(g1);
+        semestres.get(0).getGrupos().add(g1);
+        Grupo.inicializarMaterias(g1);
+        Grupo.addMateriasSemestre(g1);
+
+        Grupo g2 = new Grupo(NombreCarrera.ELC, 3, TipoGrupo.A);
+        grupos.add(g2);
+        semestres.get(2).getGrupos().add(g2);
+        Grupo.inicializarMaterias(g2);
+        Grupo.addMateriasSemestre(g2);
 
     }
     //Setter para poder asignar los nuevos datos obtenidos del json al atributo HashMap usuarios.
