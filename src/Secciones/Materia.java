@@ -27,8 +27,13 @@ public class Materia {
     }
     @Override
     public String toString(){
-        return String.format("Id: %d, Nombre: %s , Carrera: %s, Grupo: %s, Profesor: %s", id, nombre, carrera, grupo, profesor.getNombre());
+        if (profesor!=null){
+            return String.format("Id: %d, Nombre: %s , Carrera: %s, Grupo: %s, Profesor: %s", id, nombre, carrera, grupo, profesor.getNombre());
+        } else {
+            return String.format("Id: %d, Nombre: %s , Carrera: %s, Grupo: %s, Profesor: No asignado", id, nombre, carrera, grupo);
+        }
     }
+
 
     public int getId() {
         return id;

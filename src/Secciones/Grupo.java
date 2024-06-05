@@ -647,8 +647,8 @@ public class Grupo {
         Alumno alumno = null;
         mostrarAlumnos(grupo);
         do {
-            System.out.print("Ingrese numero de control: ");
-            String num = DatosComun.pedirDatoString();
+            System.out.print("Ingrese numero de control");
+            String num = DatosComun.pedirDatoUsuario();
             for (Alumno al : grupo.getAlumnos()) {
                 if (al.getNumControl().equals(num)){
                     alumno = al;

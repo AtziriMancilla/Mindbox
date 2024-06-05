@@ -205,11 +205,11 @@ public class MenuCoordinador {
                     Grupo.agregarAlumnoGrupo(carrera,grupo);
                     break;
                 case "6":
-                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                    alumno = Grupo.obtenerAlumnoGrupo(grupo);
                     Grupo.modificarAlumno(alumno);
                     break;
                 case "7":
-                    alumno = Grupo.obtenerAlumnoGeneral(carrera);
+                    alumno = Grupo.obtenerAlumnoGrupo(grupo);
                     Grupo.eliminarAlumno(alumno, grupo);
                     break;
                 case "8":
