@@ -283,7 +283,6 @@ public class Grupo {
     }
 
     public static Grupo obtenerGrupo(){
-        Grupo grupo=null;
         int id;
         mostrarGrupos();
         System.out.println("Seleccionar grupo por ID");
@@ -292,15 +291,12 @@ public class Grupo {
             for (int i = 0; i < 3; i++) {
                 for (Grupo gru : Sistema.semestres.get(i).getGrupos()) {
                     if (gru.getId() == id && gru.getCarrera() == ((Coordinador)UsuarioEnSesion.getInstancia().getUsuarioActual()).getCarrera()){
-                        grupo = gru;
+                        return gru;
                     }
                 }
             }
-            if (grupo == null){
                 System.out.println("Grupo no encontrado, intente de nuevo");
-            }
-        } while (grupo == null);
-        return grupo;
+        } while (true);
     }
 
 
@@ -310,7 +306,6 @@ public class Grupo {
     // Este metodo será llamado cuando se quiera modificar el profesor de una materia al grupo
     public static void addProfeMateria(Grupo grupo, Profesor profesor){
         System.out.println("Asignar profesor");
-
         NombreCarrera carrera = grupo.getCarrera();
         NombreMaterias mateNomb = Materia.seleccionarMateria(carrera);
         String nombre = (mateNomb.toString().toLowerCase() + " " + grupo.getSemestre());
@@ -321,6 +316,7 @@ public class Grupo {
                 asignarProfe(mat, profesor);
             }
         }
+
     }
     private static void asignarProfe(Materia materia, Profesor profesor){
         if (materia.getProfesor() == null){
@@ -349,6 +345,7 @@ public class Grupo {
         Profesor.mostrarProfesores();
         Profesor profesor = (Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor());
         asignarProfe(materia, profesor);
+        ((Profesor) Sistema.usuarios.get(Rol.PROFESOR).get(Profesor.pedirProfesor())).asignarMaterias();
     }
 
     public static void mostrarMaterias(Grupo grupo){
