@@ -116,7 +116,6 @@ public class Grupo {
                 for (Alumno alumno : grupo.alumnos) {
                     Historial.generarHistorial(alumno);
                     if (alumno.aproboSemestre()) {
-                        cambiarSemestreGrupo(grupo);
                         alumno.setSemestre(grupo.semestre + 1);
                         //##cambiar materias de alumno al siguiente semestre## Aqui ta
                         addMateriasSemestre(grupo);
@@ -126,12 +125,16 @@ public class Grupo {
                         reprobarAlumno(grupo, alumno);
                     }
                 }
+                cambiarSemestreGrupo(grupo);
                 //avanza el grupo de semestres
                 grupo.setSemestre(grupo.semestre + 1);
                 System.out.println("Se avanzo el grupo");
                 //###falta cambiar las materias del grupo###
 //                grupo.setCantidadAlumnos(grupo.getAlumnos().size());
             }
+
+
+
             //si todos tienen sus calificaciones y el semestre es igual a 3 se gradua un grupo
             if (band && grupo.getSemestre() == 3) {
                 for (Alumno alumno : grupo.alumnos) {
