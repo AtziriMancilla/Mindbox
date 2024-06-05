@@ -383,6 +383,7 @@ public class Grupo {
         for (Materia mat : grupo.getMateria().get(grupo.getSemestre())) {
             if (mat.getNombre().equals(nombre)){
                 asignarProfe(mat, profesor);
+                System.out.println("Profesor asignado");
             }
         }
 
