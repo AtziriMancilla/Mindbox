@@ -241,7 +241,7 @@ public class Grupo {
                 addProfeMateria(grupo, profesor);
             }
         } else {
-            System.out.println("No hay grupos que eliminar");
+            System.out.println("No hay grupos que modificar.");
         }
 
     }
