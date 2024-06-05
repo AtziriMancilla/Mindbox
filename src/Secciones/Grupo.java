@@ -191,29 +191,37 @@ public class Grupo {
             inicializarMaterias(grupo);
             addMateriasSemestre(grupo);
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
-            for(int i=0;i<3;i++){
+            int i = 0;
+            do{
                 //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno y tambien para ver que no este en otros grupos
                 Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
                 if (alumno.getGrupo() == null){
                     Grupo.addAlumno(alumno, grupo);
+                    i++;
                 } else {
                     System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
                 }
-            }
+            } while (i<3);
             System.out.println("Grupo A agregado");
 
-        } else if (Sistema.semestres.get(0).getGrupos().size() == 1 && Sistema.semestres.get(0).getGrupos().get(0).getAlumnos().size() >= 3){
+        } else if (Sistema.semestres.get(0).getGrupos().size() == 1){
             grupo = new Grupo(carrera, 1, TipoGrupo.B);
             Sistema.grupos.add(grupo);
             Sistema.semestres.get(0).getGrupos().add(grupo);
             inicializarMaterias(grupo);
             addMateriasSemestre(grupo);
             System.out.println("Seleccione 3 alumnos para poder crear el grupo");
-            for(int i=0;i<3;i++){
+            int i = 0;
+            do{
                 //##aqui falta una comprobacion para no agregar 2 veces al mismo alumno
                 Alumno alumno = Grupo.obtenerAlumnoGeneral(carrera);
-                Grupo.addAlumno(alumno, grupo);
-            }
+                if (alumno.getGrupo() == null){
+                    Grupo.addAlumno(alumno, grupo);
+                    i++;
+                } else {
+                    System.out.println("Operacion cancelada, el alumno ya tiene un grupo");
+                }
+            } while (i<3);
             System.out.println("Grupo B agregado");
         } else {
             System.out.println("Limite de grupos alcanzado");
