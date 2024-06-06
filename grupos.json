@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "semestre": 1,
+    "carrera": "ISC",
+    "tipoGrupo": "A",
+    "alumnos": [
+      {
+        "carrera": "ISC",
+        "semestre": 1,
+        "grupo": 1,
+        "calificaciones": [],
+        "promedio": 0.0,
+        "numControl": "lJ24ISC0",
+        "historial": [],
+        "nombre": "Juan",
+        "apellidoPaterno": "Pérez",
+        "apellidoMaterno": "Martínez",
+        "anioNacimiento": 2000,
+        "fechaNacimiento": "2024-06-05",
+        "ciudad": "Morelia",
+        "estado": "Michoacan",
+        "direccion": "Calle de Juanito",
+        "curp": "JUAN030204HMNNZLA4",
+        "fechaRegistro": "2024-06-05",
+        "usuario": "Juanito",
+        "contrasena": "uwu",
+        "rol": "ALUMNO"
+      },
+      {
+        "carrera": "ISC",
+        "semestre": 1,
+        "grupo": 1,
+        "calificaciones": [],
+        "promedio": 0.0,
+        "numControl": "lA24ISC0",
+        "historial": [],
+        "nombre": "Alejandro",
+        "apellidoPaterno": "Pérez",
+        "apellidoMaterno": "Martínez",
+        "anioNacimiento": 2000,
+        "fechaNacimiento": "2024-06-05",
+        "ciudad": "Morelia",
+        "estado": "Michoacan",
+        "direccion": "Calle de Juanito",
+        "curp": "ALEJ030204HMNNZLA4",
+        "fechaRegistro": "2024-06-05",
+        "usuario": "Alejandro2",
+        "contrasena": "uwu",
+        "rol": "ALUMNO"
+      },
+      {
+        "carrera": "ISC",
+        "semestre": 1,
+        "grupo": 1,
+        "calificaciones": [],
+        "promedio": 0.0,
+        "numControl": "lA24ISC1",
+        "historial": [],
+        "nombre": "Atziri",
+        "apellidoPaterno": "Pérez",
+        "apellidoMaterno": "Martínez",
+        "anioNacimiento": 2000,
+        "fechaNacimiento": "2024-06-05",
+        "ciudad": "Morelia",
+        "estado": "Michoacan",
+        "direccion": "Calle de Juanito",
+        "curp": "ATZI030204HMNNZLA4",
+        "fechaRegistro": "2024-06-05",
+        "usuario": "Atziri2",
+        "contrasena": "uwu",
+        "rol": "ALUMNO"
+      }
+    ],
+    "materia": {
+      "1": [
+        {
+          "id": 1,
+          "nombre": "programacion 1",
+          "materia": "PROGRAMACION",
+          "carrera": "ISC",
+          "grupo": 1,
+          "NUM_MATERIA": 4
+        },
+        {
+          "id": 2,
+          "nombre": "probabilidad 1",
+          "materia": "PROBABILIDAD",
+          "carrera": "ISC",
+          "grupo": 1,
+          "NUM_MATERIA": 4
+        },
+        {
+          "id": 3,
+          "nombre": "calculo 1",
+          "materia": "CALCULO",
+          "carrera": "ISC",
+          "grupo": 1,
+          "NUM_MATERIA": 4
+        }
+      ],
+      "2": [],
+      "3": []
+    },
+    "NUM_GRUPO": 2
+  }
+]
